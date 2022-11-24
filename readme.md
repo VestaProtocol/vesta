@@ -4,3 +4,20 @@
 ```
 go install ./...
 ```
+
+## Smart Contracts
+For examples of smart contracts built with vesta, see [examples](./testdata/).
+
+### Deploying
+```sh
+vestad tx vm store {path_to_contract_file} --from {key}
+
+vestad q vm list-contracts #note the code number of your contract
+
+vestad tx vm instantiate {name} {code_num} --from {key}
+```
+
+### Interacting
+```sh
+vestad tx vm execute {name} {function} {args} --from {key}
+```
