@@ -5,6 +5,7 @@ import "gogoproto/gogo.proto";
 import "vesta/vm/params.proto";
 import "vesta/vm/contracts.proto";
 import "vesta/vm/program.proto";
+import "vesta/vm/romdata.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "vesta/x/vm/types";
@@ -15,5 +16,6 @@ message GenesisState {
   repeated Contracts contractsList = 2 [(gogoproto.nullable) = false];
   uint64 contractsCount = 3;
   repeated Program programList = 4 [(gogoproto.nullable) = false];
+  repeated Romdata romdataList = 5 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }

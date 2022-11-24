@@ -29,7 +29,7 @@ func (k msgServer) Execute(goCtx context.Context, msg *types.MsgExecute) (*types
 		return nil, err
 	}
 
-	val, err := k.buildContract(ctx, code, msg.Function, address)
+	val, err := k.buildContract(ctx, msg.Contract, code, msg.Function, address)
 	if err != nil {
 		return nil, err
 	}

@@ -39,6 +39,14 @@ func TestGenesisState_Validate(t *testing.T) {
 						Name: "1",
 					},
 				},
+				RomdataList: []types.Romdata{
+					{
+						Index: "0",
+					},
+					{
+						Index: "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
@@ -78,6 +86,20 @@ func TestGenesisState_Validate(t *testing.T) {
 					},
 					{
 						Name: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated romdata",
+			genState: &types.GenesisState{
+				RomdataList: []types.Romdata{
+					{
+						Index: "0",
+					},
+					{
+						Index: "0",
 					},
 				},
 			},

@@ -7,11 +7,12 @@ export const protobufPackage = "vesta.vm";
 export interface Program {
   name: string;
   creator: string;
+  address: string;
   code: number;
 }
 
 function createBaseProgram(): Program {
-  return { name: "", creator: "", code: 0 };
+  return { name: "", creator: "", address: "", code: 0 };
 }
 
 export const Program = {
@@ -22,8 +23,11 @@ export const Program = {
     if (message.creator !== "") {
       writer.uint32(18).string(message.creator);
     }
+    if (message.address !== "") {
+      writer.uint32(26).string(message.address);
+    }
     if (message.code !== 0) {
-      writer.uint32(24).uint64(message.code);
+      writer.uint32(32).uint64(message.code);
     }
     return writer;
   },
@@ -42,6 +46,9 @@ export const Program = {
           message.creator = reader.string();
           break;
         case 3:
+          message.address = reader.string();
+          break;
+        case 4:
           message.code = longToNumber(reader.uint64() as Long);
           break;
         default:
@@ -56,6 +63,7 @@ export const Program = {
     return {
       name: isSet(object.name) ? String(object.name) : "",
       creator: isSet(object.creator) ? String(object.creator) : "",
+      address: isSet(object.address) ? String(object.address) : "",
       code: isSet(object.code) ? Number(object.code) : 0,
     };
   },
@@ -64,6 +72,7 @@ export const Program = {
     const obj: any = {};
     message.name !== undefined && (obj.name = message.name);
     message.creator !== undefined && (obj.creator = message.creator);
+    message.address !== undefined && (obj.address = message.address);
     message.code !== undefined && (obj.code = Math.round(message.code));
     return obj;
   },
@@ -72,6 +81,7 @@ export const Program = {
     const message = createBaseProgram();
     message.name = object.name ?? "";
     message.creator = object.creator ?? "";
+    message.address = object.address ?? "";
     message.code = object.code ?? 0;
     return message;
   },

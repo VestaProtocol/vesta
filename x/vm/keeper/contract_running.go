@@ -1,54 +1,68 @@
 package keeper
 
 import (
-	"vesta/x/vm/types"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/robertkrimen/otto"
+	"github.com/tendermint/tendermint/crypto"
 )
 
-func (k msgServer) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, vm *otto.Otto) {
-	vm.Set("sendTokens", func(call otto.FunctionCall) otto.Value {
-		reciever, err := sdk.AccAddressFromBech32(call.Argument(0).String())
-		if err != nil {
-			return otto.FalseValue()
-		}
-
-		coin, err := sdk.ParseCoinNormalized(call.Argument(1).String())
-		if err != nil {
-			return otto.FalseValue()
-		}
-
-		err = k.bankKeeper.SendCoinsFromAccountToModule(ctx, creator, types.ModuleName, sdk.NewCoins(coin))
-		if err != nil {
-			return otto.FalseValue()
-		}
-		err = k.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, reciever, sdk.NewCoins(coin))
-		if err != nil {
-			return otto.FalseValue()
-		}
-		return otto.TrueValue()
-	})
+func NewContractAddress(name string) sdk.AccAddress {
+	return sdk.AccAddress(crypto.AddressHash([]byte(name)))
 }
 
-func (k msgServer) buildContract(ctx sdk.Context, sourceCode string, entry string, creator sdk.AccAddress) (string, error) {
+func (k msgServer) newContractAccount(ctx sdk.Context, address sdk.AccAddress) authtypes.AccountI {
+	baseAcc := k.accountKeeper.NewAccountWithAddress(ctx, address)
+
+	return baseAcc
+}
+
+func (k msgServer) getContractAddress(ctx sdk.Context, contractName string) (sdk.AccAddress, error) {
+	address := NewContractAddress(contractName)
+
+	acc := k.accountKeeper.GetAccount(ctx, address)
+	if acc != nil {
+		return acc.GetAddress(), nil
+	}
+
+	acc = k.newContractAccount(ctx, address)
+
+	k.accountKeeper.SetAccount(ctx, acc)
+
+	return acc.GetAddress(), nil
+}
+
+func (k msgServer) buildContract(ctx sdk.Context, name string, sourceCode string, entry string, creator sdk.AccAddress) (string, error) {
 	k.Logger(ctx).Info(sourceCode)
 
 	vm := otto.New()
 
-	vm.Set("sender", creator.String())
-
-	k.applyStandardLib(ctx, creator, vm)
-
-	_, err := vm.Run(sourceCode)
+	address, err := k.getContractAddress(ctx, name)
 	if err != nil {
 		return "", err
 	}
 
-	r, err := vm.Call(entry, nil)
+	k.applyStandardLib(ctx, creator, address, vm)
+
+	_, err = vm.Run(sourceCode)
 	if err != nil {
 		return "", err
 	}
 
-	return r.String(), nil
+	r, err := vm.Get("contractFunctions")
+	if err != nil {
+		return "", err
+	}
+
+	function, err := r.Object().Get(entry)
+	if err != nil {
+		return "", err
+	}
+
+	res, err := function.Call(function, nil)
+	if err != nil {
+		return "", err
+	}
+
+	return res.String(), nil
 }

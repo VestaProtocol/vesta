@@ -31,6 +31,14 @@ func TestGenesis(t *testing.T) {
 				Name: "1",
 			},
 		},
+		RomdataList: []types.Romdata{
+			{
+				Index: "0",
+			},
+			{
+				Index: "1",
+			},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -45,5 +53,6 @@ func TestGenesis(t *testing.T) {
 	require.ElementsMatch(t, genesisState.ContractsList, got.ContractsList)
 	require.Equal(t, genesisState.ContractsCount, got.ContractsCount)
 	require.ElementsMatch(t, genesisState.ProgramList, got.ProgramList)
+	require.ElementsMatch(t, genesisState.RomdataList, got.RomdataList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

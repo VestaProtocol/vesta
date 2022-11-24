@@ -12,6 +12,7 @@ func DefaultGenesis() *GenesisState {
 	return &GenesisState{
 		ContractsList: []Contracts{},
 		ProgramList:   []Program{},
+		RomdataList:   []Romdata{},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}
@@ -41,6 +42,16 @@ func (gs GenesisState) Validate() error {
 			return fmt.Errorf("duplicated index for program")
 		}
 		programIndexMap[index] = struct{}{}
+	}
+	// Check for duplicated index in romdata
+	romdataIndexMap := make(map[string]struct{})
+
+	for _, elem := range gs.RomdataList {
+		index := string(RomdataKey(elem.Index))
+		if _, ok := romdataIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for romdata")
+		}
+		romdataIndexMap[index] = struct{}{}
 	}
 	// this line is used by starport scaffolding # genesis/types/validate
 

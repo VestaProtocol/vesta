@@ -481,6 +481,190 @@ func (m *QueryAllProgramResponse) GetPagination() *query.PageResponse {
 	return nil
 }
 
+type QueryGetRomdataRequest struct {
+	Index string `protobuf:"bytes,1,opt,name=index,proto3" json:"index,omitempty"`
+}
+
+func (m *QueryGetRomdataRequest) Reset()         { *m = QueryGetRomdataRequest{} }
+func (m *QueryGetRomdataRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryGetRomdataRequest) ProtoMessage()    {}
+func (*QueryGetRomdataRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_d0cc1ce35afe29e4, []int{10}
+}
+func (m *QueryGetRomdataRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetRomdataRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetRomdataRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetRomdataRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetRomdataRequest.Merge(m, src)
+}
+func (m *QueryGetRomdataRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetRomdataRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetRomdataRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetRomdataRequest proto.InternalMessageInfo
+
+func (m *QueryGetRomdataRequest) GetIndex() string {
+	if m != nil {
+		return m.Index
+	}
+	return ""
+}
+
+type QueryGetRomdataResponse struct {
+	Romdata Romdata `protobuf:"bytes,1,opt,name=romdata,proto3" json:"romdata"`
+}
+
+func (m *QueryGetRomdataResponse) Reset()         { *m = QueryGetRomdataResponse{} }
+func (m *QueryGetRomdataResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryGetRomdataResponse) ProtoMessage()    {}
+func (*QueryGetRomdataResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_d0cc1ce35afe29e4, []int{11}
+}
+func (m *QueryGetRomdataResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetRomdataResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetRomdataResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetRomdataResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetRomdataResponse.Merge(m, src)
+}
+func (m *QueryGetRomdataResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetRomdataResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetRomdataResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetRomdataResponse proto.InternalMessageInfo
+
+func (m *QueryGetRomdataResponse) GetRomdata() Romdata {
+	if m != nil {
+		return m.Romdata
+	}
+	return Romdata{}
+}
+
+type QueryAllRomdataRequest struct {
+	Pagination *query.PageRequest `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryAllRomdataRequest) Reset()         { *m = QueryAllRomdataRequest{} }
+func (m *QueryAllRomdataRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryAllRomdataRequest) ProtoMessage()    {}
+func (*QueryAllRomdataRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_d0cc1ce35afe29e4, []int{12}
+}
+func (m *QueryAllRomdataRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAllRomdataRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAllRomdataRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAllRomdataRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAllRomdataRequest.Merge(m, src)
+}
+func (m *QueryAllRomdataRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAllRomdataRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAllRomdataRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAllRomdataRequest proto.InternalMessageInfo
+
+func (m *QueryAllRomdataRequest) GetPagination() *query.PageRequest {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+type QueryAllRomdataResponse struct {
+	Romdata    []Romdata           `protobuf:"bytes,1,rep,name=romdata,proto3" json:"romdata"`
+	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryAllRomdataResponse) Reset()         { *m = QueryAllRomdataResponse{} }
+func (m *QueryAllRomdataResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryAllRomdataResponse) ProtoMessage()    {}
+func (*QueryAllRomdataResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_d0cc1ce35afe29e4, []int{13}
+}
+func (m *QueryAllRomdataResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAllRomdataResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAllRomdataResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAllRomdataResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAllRomdataResponse.Merge(m, src)
+}
+func (m *QueryAllRomdataResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAllRomdataResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAllRomdataResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAllRomdataResponse proto.InternalMessageInfo
+
+func (m *QueryAllRomdataResponse) GetRomdata() []Romdata {
+	if m != nil {
+		return m.Romdata
+	}
+	return nil
+}
+
+func (m *QueryAllRomdataResponse) GetPagination() *query.PageResponse {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*QueryParamsRequest)(nil), "vesta.vm.QueryParamsRequest")
 	proto.RegisterType((*QueryParamsResponse)(nil), "vesta.vm.QueryParamsResponse")
@@ -492,49 +676,59 @@ func init() {
 	proto.RegisterType((*QueryGetProgramResponse)(nil), "vesta.vm.QueryGetProgramResponse")
 	proto.RegisterType((*QueryAllProgramRequest)(nil), "vesta.vm.QueryAllProgramRequest")
 	proto.RegisterType((*QueryAllProgramResponse)(nil), "vesta.vm.QueryAllProgramResponse")
+	proto.RegisterType((*QueryGetRomdataRequest)(nil), "vesta.vm.QueryGetRomdataRequest")
+	proto.RegisterType((*QueryGetRomdataResponse)(nil), "vesta.vm.QueryGetRomdataResponse")
+	proto.RegisterType((*QueryAllRomdataRequest)(nil), "vesta.vm.QueryAllRomdataRequest")
+	proto.RegisterType((*QueryAllRomdataResponse)(nil), "vesta.vm.QueryAllRomdataResponse")
 }
 
 func init() { proto.RegisterFile("vesta/vm/query.proto", fileDescriptor_d0cc1ce35afe29e4) }
 
 var fileDescriptor_d0cc1ce35afe29e4 = []byte{
-	// 593 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x94, 0xcf, 0x6e, 0xd3, 0x4e,
-	0x10, 0xc7, 0xe3, 0x34, 0xbf, 0xf4, 0xd7, 0x05, 0xa1, 0x74, 0x93, 0x96, 0xd4, 0x14, 0x13, 0x16,
-	0x09, 0x50, 0x84, 0xbc, 0x4a, 0x39, 0x70, 0x4e, 0x11, 0xf4, 0xc2, 0x21, 0x44, 0x9c, 0xb8, 0xc0,
-	0x26, 0x59, 0x59, 0x96, 0x6c, 0xaf, 0x6b, 0x6f, 0x23, 0xaa, 0xaa, 0x17, 0x9e, 0x00, 0x09, 0x71,
-	0xe4, 0x35, 0x78, 0x86, 0x1e, 0x2b, 0x71, 0xe1, 0x84, 0x50, 0xc2, 0x83, 0x20, 0xef, 0x8e, 0xf3,
-	0x6f, 0xdd, 0x3f, 0x87, 0xde, 0xac, 0x9d, 0xef, 0xce, 0xe7, 0x3b, 0x33, 0x3b, 0x46, 0x8d, 0x31,
-	0x4f, 0x25, 0xa3, 0xe3, 0x90, 0x1e, 0x1e, 0xf1, 0xe4, 0xd8, 0x8d, 0x13, 0x21, 0x05, 0xfe, 0x5f,
-	0x9d, 0xba, 0xe3, 0xd0, 0x6e, 0x78, 0xc2, 0x13, 0xea, 0x90, 0x66, 0x5f, 0x3a, 0x6e, 0xef, 0x7a,
-	0x42, 0x78, 0x01, 0xa7, 0x2c, 0xf6, 0x29, 0x8b, 0x22, 0x21, 0x99, 0xf4, 0x45, 0x94, 0x42, 0xb4,
-	0x3d, 0x14, 0x69, 0x28, 0x52, 0x3a, 0x60, 0x29, 0xd7, 0x69, 0xe9, 0xb8, 0x33, 0xe0, 0x92, 0x75,
-	0x68, 0xcc, 0x3c, 0x3f, 0x52, 0x62, 0xd0, 0x6e, 0xcd, 0xf8, 0x31, 0x4b, 0x58, 0x98, 0xa7, 0x68,
-	0xce, 0x8e, 0x87, 0x22, 0x92, 0x09, 0x1b, 0xca, 0x3c, 0xb2, 0x3d, 0xbf, 0x90, 0x08, 0x2f, 0x61,
-	0xa1, 0x3e, 0x27, 0x0d, 0x84, 0xdf, 0x66, 0xa8, 0x9e, 0x4a, 0xd3, 0xe7, 0x87, 0x47, 0x3c, 0x95,
-	0xe4, 0x15, 0xaa, 0x2f, 0x9d, 0xa6, 0xb1, 0x88, 0x52, 0x8e, 0x5d, 0x54, 0xd5, 0xb8, 0xa6, 0xd5,
-	0xb2, 0x9e, 0xde, 0xda, 0xab, 0xb9, 0x79, 0xc1, 0xae, 0x56, 0xee, 0x57, 0xce, 0x7e, 0x3f, 0x28,
-	0xf5, 0x41, 0x45, 0xda, 0xa8, 0xa9, 0xd2, 0x1c, 0x70, 0xf9, 0x32, 0xf7, 0x03, 0x08, 0x7c, 0x07,
-	0x95, 0xfd, 0x91, 0xca, 0x53, 0xe9, 0x97, 0xfd, 0x11, 0x79, 0x87, 0x76, 0x0a, 0xb4, 0x00, 0x7e,
-	0x81, 0x36, 0x66, 0x87, 0xc0, 0xae, 0xcf, 0xd9, 0xb3, 0x10, 0xe0, 0xe7, 0x5a, 0x32, 0x00, 0x07,
-	0xdd, 0x20, 0x30, 0x1c, 0xbc, 0x46, 0x68, 0xde, 0x57, 0xc8, 0xfa, 0xd8, 0xd5, 0x43, 0x70, 0xb3,
-	0x21, 0xb8, 0x7a, 0xb6, 0x30, 0x04, 0xb7, 0xc7, 0x3c, 0x0e, 0x77, 0xfb, 0x0b, 0x37, 0xc9, 0x77,
-	0x0b, 0xac, 0x2f, 0x43, 0x8a, 0xad, 0xaf, 0x5d, 0xd7, 0x3a, 0x3e, 0x58, 0xb2, 0x57, 0x56, 0xf6,
-	0x9e, 0x5c, 0x69, 0x4f, 0x53, 0x97, 0xfc, 0x3d, 0x43, 0xdb, 0x79, 0x67, 0x7b, 0x7a, 0xf6, 0x79,
-	0x07, 0x30, 0xaa, 0x44, 0x2c, 0xe4, 0xaa, 0xf6, 0x8d, 0xbe, 0xfa, 0x26, 0x6f, 0xd0, 0x5d, 0x43,
-	0x0d, 0xa5, 0x74, 0xd0, 0x3a, 0x3c, 0x1e, 0xe8, 0xd6, 0xe6, 0xc2, 0xfc, 0x75, 0x00, 0xca, 0xc8,
-	0x75, 0xe4, 0x23, 0xb0, 0xbb, 0x41, 0xb0, 0xc2, 0xbe, 0xa9, 0xee, 0x7f, 0xb3, 0xc0, 0xf0, 0x22,
-	0xa2, 0xc8, 0xf0, 0xda, 0x75, 0x0c, 0xdf, 0x58, 0xd7, 0xf7, 0x7e, 0x54, 0xd0, 0x7f, 0xca, 0x17,
-	0xfe, 0x80, 0xaa, 0x7a, 0x3b, 0xf0, 0xee, 0x1c, 0x6f, 0x2e, 0x9d, 0x7d, 0xff, 0x82, 0xa8, 0x4e,
-	0x4e, 0x9a, 0x9f, 0x7f, 0xfe, 0xfd, 0x5a, 0xc6, 0xb8, 0x46, 0x57, 0x76, 0x1f, 0x8f, 0x17, 0x9e,
-	0x18, 0x26, 0x2b, 0x59, 0x0a, 0x76, 0xcf, 0x7e, 0x74, 0xa9, 0x06, 0x78, 0x2d, 0xc5, 0xb3, 0x71,
-	0x93, 0x9a, 0x3f, 0x15, 0x7a, 0xe2, 0x8f, 0x4e, 0xb1, 0x44, 0xb7, 0x67, 0xd7, 0xba, 0x41, 0x60,
-	0xa0, 0x0b, 0x96, 0xce, 0x40, 0x17, 0xed, 0x0c, 0xb9, 0xa7, 0xd0, 0x5b, 0xb8, 0x5e, 0x80, 0xc6,
-	0x31, 0x5a, 0x87, 0xd9, 0xe1, 0x96, 0x59, 0xc7, 0xf2, 0x2b, 0xb3, 0x1f, 0x5e, 0xa2, 0xb8, 0xb8,
-	0x4e, 0x78, 0x0c, 0xf4, 0x24, 0xdb, 0x88, 0x53, 0x1c, 0x20, 0x04, 0x97, 0xb2, 0x2a, 0x5b, 0x66,
-	0x05, 0x57, 0x40, 0xcd, 0x97, 0x49, 0x76, 0x14, 0xb4, 0x8e, 0x37, 0x0d, 0xe8, 0x7e, 0xfb, 0x6c,
-	0xe2, 0x58, 0xe7, 0x13, 0xc7, 0xfa, 0x33, 0x71, 0xac, 0x2f, 0x53, 0xa7, 0x74, 0x3e, 0x75, 0x4a,
-	0xbf, 0xa6, 0x4e, 0xe9, 0x7d, 0x4d, 0x6b, 0x3f, 0x65, 0x6a, 0x79, 0x1c, 0xf3, 0x74, 0x50, 0x55,
-	0x3f, 0xf1, 0xe7, 0xff, 0x02, 0x00, 0x00, 0xff, 0xff, 0xbf, 0xfc, 0x26, 0x5f, 0x8f, 0x06, 0x00,
+	// 689 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x56, 0x4d, 0x4f, 0x14, 0x31,
+	0x18, 0xde, 0x59, 0x60, 0x91, 0x6a, 0x0c, 0x74, 0x17, 0x5c, 0x16, 0x5c, 0x97, 0x9a, 0xa8, 0x21,
+	0x66, 0x1a, 0xf0, 0xe0, 0x19, 0x8c, 0x72, 0xf1, 0x80, 0x1b, 0x4f, 0x5e, 0xb4, 0xcb, 0x36, 0x93,
+	0x49, 0x66, 0xa6, 0xc3, 0x4c, 0xd9, 0x40, 0x08, 0x17, 0x7f, 0x81, 0x89, 0x31, 0x9e, 0xfc, 0x3f,
+	0x1c, 0x49, 0xbc, 0x78, 0x32, 0x06, 0xfc, 0x21, 0x66, 0xda, 0x77, 0x3e, 0x3b, 0x7c, 0x1c, 0xf0,
+	0x36, 0xb4, 0x4f, 0xdf, 0xe7, 0xa3, 0x7d, 0x5f, 0x16, 0x75, 0x26, 0x3c, 0x96, 0x8c, 0x4e, 0x7c,
+	0xba, 0x7f, 0xc0, 0xa3, 0x23, 0x3b, 0x8c, 0x84, 0x14, 0xf8, 0x8e, 0x5a, 0xb5, 0x27, 0x7e, 0xaf,
+	0xe3, 0x08, 0x47, 0xa8, 0x45, 0x9a, 0x7c, 0xe9, 0xfd, 0xde, 0xaa, 0x23, 0x84, 0xe3, 0x71, 0xca,
+	0x42, 0x97, 0xb2, 0x20, 0x10, 0x92, 0x49, 0x57, 0x04, 0x31, 0xec, 0xae, 0xef, 0x89, 0xd8, 0x17,
+	0x31, 0x1d, 0xb1, 0x98, 0xeb, 0xb2, 0x74, 0xb2, 0x31, 0xe2, 0x92, 0x6d, 0xd0, 0x90, 0x39, 0x6e,
+	0xa0, 0xc0, 0x80, 0x5d, 0xcc, 0xf8, 0x43, 0x16, 0x31, 0x3f, 0x2d, 0xd1, 0xcd, 0x96, 0xf7, 0x44,
+	0x20, 0x23, 0xb6, 0x27, 0xd3, 0x9d, 0xa5, 0xfc, 0x40, 0x24, 0x9c, 0x88, 0xf9, 0xc6, 0x7a, 0x24,
+	0xfc, 0x31, 0x93, 0x4c, 0xaf, 0x93, 0x0e, 0xc2, 0xef, 0x12, 0x09, 0xbb, 0xaa, 0xfc, 0x90, 0xef,
+	0x1f, 0xf0, 0x58, 0x92, 0xd7, 0xa8, 0x5d, 0x5a, 0x8d, 0x43, 0x11, 0xc4, 0x1c, 0xdb, 0xa8, 0xa5,
+	0x65, 0x74, 0xad, 0x81, 0xf5, 0xec, 0xee, 0xe6, 0xbc, 0x9d, 0x06, 0x61, 0x6b, 0xe4, 0xf6, 0xf4,
+	0xe9, 0xef, 0x47, 0x8d, 0x21, 0xa0, 0xc8, 0x3a, 0xea, 0xaa, 0x32, 0x3b, 0x5c, 0xbe, 0x4a, 0x75,
+	0x02, 0x05, 0xbe, 0x8f, 0x9a, 0xee, 0x58, 0xd5, 0x99, 0x1e, 0x36, 0xdd, 0x31, 0x79, 0x8f, 0x96,
+	0x6b, 0xb0, 0x40, 0xfc, 0x12, 0xcd, 0x65, 0x8b, 0xc0, 0xdd, 0xce, 0xb9, 0xb3, 0x2d, 0xa0, 0xcf,
+	0xb1, 0x64, 0x04, 0x0a, 0xb6, 0x3c, 0xcf, 0x50, 0xf0, 0x06, 0xa1, 0x3c, 0x6f, 0xa8, 0xfa, 0xc4,
+	0xd6, 0x97, 0x63, 0x27, 0x97, 0x63, 0xeb, 0x3b, 0x87, 0xcb, 0xb1, 0x77, 0x99, 0xc3, 0xe1, 0xec,
+	0xb0, 0x70, 0x92, 0xfc, 0xb0, 0x40, 0x7a, 0x99, 0xa4, 0x5e, 0xfa, 0xd4, 0x4d, 0xa5, 0xe3, 0x9d,
+	0x92, 0xbc, 0xa6, 0x92, 0xf7, 0xf4, 0x5a, 0x79, 0x9a, 0xb5, 0xa4, 0xef, 0x39, 0x5a, 0x4a, 0x93,
+	0xdd, 0xd5, 0x6f, 0x22, 0x4d, 0x00, 0xa3, 0xe9, 0x80, 0xf9, 0x5c, 0x79, 0x9f, 0x1b, 0xaa, 0x6f,
+	0xf2, 0x16, 0x3d, 0x30, 0xd0, 0x60, 0x65, 0x03, 0xcd, 0xc2, 0xa3, 0x82, 0xb4, 0x16, 0x0a, 0xf7,
+	0xaf, 0x37, 0xc0, 0x46, 0x8a, 0x23, 0x9f, 0x80, 0x7b, 0xcb, 0xf3, 0x2a, 0xdc, 0xb7, 0x95, 0xfe,
+	0x37, 0x0b, 0x04, 0x17, 0x29, 0xea, 0x04, 0x4f, 0xdd, 0x44, 0xf0, 0xed, 0xa5, 0x6e, 0xe7, 0xa9,
+	0x0f, 0x75, 0xc7, 0xa5, 0xce, 0x3b, 0x68, 0xc6, 0x0d, 0xc6, 0xfc, 0x10, 0x62, 0xd7, 0x7f, 0x14,
+	0x73, 0xcf, 0xf0, 0xb9, 0x0d, 0x68, 0x5a, 0x33, 0x77, 0xc0, 0xa6, 0x36, 0x00, 0x57, 0xcc, 0xbd,
+	0xc2, 0xfe, 0x3f, 0x72, 0xbf, 0x52, 0xf0, 0xd4, 0x4d, 0x04, 0xdf, 0x5a, 0xee, 0x9b, 0xdf, 0x5b,
+	0x68, 0x46, 0xe9, 0xc2, 0x1f, 0x51, 0x4b, 0x4f, 0x25, 0xbc, 0x9a, 0xd3, 0x9b, 0xc3, 0xae, 0xf7,
+	0xf0, 0x92, 0x5d, 0x5d, 0x9c, 0x74, 0x3f, 0xff, 0xfc, 0xfb, 0xb5, 0x89, 0xf1, 0x3c, 0xad, 0xcc,
+	0x62, 0x3c, 0x29, 0xb4, 0x36, 0x26, 0x95, 0x2a, 0x35, 0x33, 0xaf, 0xf7, 0xf8, 0x4a, 0x0c, 0xf0,
+	0x0d, 0x14, 0x5f, 0x0f, 0x77, 0xa9, 0x39, 0xe4, 0xe9, 0xb1, 0x3b, 0x3e, 0xc1, 0x12, 0xdd, 0xcb,
+	0x8e, 0x6d, 0x79, 0x9e, 0x41, 0x5d, 0x33, 0xec, 0x0c, 0xea, 0xba, 0x59, 0x45, 0x56, 0x14, 0xf5,
+	0x22, 0x6e, 0xd7, 0x50, 0xe3, 0x10, 0xcd, 0x42, 0xcf, 0xe0, 0x81, 0xe9, 0xa3, 0xdc, 0xdd, 0xbd,
+	0xb5, 0x2b, 0x10, 0x97, 0xfb, 0x84, 0x26, 0xa4, 0xc7, 0xc9, 0x24, 0x3a, 0xc1, 0x1e, 0x42, 0x70,
+	0x28, 0x71, 0x39, 0x30, 0x1d, 0x5c, 0x43, 0x6a, 0x4e, 0x04, 0xb2, 0xac, 0x48, 0xdb, 0x78, 0xc1,
+	0x20, 0xc5, 0xfb, 0x68, 0x16, 0xde, 0x66, 0x9d, 0xbf, 0x72, 0x17, 0xd5, 0xf9, 0xab, 0x34, 0x01,
+	0x59, 0x53, 0x54, 0x2b, 0x78, 0x99, 0x56, 0xff, 0xf5, 0xd2, 0x63, 0xd5, 0xf2, 0xca, 0x20, 0x9c,
+	0xba, 0xc4, 0xe0, 0x35, 0xac, 0x66, 0xeb, 0xd5, 0x19, 0x04, 0xd6, 0xed, 0xf5, 0xd3, 0xf3, 0xbe,
+	0x75, 0x76, 0xde, 0xb7, 0xfe, 0x9c, 0xf7, 0xad, 0x2f, 0x17, 0xfd, 0xc6, 0xd9, 0x45, 0xbf, 0xf1,
+	0xeb, 0xa2, 0xdf, 0xf8, 0x30, 0xaf, 0xb1, 0x87, 0x09, 0x5a, 0x1e, 0x85, 0x3c, 0x1e, 0xb5, 0xd4,
+	0xaf, 0x83, 0x17, 0xff, 0x02, 0x00, 0x00, 0xff, 0xff, 0xe2, 0xf9, 0xd3, 0x2f, 0x00, 0x09, 0x00,
 	0x00,
 }
 
@@ -560,6 +754,10 @@ type QueryClient interface {
 	Program(ctx context.Context, in *QueryGetProgramRequest, opts ...grpc.CallOption) (*QueryGetProgramResponse, error)
 	// Queries a list of Program items.
 	ProgramAll(ctx context.Context, in *QueryAllProgramRequest, opts ...grpc.CallOption) (*QueryAllProgramResponse, error)
+	// Queries a Romdata by index.
+	Romdata(ctx context.Context, in *QueryGetRomdataRequest, opts ...grpc.CallOption) (*QueryGetRomdataResponse, error)
+	// Queries a list of Romdata items.
+	RomdataAll(ctx context.Context, in *QueryAllRomdataRequest, opts ...grpc.CallOption) (*QueryAllRomdataResponse, error)
 }
 
 type queryClient struct {
@@ -615,6 +813,24 @@ func (c *queryClient) ProgramAll(ctx context.Context, in *QueryAllProgramRequest
 	return out, nil
 }
 
+func (c *queryClient) Romdata(ctx context.Context, in *QueryGetRomdataRequest, opts ...grpc.CallOption) (*QueryGetRomdataResponse, error) {
+	out := new(QueryGetRomdataResponse)
+	err := c.cc.Invoke(ctx, "/vesta.vm.Query/Romdata", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) RomdataAll(ctx context.Context, in *QueryAllRomdataRequest, opts ...grpc.CallOption) (*QueryAllRomdataResponse, error) {
+	out := new(QueryAllRomdataResponse)
+	err := c.cc.Invoke(ctx, "/vesta.vm.Query/RomdataAll", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
@@ -627,6 +843,10 @@ type QueryServer interface {
 	Program(context.Context, *QueryGetProgramRequest) (*QueryGetProgramResponse, error)
 	// Queries a list of Program items.
 	ProgramAll(context.Context, *QueryAllProgramRequest) (*QueryAllProgramResponse, error)
+	// Queries a Romdata by index.
+	Romdata(context.Context, *QueryGetRomdataRequest) (*QueryGetRomdataResponse, error)
+	// Queries a list of Romdata items.
+	RomdataAll(context.Context, *QueryAllRomdataRequest) (*QueryAllRomdataResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
@@ -647,6 +867,12 @@ func (*UnimplementedQueryServer) Program(ctx context.Context, req *QueryGetProgr
 }
 func (*UnimplementedQueryServer) ProgramAll(ctx context.Context, req *QueryAllProgramRequest) (*QueryAllProgramResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ProgramAll not implemented")
+}
+func (*UnimplementedQueryServer) Romdata(ctx context.Context, req *QueryGetRomdataRequest) (*QueryGetRomdataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Romdata not implemented")
+}
+func (*UnimplementedQueryServer) RomdataAll(ctx context.Context, req *QueryAllRomdataRequest) (*QueryAllRomdataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RomdataAll not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
@@ -743,6 +969,42 @@ func _Query_ProgramAll_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_Romdata_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetRomdataRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).Romdata(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/vesta.vm.Query/Romdata",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).Romdata(ctx, req.(*QueryGetRomdataRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_RomdataAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryAllRomdataRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).RomdataAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/vesta.vm.Query/RomdataAll",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).RomdataAll(ctx, req.(*QueryAllRomdataRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "vesta.vm.Query",
 	HandlerType: (*QueryServer)(nil),
@@ -766,6 +1028,14 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ProgramAll",
 			Handler:    _Query_ProgramAll_Handler,
+		},
+		{
+			MethodName: "Romdata",
+			Handler:    _Query_Romdata_Handler,
+		},
+		{
+			MethodName: "RomdataAll",
+			Handler:    _Query_RomdataAll_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -1120,6 +1390,153 @@ func (m *QueryAllProgramResponse) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	return len(dAtA) - i, nil
 }
 
+func (m *QueryGetRomdataRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetRomdataRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetRomdataRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Index) > 0 {
+		i -= len(m.Index)
+		copy(dAtA[i:], m.Index)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.Index)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryGetRomdataResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetRomdataResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetRomdataResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.Romdata.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintQuery(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryAllRomdataRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAllRomdataRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAllRomdataRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryAllRomdataResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAllRomdataResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAllRomdataResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Romdata) > 0 {
+		for iNdEx := len(m.Romdata) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Romdata[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	offset -= sovQuery(v)
 	base := offset
@@ -1251,6 +1668,62 @@ func (m *QueryAllProgramResponse) Size() (n int) {
 	_ = l
 	if len(m.Program) > 0 {
 		for _, e := range m.Program {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryGetRomdataRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Index)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryGetRomdataResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = m.Romdata.Size()
+	n += 1 + l + sovQuery(uint64(l))
+	return n
+}
+
+func (m *QueryAllRomdataRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryAllRomdataResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Romdata) > 0 {
+		for _, e := range m.Romdata {
 			l = e.Size()
 			n += 1 + l + sovQuery(uint64(l))
 		}
@@ -2070,6 +2543,377 @@ func (m *QueryAllProgramResponse) Unmarshal(dAtA []byte) error {
 			}
 			m.Program = append(m.Program, Program{})
 			if err := m.Program[len(m.Program)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageResponse{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetRomdataRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetRomdataRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetRomdataRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Index = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetRomdataResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetRomdataResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetRomdataResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Romdata", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Romdata.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAllRomdataRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAllRomdataRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAllRomdataRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageRequest{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAllRomdataResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAllRomdataResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAllRomdataResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Romdata", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Romdata = append(m.Romdata, Romdata{})
+			if err := m.Romdata[len(m.Romdata)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

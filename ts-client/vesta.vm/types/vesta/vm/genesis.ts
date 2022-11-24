@@ -4,6 +4,7 @@ import _m0 from "protobufjs/minimal";
 import { Contracts } from "./contracts";
 import { Params } from "./params";
 import { Program } from "./program";
+import { Romdata } from "./romdata";
 
 export const protobufPackage = "vesta.vm";
 
@@ -12,12 +13,13 @@ export interface GenesisState {
   params: Params | undefined;
   contractsList: Contracts[];
   contractsCount: number;
-  /** this line is used by starport scaffolding # genesis/proto/state */
   programList: Program[];
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  romdataList: Romdata[];
 }
 
 function createBaseGenesisState(): GenesisState {
-  return { params: undefined, contractsList: [], contractsCount: 0, programList: [] };
+  return { params: undefined, contractsList: [], contractsCount: 0, programList: [], romdataList: [] };
 }
 
 export const GenesisState = {
@@ -33,6 +35,9 @@ export const GenesisState = {
     }
     for (const v of message.programList) {
       Program.encode(v!, writer.uint32(34).fork()).ldelim();
+    }
+    for (const v of message.romdataList) {
+      Romdata.encode(v!, writer.uint32(42).fork()).ldelim();
     }
     return writer;
   },
@@ -56,6 +61,9 @@ export const GenesisState = {
         case 4:
           message.programList.push(Program.decode(reader, reader.uint32()));
           break;
+        case 5:
+          message.romdataList.push(Romdata.decode(reader, reader.uint32()));
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -72,6 +80,7 @@ export const GenesisState = {
         : [],
       contractsCount: isSet(object.contractsCount) ? Number(object.contractsCount) : 0,
       programList: Array.isArray(object?.programList) ? object.programList.map((e: any) => Program.fromJSON(e)) : [],
+      romdataList: Array.isArray(object?.romdataList) ? object.romdataList.map((e: any) => Romdata.fromJSON(e)) : [],
     };
   },
 
@@ -89,6 +98,11 @@ export const GenesisState = {
     } else {
       obj.programList = [];
     }
+    if (message.romdataList) {
+      obj.romdataList = message.romdataList.map((e) => e ? Romdata.toJSON(e) : undefined);
+    } else {
+      obj.romdataList = [];
+    }
     return obj;
   },
 
@@ -100,6 +114,7 @@ export const GenesisState = {
     message.contractsList = object.contractsList?.map((e) => Contracts.fromPartial(e)) || [];
     message.contractsCount = object.contractsCount ?? 0;
     message.programList = object.programList?.map((e) => Program.fromPartial(e)) || [];
+    message.romdataList = object.romdataList?.map((e) => Romdata.fromPartial(e)) || [];
     return message;
   },
 };

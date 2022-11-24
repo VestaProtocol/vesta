@@ -5,6 +5,7 @@ import { PageRequest, PageResponse } from "../../cosmos/base/query/v1beta1/pagin
 import { Contracts } from "./contracts";
 import { Params } from "./params";
 import { Program } from "./program";
+import { Romdata } from "./romdata";
 
 export const protobufPackage = "vesta.vm";
 
@@ -49,6 +50,23 @@ export interface QueryAllProgramRequest {
 
 export interface QueryAllProgramResponse {
   program: Program[];
+  pagination: PageResponse | undefined;
+}
+
+export interface QueryGetRomdataRequest {
+  index: string;
+}
+
+export interface QueryGetRomdataResponse {
+  romdata: Romdata | undefined;
+}
+
+export interface QueryAllRomdataRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllRomdataResponse {
+  romdata: Romdata[];
   pagination: PageResponse | undefined;
 }
 
@@ -563,6 +581,217 @@ export const QueryAllProgramResponse = {
   },
 };
 
+function createBaseQueryGetRomdataRequest(): QueryGetRomdataRequest {
+  return { index: "" };
+}
+
+export const QueryGetRomdataRequest = {
+  encode(message: QueryGetRomdataRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.index !== "") {
+      writer.uint32(10).string(message.index);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetRomdataRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryGetRomdataRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.index = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetRomdataRequest {
+    return { index: isSet(object.index) ? String(object.index) : "" };
+  },
+
+  toJSON(message: QueryGetRomdataRequest): unknown {
+    const obj: any = {};
+    message.index !== undefined && (obj.index = message.index);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryGetRomdataRequest>, I>>(object: I): QueryGetRomdataRequest {
+    const message = createBaseQueryGetRomdataRequest();
+    message.index = object.index ?? "";
+    return message;
+  },
+};
+
+function createBaseQueryGetRomdataResponse(): QueryGetRomdataResponse {
+  return { romdata: undefined };
+}
+
+export const QueryGetRomdataResponse = {
+  encode(message: QueryGetRomdataResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.romdata !== undefined) {
+      Romdata.encode(message.romdata, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetRomdataResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryGetRomdataResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.romdata = Romdata.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetRomdataResponse {
+    return { romdata: isSet(object.romdata) ? Romdata.fromJSON(object.romdata) : undefined };
+  },
+
+  toJSON(message: QueryGetRomdataResponse): unknown {
+    const obj: any = {};
+    message.romdata !== undefined && (obj.romdata = message.romdata ? Romdata.toJSON(message.romdata) : undefined);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryGetRomdataResponse>, I>>(object: I): QueryGetRomdataResponse {
+    const message = createBaseQueryGetRomdataResponse();
+    message.romdata = (object.romdata !== undefined && object.romdata !== null)
+      ? Romdata.fromPartial(object.romdata)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseQueryAllRomdataRequest(): QueryAllRomdataRequest {
+  return { pagination: undefined };
+}
+
+export const QueryAllRomdataRequest = {
+  encode(message: QueryAllRomdataRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllRomdataRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryAllRomdataRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllRomdataRequest {
+    return { pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined };
+  },
+
+  toJSON(message: QueryAllRomdataRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined
+      && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryAllRomdataRequest>, I>>(object: I): QueryAllRomdataRequest {
+    const message = createBaseQueryAllRomdataRequest();
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PageRequest.fromPartial(object.pagination)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseQueryAllRomdataResponse(): QueryAllRomdataResponse {
+  return { romdata: [], pagination: undefined };
+}
+
+export const QueryAllRomdataResponse = {
+  encode(message: QueryAllRomdataResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    for (const v of message.romdata) {
+      Romdata.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllRomdataResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryAllRomdataResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.romdata.push(Romdata.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllRomdataResponse {
+    return {
+      romdata: Array.isArray(object?.romdata) ? object.romdata.map((e: any) => Romdata.fromJSON(e)) : [],
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
+    };
+  },
+
+  toJSON(message: QueryAllRomdataResponse): unknown {
+    const obj: any = {};
+    if (message.romdata) {
+      obj.romdata = message.romdata.map((e) => e ? Romdata.toJSON(e) : undefined);
+    } else {
+      obj.romdata = [];
+    }
+    message.pagination !== undefined
+      && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryAllRomdataResponse>, I>>(object: I): QueryAllRomdataResponse {
+    const message = createBaseQueryAllRomdataResponse();
+    message.romdata = object.romdata?.map((e) => Romdata.fromPartial(e)) || [];
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PageResponse.fromPartial(object.pagination)
+      : undefined;
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -575,6 +804,10 @@ export interface Query {
   Program(request: QueryGetProgramRequest): Promise<QueryGetProgramResponse>;
   /** Queries a list of Program items. */
   ProgramAll(request: QueryAllProgramRequest): Promise<QueryAllProgramResponse>;
+  /** Queries a Romdata by index. */
+  Romdata(request: QueryGetRomdataRequest): Promise<QueryGetRomdataResponse>;
+  /** Queries a list of Romdata items. */
+  RomdataAll(request: QueryAllRomdataRequest): Promise<QueryAllRomdataResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -586,6 +819,8 @@ export class QueryClientImpl implements Query {
     this.ContractsAll = this.ContractsAll.bind(this);
     this.Program = this.Program.bind(this);
     this.ProgramAll = this.ProgramAll.bind(this);
+    this.Romdata = this.Romdata.bind(this);
+    this.RomdataAll = this.RomdataAll.bind(this);
   }
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
@@ -615,6 +850,18 @@ export class QueryClientImpl implements Query {
     const data = QueryAllProgramRequest.encode(request).finish();
     const promise = this.rpc.request("vesta.vm.Query", "ProgramAll", data);
     return promise.then((data) => QueryAllProgramResponse.decode(new _m0.Reader(data)));
+  }
+
+  Romdata(request: QueryGetRomdataRequest): Promise<QueryGetRomdataResponse> {
+    const data = QueryGetRomdataRequest.encode(request).finish();
+    const promise = this.rpc.request("vesta.vm.Query", "Romdata", data);
+    return promise.then((data) => QueryGetRomdataResponse.decode(new _m0.Reader(data)));
+  }
+
+  RomdataAll(request: QueryAllRomdataRequest): Promise<QueryAllRomdataResponse> {
+    const data = QueryAllRomdataRequest.encode(request).finish();
+    const promise = this.rpc.request("vesta.vm.Query", "RomdataAll", data);
+    return promise.then((data) => QueryAllRomdataResponse.decode(new _m0.Reader(data)));
   }
 }
 

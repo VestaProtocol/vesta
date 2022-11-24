@@ -116,6 +116,7 @@ export type VmParams = object;
 export interface VmProgram {
   name?: string;
   creator?: string;
+  address?: string;
 
   /** @format uint64 */
   code?: string;
@@ -151,6 +152,21 @@ export interface VmQueryAllProgramResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface VmQueryAllRomdataResponse {
+  romdata?: VmRomdata[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface VmQueryGetContractsResponse {
   Contracts?: VmContracts;
 }
@@ -159,12 +175,21 @@ export interface VmQueryGetProgramResponse {
   program?: VmProgram;
 }
 
+export interface VmQueryGetRomdataResponse {
+  romdata?: VmRomdata;
+}
+
 /**
  * QueryParamsResponse is response type for the Query/Params RPC method.
  */
 export interface VmQueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: VmParams;
+}
+
+export interface VmRomdata {
+  index?: string;
+  data?: string;
 }
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from "axios";
@@ -387,6 +412,48 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryProgram = (name: string, params: RequestParams = {}) =>
     this.request<VmQueryGetProgramResponse, RpcStatus>({
       path: `/vesta/vm/program/${name}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryRomdataAll
+   * @summary Queries a list of Romdata items.
+   * @request GET:/vesta/vm/romdata
+   */
+  queryRomdataAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<VmQueryAllRomdataResponse, RpcStatus>({
+      path: `/vesta/vm/romdata`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryRomdata
+   * @summary Queries a Romdata by index.
+   * @request GET:/vesta/vm/romdata/{index}
+   */
+  queryRomdata = (index: string, params: RequestParams = {}) =>
+    this.request<VmQueryGetRomdataResponse, RpcStatus>({
+      path: `/vesta/vm/romdata/${index}`,
       method: "GET",
       format: "json",
       ...params,

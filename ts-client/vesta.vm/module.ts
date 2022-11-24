@@ -7,12 +7,18 @@ import { msgTypes } from './registry';
 import { IgniteClient } from "../client"
 import { MissingWalletError } from "../helpers"
 import { Api } from "./rest";
+import { MsgExecute } from "./types/vesta/vm/tx";
 import { MsgInstantiate } from "./types/vesta/vm/tx";
 import { MsgStore } from "./types/vesta/vm/tx";
-import { MsgExecute } from "./types/vesta/vm/tx";
 
 
-export { MsgInstantiate, MsgStore, MsgExecute };
+export { MsgExecute, MsgInstantiate, MsgStore };
+
+type sendMsgExecuteParams = {
+  value: MsgExecute,
+  fee?: StdFee,
+  memo?: string
+};
 
 type sendMsgInstantiateParams = {
   value: MsgInstantiate,
@@ -26,12 +32,10 @@ type sendMsgStoreParams = {
   memo?: string
 };
 
-type sendMsgExecuteParams = {
-  value: MsgExecute,
-  fee?: StdFee,
-  memo?: string
-};
 
+type msgExecuteParams = {
+  value: MsgExecute,
+};
 
 type msgInstantiateParams = {
   value: MsgInstantiate,
@@ -39,10 +43,6 @@ type msgInstantiateParams = {
 
 type msgStoreParams = {
   value: MsgStore,
-};
-
-type msgExecuteParams = {
-  value: MsgExecute,
 };
 
 
@@ -62,6 +62,20 @@ interface TxClientOptions {
 export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "http://localhost:26657", prefix: "cosmos" }) => {
 
   return {
+		
+		async sendMsgExecute({ value, fee, memo }: sendMsgExecuteParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgExecute: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgExecute({ value: MsgExecute.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgExecute: Could not broadcast Tx: '+ e.message)
+			}
+		},
 		
 		async sendMsgInstantiate({ value, fee, memo }: sendMsgInstantiateParams): Promise<DeliverTxResponse> {
 			if (!signer) {
@@ -91,20 +105,14 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		async sendMsgExecute({ value, fee, memo }: sendMsgExecuteParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgExecute: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgExecute({ value: MsgExecute.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+		
+		msgExecute({ value }: msgExecuteParams): EncodeObject {
+			try {
+				return { typeUrl: "/vesta.vm.MsgExecute", value: MsgExecute.fromPartial( value ) }  
 			} catch (e: any) {
-				throw new Error('TxClient:sendMsgExecute: Could not broadcast Tx: '+ e.message)
+				throw new Error('TxClient:MsgExecute: Could not create message: ' + e.message)
 			}
 		},
-		
 		
 		msgInstantiate({ value }: msgInstantiateParams): EncodeObject {
 			try {
@@ -119,14 +127,6 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 				return { typeUrl: "/vesta.vm.MsgStore", value: MsgStore.fromPartial( value ) }  
 			} catch (e: any) {
 				throw new Error('TxClient:MsgStore: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgExecute({ value }: msgExecuteParams): EncodeObject {
-			try {
-				return { typeUrl: "/vesta.vm.MsgExecute", value: MsgExecute.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgExecute: Could not create message: ' + e.message)
 			}
 		},
 		

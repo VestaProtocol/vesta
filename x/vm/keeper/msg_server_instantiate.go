@@ -22,10 +22,16 @@ func (k msgServer) Instantiate(goCtx context.Context, msg *types.MsgInstantiate)
 		return nil, sdkerrors.Wrapf(sdkerrors.ErrInvalidType, "cannot parse code as int")
 	}
 
+	address, err := k.getContractAddress(ctx, msg.Name)
+	if err != nil {
+		return nil, err
+	}
+
 	p := types.Program{
 		Name:    msg.Name,
 		Creator: msg.Creator,
 		Code:    cd.Uint64(),
+		Address: address.String(),
 	}
 
 	k.SetProgram(ctx, p)
