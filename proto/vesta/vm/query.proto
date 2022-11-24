@@ -1,0 +1,58 @@
+syntax = "proto3";
+package vesta.vm;
+
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "vesta/vm/params.proto";
+import "vesta/vm/contracts.proto";
+// this line is used by starport scaffolding # 1
+
+option go_package = "vesta/x/vm/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Parameters queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/vesta/vm/params";
+  }
+  // Queries a Contracts by id.
+	rpc Contracts(QueryGetContractsRequest) returns (QueryGetContractsResponse) {
+		option (google.api.http).get = "/vesta/vm/contracts/{id}";
+	}
+
+	// Queries a list of Contracts items.
+	rpc ContractsAll(QueryAllContractsRequest) returns (QueryAllContractsResponse) {
+		option (google.api.http).get = "/vesta/vm/contracts";
+	}
+
+// this line is used by starport scaffolding # 2
+}
+
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  // params holds all the parameters of this module.
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetContractsRequest {
+	uint64 id = 1;
+}
+
+message QueryGetContractsResponse {
+	Contracts Contracts = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllContractsRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllContractsResponse {
+	repeated Contracts Contracts = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// this line is used by starport scaffolding # 3

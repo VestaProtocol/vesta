@@ -1,0 +1,31 @@
+syntax = "proto3";
+package vesta.vm;
+
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "vesta/x/vm/types";
+
+// Msg defines the Msg service.
+service Msg {
+  rpc Store(MsgStore) returns (MsgStoreResponse);
+  rpc Execute(MsgExecute) returns (MsgExecuteResponse);
+  // this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgStore {
+  string creator = 1;
+  string source = 2;
+}
+
+message MsgStoreResponse { string code = 1; }
+
+message MsgExecute {
+  string creator = 1;
+  string contract = 2;
+  string function = 3;
+  string args = 4;
+}
+
+message MsgExecuteResponse { string console = 1; }
+
+// this line is used by starport scaffolding # proto/tx/message
