@@ -18,6 +18,11 @@ vestad tx vm instantiate {name} {code_num} --from {key}
 ```
 
 ### Interacting
+Execute function
 ```sh
 vestad tx vm execute {name} {function} {args} --from {key}
+```
+Query function
+```sh
+vestad q vm detail {name} {function} {args}
 ```
