@@ -6,6 +6,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/dop251/goja"
 
 	"vesta/x/vm/types"
 )
@@ -30,7 +31,13 @@ func (k msgServer) Execute(goCtx context.Context, msg *types.MsgExecute) (*types
 		return nil, err
 	}
 
-	val, err := k.executeContract(ctx, msg.Contract, code, msg.Function, address, strings.Split(msg.Args, ","))
+	argsString := strings.Split(msg.Args, ",")
+	vals := make([]goja.Value, len(argsString))
+	for i, s := range argsString {
+		vals[i] = goja.ValueString(s)
+	}
+
+	val, err := k.executeContract(ctx, msg.Contract, code, msg.Function, address, vals)
 	if err != nil {
 		return nil, err
 	}

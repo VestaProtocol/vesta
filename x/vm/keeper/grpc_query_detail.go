@@ -7,6 +7,7 @@ import (
 	"vesta/x/vm/types"
 
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/dop251/goja"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"google.golang.org/grpc/codes"
@@ -32,7 +33,13 @@ func (k Keeper) Detail(goCtx context.Context, req *types.QueryDetailRequest) (*t
 
 	code := source.Source
 
-	val, err := k.queryContract(ctx, req.Name, code, req.Query, strings.Split(req.Args, ","))
+	argsString := strings.Split(req.Args, ",")
+	vals := make([]goja.Value, len(argsString))
+	for i, s := range argsString {
+		vals[i] = goja.ValueString(s)
+	}
+
+	val, err := k.queryContract(ctx, req.Name, code, req.Query, vals)
 	if err != nil {
 		return nil, err
 	}

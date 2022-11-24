@@ -2,8 +2,9 @@ package keeper
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	"github.com/robertkrimen/otto"
+	"github.com/dop251/goja"
 	"github.com/tendermint/tendermint/crypto"
 )
 
@@ -32,23 +33,23 @@ func (k Keeper) getContractAddress(ctx sdk.Context, contractName string) (sdk.Ac
 	return acc.GetAddress(), nil
 }
 
-func (k Keeper) executeContract(ctx sdk.Context, name string, sourceCode string, entry string, creator sdk.AccAddress, args []string) (string, error) {
+func (k Keeper) executeContract(ctx sdk.Context, name string, sourceCode string, entry string, creator sdk.AccAddress, args []goja.Value) (string, error) {
 	vm, err := k.buildContract(ctx, name, sourceCode, entry, creator, false)
 	if err != nil {
 		return "", err
 	}
 
-	r, err := vm.Get("contractFunctions")
-	if err != nil {
-		return "", err
+	r := vm.Get("contractFunctions")
+	if r == nil {
+		return "", sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find contractFunctions")
 	}
 
-	function, err := r.Object().Get(entry)
-	if err != nil {
-		return "", err
+	function, ok := goja.AssertFunction(r.ToObject(vm).Get(entry))
+	if !ok {
+		return "", sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot get %s from contractFunctions", entry)
 	}
 
-	res, err := function.Call(function, nil)
+	res, err := function(goja.Undefined(), args...)
 	if err != nil {
 		return "", err
 	}
@@ -56,23 +57,23 @@ func (k Keeper) executeContract(ctx sdk.Context, name string, sourceCode string,
 	return res.String(), nil
 }
 
-func (k Keeper) queryContract(ctx sdk.Context, name string, sourceCode string, entry string, args []string) (string, error) {
+func (k Keeper) queryContract(ctx sdk.Context, name string, sourceCode string, entry string, args []goja.Value) (string, error) {
 	vm, err := k.buildContract(ctx, name, sourceCode, entry, nil, true)
 	if err != nil {
 		return "", err
 	}
 
-	r, err := vm.Get("contractQueries")
-	if err != nil {
-		return "", err
+	r := vm.Get("contractQueries")
+	if r == nil {
+		return "", sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find contractQueries")
 	}
 
-	function, err := r.Object().Get(entry)
-	if err != nil {
-		return "", err
+	function, ok := goja.AssertFunction(r.ToObject(vm).Get(entry))
+	if !ok {
+		return "", sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot get %s from contractQueries", entry)
 	}
 
-	res, err := function.Call(function, args)
+	res, err := function(goja.Undefined(), args...)
 	if err != nil {
 		return "", err
 	}
@@ -80,8 +81,8 @@ func (k Keeper) queryContract(ctx sdk.Context, name string, sourceCode string, e
 	return res.String(), nil
 }
 
-func (k Keeper) buildContract(ctx sdk.Context, name string, sourceCode string, entry string, creator sdk.AccAddress, readonly bool) (*otto.Otto, error) {
-	vm := otto.New()
+func (k Keeper) buildContract(ctx sdk.Context, name string, sourceCode string, entry string, creator sdk.AccAddress, readonly bool) (*goja.Runtime, error) {
+	vm := goja.New()
 
 	address, err := k.getContractAddress(ctx, name)
 	if err != nil {
@@ -90,7 +91,7 @@ func (k Keeper) buildContract(ctx sdk.Context, name string, sourceCode string, e
 
 	k.applyStandardLib(ctx, creator, address, vm, readonly)
 
-	_, err = vm.Run(sourceCode)
+	_, err = vm.RunString(sourceCode)
 	if err != nil {
 		return vm, err
 	}
