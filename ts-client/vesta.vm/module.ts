@@ -7,11 +7,18 @@ import { msgTypes } from './registry';
 import { IgniteClient } from "../client"
 import { MissingWalletError } from "../helpers"
 import { Api } from "./rest";
+import { MsgInstantiate } from "./types/vesta/vm/tx";
 import { MsgStore } from "./types/vesta/vm/tx";
 import { MsgExecute } from "./types/vesta/vm/tx";
 
 
-export { MsgStore, MsgExecute };
+export { MsgInstantiate, MsgStore, MsgExecute };
+
+type sendMsgInstantiateParams = {
+  value: MsgInstantiate,
+  fee?: StdFee,
+  memo?: string
+};
 
 type sendMsgStoreParams = {
   value: MsgStore,
@@ -25,6 +32,10 @@ type sendMsgExecuteParams = {
   memo?: string
 };
 
+
+type msgInstantiateParams = {
+  value: MsgInstantiate,
+};
 
 type msgStoreParams = {
   value: MsgStore,
@@ -51,6 +62,20 @@ interface TxClientOptions {
 export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "http://localhost:26657", prefix: "cosmos" }) => {
 
   return {
+		
+		async sendMsgInstantiate({ value, fee, memo }: sendMsgInstantiateParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgInstantiate: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgInstantiate({ value: MsgInstantiate.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgInstantiate: Could not broadcast Tx: '+ e.message)
+			}
+		},
 		
 		async sendMsgStore({ value, fee, memo }: sendMsgStoreParams): Promise<DeliverTxResponse> {
 			if (!signer) {
@@ -80,6 +105,14 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
+		
+		msgInstantiate({ value }: msgInstantiateParams): EncodeObject {
+			try {
+				return { typeUrl: "/vesta.vm.MsgInstantiate", value: MsgInstantiate.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgInstantiate: Could not create message: ' + e.message)
+			}
+		},
 		
 		msgStore({ value }: msgStoreParams): EncodeObject {
 			try {

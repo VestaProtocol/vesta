@@ -23,6 +23,14 @@ func TestGenesis(t *testing.T) {
 			},
 		},
 		ContractsCount: 2,
+		ProgramList: []types.Program{
+			{
+				Name: "0",
+			},
+			{
+				Name: "1",
+			},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -36,5 +44,6 @@ func TestGenesis(t *testing.T) {
 
 	require.ElementsMatch(t, genesisState.ContractsList, got.ContractsList)
 	require.Equal(t, genesisState.ContractsCount, got.ContractsCount)
+	require.ElementsMatch(t, genesisState.ProgramList, got.ProgramList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

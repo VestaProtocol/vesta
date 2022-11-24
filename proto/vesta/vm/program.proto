@@ -1,0 +1,10 @@
+syntax = "proto3";
+package vesta.vm;
+
+option go_package = "vesta/x/vm/types";
+
+message Program {
+  string name = 1;
+  string creator = 2;
+  uint64 code = 3;
+}

@@ -2,9 +2,10 @@ import { Client, registry, MissingWalletError } from 'vesta-client-ts'
 
 import { Contracts } from "vesta-client-ts/vesta.vm/types"
 import { Params } from "vesta-client-ts/vesta.vm/types"
+import { Program } from "vesta-client-ts/vesta.vm/types"
 
 
-export { Contracts, Params };
+export { Contracts, Params, Program };
 
 function initClient(vuexGetters) {
 	return new Client(vuexGetters['common/env/getEnv'], vuexGetters['common/wallet/signer'])
@@ -38,10 +39,13 @@ const getDefaultState = () => {
 				Params: {},
 				Contracts: {},
 				ContractsAll: {},
+				Program: {},
+				ProgramAll: {},
 				
 				_Structure: {
 						Contracts: getStructure(Contracts.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),
+						Program: getStructure(Program.fromPartial({})),
 						
 		},
 		_Registry: registry,
@@ -87,6 +91,18 @@ export default {
 						(<any> params).query=null
 					}
 			return state.ContractsAll[JSON.stringify(params)] ?? {}
+		},
+				getProgram: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.Program[JSON.stringify(params)] ?? {}
+		},
+				getProgramAll: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.ProgramAll[JSON.stringify(params)] ?? {}
 		},
 				
 		getTypeStructure: (state) => (type) => {
@@ -192,6 +208,67 @@ export default {
 		},
 		
 		
+		
+		
+		 		
+		
+		
+		async QueryProgram({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const client = initClient(rootGetters);
+				let value= (await client.VestaVm.query.queryProgram( key.name)).data
+				
+					
+				commit('QUERY', { query: 'Program', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryProgram', payload: { options: { all }, params: {...key},query }})
+				return getters['getProgram']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryProgram API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryProgramAll({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const client = initClient(rootGetters);
+				let value= (await client.VestaVm.query.queryProgramAll(query ?? undefined)).data
+				
+					
+				while (all && (<any> value).pagination && (<any> value).pagination.next_key!=null) {
+					let next_values=(await client.VestaVm.query.queryProgramAll({...query ?? {}, 'pagination.key':(<any> value).pagination.next_key} as any)).data
+					value = mergeResults(value, next_values);
+				}
+				commit('QUERY', { query: 'ProgramAll', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryProgramAll', payload: { options: { all }, params: {...key},query }})
+				return getters['getProgramAll']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryProgramAll API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		async sendMsgInstantiate({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const client=await initClient(rootGetters)
+				const result = await client.VestaVm.tx.sendMsgInstantiate({ value, fee: {amount: fee, gas: "200000"}, memo })
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgInstantiate:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgInstantiate:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
 		async sendMsgStore({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const client=await initClient(rootGetters)
@@ -219,6 +296,19 @@ export default {
 			}
 		},
 		
+		async MsgInstantiate({ rootGetters }, { value }) {
+			try {
+				const client=initClient(rootGetters)
+				const msg = await client.VestaVm.tx.msgInstantiate({value})
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgInstantiate:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgInstantiate:Create Could not create message: ' + e.message)
+				}
+			}
+		},
 		async MsgStore({ rootGetters }, { value }) {
 			try {
 				const client=initClient(rootGetters)

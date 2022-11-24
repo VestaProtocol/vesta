@@ -9,7 +9,8 @@ option go_package = "vesta/x/vm/types";
 service Msg {
   rpc Store(MsgStore) returns (MsgStoreResponse);
   rpc Execute(MsgExecute) returns (MsgExecuteResponse);
-  // this line is used by starport scaffolding # proto/tx/rpc
+    rpc Instantiate(MsgInstantiate) returns (MsgInstantiateResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
 }
 
 message MsgStore {
@@ -27,5 +28,14 @@ message MsgExecute {
 }
 
 message MsgExecuteResponse { string console = 1; }
+
+message MsgInstantiate {
+  string creator = 1;
+  string name = 2;
+  string code = 3;
+}
+
+message MsgInstantiateResponse {
+}
 
 // this line is used by starport scaffolding # proto/tx/message

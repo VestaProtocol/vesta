@@ -31,6 +31,14 @@ func TestGenesisState_Validate(t *testing.T) {
 					},
 				},
 				ContractsCount: 2,
+				ProgramList: []types.Program{
+					{
+						Name: "0",
+					},
+					{
+						Name: "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
@@ -58,6 +66,20 @@ func TestGenesisState_Validate(t *testing.T) {
 					},
 				},
 				ContractsCount: 0,
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated program",
+			genState: &types.GenesisState{
+				ProgramList: []types.Program{
+					{
+						Name: "0",
+					},
+					{
+						Name: "0",
+					},
+				},
 			},
 			valid: false,
 		},

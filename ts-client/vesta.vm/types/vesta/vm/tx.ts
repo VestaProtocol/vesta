@@ -23,6 +23,15 @@ export interface MsgExecuteResponse {
   console: string;
 }
 
+export interface MsgInstantiate {
+  creator: string;
+  name: string;
+  code: string;
+}
+
+export interface MsgInstantiateResponse {
+}
+
 function createBaseMsgStore(): MsgStore {
   return { creator: "", source: "" };
 }
@@ -251,11 +260,118 @@ export const MsgExecuteResponse = {
   },
 };
 
+function createBaseMsgInstantiate(): MsgInstantiate {
+  return { creator: "", name: "", code: "" };
+}
+
+export const MsgInstantiate = {
+  encode(message: MsgInstantiate, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.name !== "") {
+      writer.uint32(18).string(message.name);
+    }
+    if (message.code !== "") {
+      writer.uint32(26).string(message.code);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgInstantiate {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgInstantiate();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.name = reader.string();
+          break;
+        case 3:
+          message.code = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgInstantiate {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      name: isSet(object.name) ? String(object.name) : "",
+      code: isSet(object.code) ? String(object.code) : "",
+    };
+  },
+
+  toJSON(message: MsgInstantiate): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.name !== undefined && (obj.name = message.name);
+    message.code !== undefined && (obj.code = message.code);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgInstantiate>, I>>(object: I): MsgInstantiate {
+    const message = createBaseMsgInstantiate();
+    message.creator = object.creator ?? "";
+    message.name = object.name ?? "";
+    message.code = object.code ?? "";
+    return message;
+  },
+};
+
+function createBaseMsgInstantiateResponse(): MsgInstantiateResponse {
+  return {};
+}
+
+export const MsgInstantiateResponse = {
+  encode(_: MsgInstantiateResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgInstantiateResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgInstantiateResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgInstantiateResponse {
+    return {};
+  },
+
+  toJSON(_: MsgInstantiateResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgInstantiateResponse>, I>>(_: I): MsgInstantiateResponse {
+    const message = createBaseMsgInstantiateResponse();
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   Store(request: MsgStore): Promise<MsgStoreResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   Execute(request: MsgExecute): Promise<MsgExecuteResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  Instantiate(request: MsgInstantiate): Promise<MsgInstantiateResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -264,6 +380,7 @@ export class MsgClientImpl implements Msg {
     this.rpc = rpc;
     this.Store = this.Store.bind(this);
     this.Execute = this.Execute.bind(this);
+    this.Instantiate = this.Instantiate.bind(this);
   }
   Store(request: MsgStore): Promise<MsgStoreResponse> {
     const data = MsgStore.encode(request).finish();
@@ -275,6 +392,12 @@ export class MsgClientImpl implements Msg {
     const data = MsgExecute.encode(request).finish();
     const promise = this.rpc.request("vesta.vm.Msg", "Execute", data);
     return promise.then((data) => MsgExecuteResponse.decode(new _m0.Reader(data)));
+  }
+
+  Instantiate(request: MsgInstantiate): Promise<MsgInstantiateResponse> {
+    const data = MsgInstantiate.encode(request).finish();
+    const promise = this.rpc.request("vesta.vm.Msg", "Instantiate", data);
+    return promise.then((data) => MsgInstantiateResponse.decode(new _m0.Reader(data)));
   }
 }
 

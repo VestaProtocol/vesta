@@ -102,6 +102,8 @@ export interface VmMsgExecuteResponse {
   console?: string;
 }
 
+export type VmMsgInstantiateResponse = object;
+
 export interface VmMsgStoreResponse {
   code?: string;
 }
@@ -110,6 +112,14 @@ export interface VmMsgStoreResponse {
  * Params defines the parameters for the module.
  */
 export type VmParams = object;
+
+export interface VmProgram {
+  name?: string;
+  creator?: string;
+
+  /** @format uint64 */
+  code?: string;
+}
 
 export interface VmQueryAllContractsResponse {
   Contracts?: VmContracts[];
@@ -126,8 +136,27 @@ export interface VmQueryAllContractsResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface VmQueryAllProgramResponse {
+  program?: VmProgram[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface VmQueryGetContractsResponse {
   Contracts?: VmContracts;
+}
+
+export interface VmQueryGetProgramResponse {
+  program?: VmProgram;
 }
 
 /**
@@ -316,6 +345,48 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryParams = (params: RequestParams = {}) =>
     this.request<VmQueryParamsResponse, RpcStatus>({
       path: `/vesta/vm/params`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryProgramAll
+   * @summary Queries a list of Program items.
+   * @request GET:/vesta/vm/program
+   */
+  queryProgramAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<VmQueryAllProgramResponse, RpcStatus>({
+      path: `/vesta/vm/program`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryProgram
+   * @summary Queries a Program by index.
+   * @request GET:/vesta/vm/program/{name}
+   */
+  queryProgram = (name: string, params: RequestParams = {}) =>
+    this.request<VmQueryGetProgramResponse, RpcStatus>({
+      path: `/vesta/vm/program/${name}`,
       method: "GET",
       format: "json",
       ...params,

@@ -50,10 +50,5 @@ func (k msgServer) buildContract(ctx sdk.Context, sourceCode string, entry strin
 		return "", err
 	}
 
-	// val, err := vm.Get("contractOut")
-	// if err != nil {
-	// 	return "", err
-	// }
-
 	return r.String(), nil
 }

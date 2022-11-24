@@ -12,12 +12,12 @@ import (
 func (k msgServer) Execute(goCtx context.Context, msg *types.MsgExecute) (*types.MsgExecuteResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	contractId, ok := sdk.NewIntFromString(msg.Contract)
-	if !ok {
-		return nil, sdkerrors.Wrapf(sdkerrors.ErrInvalidType, "cannot convert contract id to int.")
+	program, found := k.GetProgram(ctx, msg.Contract)
+	if !found {
+		return nil, sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find contract '%s'", msg.Contract)
 	}
 
-	source, ok := k.GetContracts(ctx, contractId.Uint64())
+	source, ok := k.GetContracts(ctx, program.Code)
 	if !ok {
 		return nil, sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find contract source")
 	}

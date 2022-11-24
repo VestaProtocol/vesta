@@ -3,6 +3,7 @@ import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { Contracts } from "./contracts";
 import { Params } from "./params";
+import { Program } from "./program";
 
 export const protobufPackage = "vesta.vm";
 
@@ -10,12 +11,13 @@ export const protobufPackage = "vesta.vm";
 export interface GenesisState {
   params: Params | undefined;
   contractsList: Contracts[];
-  /** this line is used by starport scaffolding # genesis/proto/state */
   contractsCount: number;
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  programList: Program[];
 }
 
 function createBaseGenesisState(): GenesisState {
-  return { params: undefined, contractsList: [], contractsCount: 0 };
+  return { params: undefined, contractsList: [], contractsCount: 0, programList: [] };
 }
 
 export const GenesisState = {
@@ -28,6 +30,9 @@ export const GenesisState = {
     }
     if (message.contractsCount !== 0) {
       writer.uint32(24).uint64(message.contractsCount);
+    }
+    for (const v of message.programList) {
+      Program.encode(v!, writer.uint32(34).fork()).ldelim();
     }
     return writer;
   },
@@ -48,6 +53,9 @@ export const GenesisState = {
         case 3:
           message.contractsCount = longToNumber(reader.uint64() as Long);
           break;
+        case 4:
+          message.programList.push(Program.decode(reader, reader.uint32()));
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -63,6 +71,7 @@ export const GenesisState = {
         ? object.contractsList.map((e: any) => Contracts.fromJSON(e))
         : [],
       contractsCount: isSet(object.contractsCount) ? Number(object.contractsCount) : 0,
+      programList: Array.isArray(object?.programList) ? object.programList.map((e: any) => Program.fromJSON(e)) : [],
     };
   },
 
@@ -75,6 +84,11 @@ export const GenesisState = {
       obj.contractsList = [];
     }
     message.contractsCount !== undefined && (obj.contractsCount = Math.round(message.contractsCount));
+    if (message.programList) {
+      obj.programList = message.programList.map((e) => e ? Program.toJSON(e) : undefined);
+    } else {
+      obj.programList = [];
+    }
     return obj;
   },
 
@@ -85,6 +99,7 @@ export const GenesisState = {
       : undefined;
     message.contractsList = object.contractsList?.map((e) => Contracts.fromPartial(e)) || [];
     message.contractsCount = object.contractsCount ?? 0;
+    message.programList = object.programList?.map((e) => Program.fromPartial(e)) || [];
     return message;
   },
 };

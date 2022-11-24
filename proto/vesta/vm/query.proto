@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "vesta/vm/params.proto";
 import "vesta/vm/contracts.proto";
+import "vesta/vm/program.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "vesta/x/vm/types";
@@ -24,6 +25,16 @@ service Query {
 	// Queries a list of Contracts items.
 	rpc ContractsAll(QueryAllContractsRequest) returns (QueryAllContractsResponse) {
 		option (google.api.http).get = "/vesta/vm/contracts";
+	}
+
+// Queries a Program by index.
+	rpc Program(QueryGetProgramRequest) returns (QueryGetProgramResponse) {
+		option (google.api.http).get = "/vesta/vm/program/{name}";
+	}
+
+	// Queries a list of Program items.
+	rpc ProgramAll(QueryAllProgramRequest) returns (QueryAllProgramResponse) {
+		option (google.api.http).get = "/vesta/vm/program";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -52,6 +63,24 @@ message QueryAllContractsRequest {
 
 message QueryAllContractsResponse {
 	repeated Contracts Contracts = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetProgramRequest {
+	  string name = 1;
+
+}
+
+message QueryGetProgramResponse {
+	Program program = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllProgramRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllProgramResponse {
+	repeated Program program = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
