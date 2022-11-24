@@ -31,7 +31,6 @@ func (k Keeper) ProgramAll(c context.Context, req *types.QueryAllProgramRequest)
 		programs = append(programs, program)
 		return nil
 	})
-
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

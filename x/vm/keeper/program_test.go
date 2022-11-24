@@ -39,6 +39,7 @@ func TestProgramGet(t *testing.T) {
 		)
 	}
 }
+
 func TestProgramRemove(t *testing.T) {
 	keeper, ctx := keepertest.VmKeeper(t)
 	items := createNProgram(keeper, ctx, 10)

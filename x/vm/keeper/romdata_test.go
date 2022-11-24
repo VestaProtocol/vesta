@@ -39,6 +39,7 @@ func TestRomdataGet(t *testing.T) {
 		)
 	}
 }
+
 func TestRomdataRemove(t *testing.T) {
 	keeper, ctx := keepertest.VmKeeper(t)
 	items := createNRomdata(keeper, ctx, 10)

@@ -167,6 +167,10 @@ export interface VmQueryAllRomdataResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface VmQueryDetailResponse {
+  response?: string;
+}
+
 export interface VmQueryGetContractsResponse {
   Contracts?: VmContracts;
 }
@@ -354,6 +358,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryContracts = (id: string, params: RequestParams = {}) =>
     this.request<VmQueryGetContractsResponse, RpcStatus>({
       path: `/vesta/vm/contracts/${id}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryDetail
+   * @summary Queries a list of Detail items.
+   * @request GET:/vesta/vm/detail/{name}/{query}/{args}
+   */
+  queryDetail = (name: string, query: string, args: string, params: RequestParams = {}) =>
+    this.request<VmQueryDetailResponse, RpcStatus>({
+      path: `/vesta/vm/detail/${name}/${query}/${args}`,
       method: "GET",
       format: "json",
       ...params,

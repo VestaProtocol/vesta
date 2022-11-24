@@ -70,6 +70,16 @@ export interface QueryAllRomdataResponse {
   pagination: PageResponse | undefined;
 }
 
+export interface QueryDetailRequest {
+  name: string;
+  query: string;
+  args: string;
+}
+
+export interface QueryDetailResponse {
+  response: string;
+}
+
 function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
 }
@@ -792,6 +802,120 @@ export const QueryAllRomdataResponse = {
   },
 };
 
+function createBaseQueryDetailRequest(): QueryDetailRequest {
+  return { name: "", query: "", args: "" };
+}
+
+export const QueryDetailRequest = {
+  encode(message: QueryDetailRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.name !== "") {
+      writer.uint32(10).string(message.name);
+    }
+    if (message.query !== "") {
+      writer.uint32(18).string(message.query);
+    }
+    if (message.args !== "") {
+      writer.uint32(26).string(message.args);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDetailRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryDetailRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.name = reader.string();
+          break;
+        case 2:
+          message.query = reader.string();
+          break;
+        case 3:
+          message.args = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryDetailRequest {
+    return {
+      name: isSet(object.name) ? String(object.name) : "",
+      query: isSet(object.query) ? String(object.query) : "",
+      args: isSet(object.args) ? String(object.args) : "",
+    };
+  },
+
+  toJSON(message: QueryDetailRequest): unknown {
+    const obj: any = {};
+    message.name !== undefined && (obj.name = message.name);
+    message.query !== undefined && (obj.query = message.query);
+    message.args !== undefined && (obj.args = message.args);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryDetailRequest>, I>>(object: I): QueryDetailRequest {
+    const message = createBaseQueryDetailRequest();
+    message.name = object.name ?? "";
+    message.query = object.query ?? "";
+    message.args = object.args ?? "";
+    return message;
+  },
+};
+
+function createBaseQueryDetailResponse(): QueryDetailResponse {
+  return { response: "" };
+}
+
+export const QueryDetailResponse = {
+  encode(message: QueryDetailResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.response !== "") {
+      writer.uint32(10).string(message.response);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDetailResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryDetailResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.response = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryDetailResponse {
+    return { response: isSet(object.response) ? String(object.response) : "" };
+  },
+
+  toJSON(message: QueryDetailResponse): unknown {
+    const obj: any = {};
+    message.response !== undefined && (obj.response = message.response);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryDetailResponse>, I>>(object: I): QueryDetailResponse {
+    const message = createBaseQueryDetailResponse();
+    message.response = object.response ?? "";
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -808,6 +932,8 @@ export interface Query {
   Romdata(request: QueryGetRomdataRequest): Promise<QueryGetRomdataResponse>;
   /** Queries a list of Romdata items. */
   RomdataAll(request: QueryAllRomdataRequest): Promise<QueryAllRomdataResponse>;
+  /** Queries a list of Detail items. */
+  Detail(request: QueryDetailRequest): Promise<QueryDetailResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -821,6 +947,7 @@ export class QueryClientImpl implements Query {
     this.ProgramAll = this.ProgramAll.bind(this);
     this.Romdata = this.Romdata.bind(this);
     this.RomdataAll = this.RomdataAll.bind(this);
+    this.Detail = this.Detail.bind(this);
   }
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
@@ -862,6 +989,12 @@ export class QueryClientImpl implements Query {
     const data = QueryAllRomdataRequest.encode(request).finish();
     const promise = this.rpc.request("vesta.vm.Query", "RomdataAll", data);
     return promise.then((data) => QueryAllRomdataResponse.decode(new _m0.Reader(data)));
+  }
+
+  Detail(request: QueryDetailRequest): Promise<QueryDetailResponse> {
+    const data = QueryDetailRequest.encode(request).finish();
+    const promise = this.rpc.request("vesta.vm.Query", "Detail", data);
+    return promise.then((data) => QueryDetailResponse.decode(new _m0.Reader(data)));
   }
 }
 

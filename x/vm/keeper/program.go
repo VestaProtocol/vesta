@@ -19,7 +19,6 @@ func (k Keeper) SetProgram(ctx sdk.Context, program types.Program) {
 func (k Keeper) GetProgram(
 	ctx sdk.Context,
 	name string,
-
 ) (val types.Program, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ProgramKeyPrefix))
 
@@ -38,7 +37,6 @@ func (k Keeper) GetProgram(
 func (k Keeper) RemoveProgram(
 	ctx sdk.Context,
 	name string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ProgramKeyPrefix))
 	store.Delete(types.ProgramKey(

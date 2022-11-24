@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"strings"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -29,7 +30,7 @@ func (k msgServer) Execute(goCtx context.Context, msg *types.MsgExecute) (*types
 		return nil, err
 	}
 
-	val, err := k.buildContract(ctx, msg.Contract, code, msg.Function, address)
+	val, err := k.executeContract(ctx, msg.Contract, code, msg.Function, address, strings.Split(msg.Args, ","))
 	if err != nil {
 		return nil, err
 	}

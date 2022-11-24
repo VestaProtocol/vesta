@@ -19,7 +19,6 @@ func (k Keeper) SetRomdata(ctx sdk.Context, romdata types.Romdata) {
 func (k Keeper) GetRomdata(
 	ctx sdk.Context,
 	index string,
-
 ) (val types.Romdata, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.RomdataKeyPrefix))
 
@@ -38,7 +37,6 @@ func (k Keeper) GetRomdata(
 func (k Keeper) RemoveRomdata(
 	ctx sdk.Context,
 	index string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.RomdataKeyPrefix))
 	store.Delete(types.RomdataKey(

@@ -31,7 +31,6 @@ func (k Keeper) RomdataAll(c context.Context, req *types.QueryAllRomdataRequest)
 		romdatas = append(romdatas, romdata)
 		return nil
 	})
-
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

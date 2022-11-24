@@ -11,6 +11,18 @@ function mint() {
     save(SENDER, numcount.toString())
 }
 
+function balance(sender) {
+    var count = read(sender)
+    if (count == null) {
+        return "0"
+    }
+    return count
+}
+
 contractFunctions = {
     mint: mint
+}
+
+contractQueries = {
+    balance: balance
 }

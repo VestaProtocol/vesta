@@ -44851,6 +44851,51 @@ paths:
           format: uint64
       tags:
         - Query
+  /vesta/vm/detail/{name}/{query}/{args}:
+    get:
+      summary: Queries a list of Detail items.
+      operationId: VestaVmDetail
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              response:
+                type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: name
+          in: path
+          required: true
+          type: string
+        - name: query
+          in: path
+          required: true
+          type: string
+        - name: args
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
   /vesta/vm/params:
     get:
       summary: Parameters queries the parameters of the module.
@@ -74937,6 +74982,11 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
+  vesta.vm.QueryDetailResponse:
+    type: object
+    properties:
+      response:
+        type: string
   vesta.vm.QueryGetContractsResponse:
     type: object
     properties:

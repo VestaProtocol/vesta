@@ -48,6 +48,11 @@ service Query {
 		option (google.api.http).get = "/vesta/vm/romdata";
 	}
 
+// Queries a list of Detail items.
+	rpc Detail(QueryDetailRequest) returns (QueryDetailResponse) {
+		option (google.api.http).get = "/vesta/vm/detail/{name}/{query}/{args}";
+	}
+
 // this line is used by starport scaffolding # 2
 }
 
@@ -111,6 +116,16 @@ message QueryAllRomdataRequest {
 message QueryAllRomdataResponse {
 	repeated Romdata romdata = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryDetailRequest {
+  string name = 1;
+  string query = 2;
+  string args = 3;
+}
+
+message QueryDetailResponse {
+  string response = 1;
 }
 
 // this line is used by starport scaffolding # 3
