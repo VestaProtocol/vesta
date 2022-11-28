@@ -1,28 +1,19 @@
 
 function mint() {
-    var count = read(SENDER)
-    if (count == null) {
-        save(SENDER, "10")
-        return
+    let minted = std.mint("20")
+    if (!minted) {
+        return "failed mint"
     }
-
-    var numcount = parseInt(count) + 10
-
-    save(SENDER, numcount.toString())
-}
-
-function balance(sender) {
-    var count = read(sender)
-    if (count == null) {
-        return "0"
+    minted = std.withdrawTokens(SENDER, "20vesta-" + NAME)
+    if (!minted) {
+        return "failed withdraw"
     }
-    return count
 }
 
 contractFunctions = {
-    mint: mint
+    mint: mint,
 }
 
 contractQueries = {
-    balance: balance
+    // balance: balance
 }

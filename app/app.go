@@ -107,6 +107,9 @@ import (
 	vmmodule "vesta/x/vm"
 	vmmodulekeeper "vesta/x/vm/keeper"
 	vmmoduletypes "vesta/x/vm/types"
+
+	bankinject "vesta/vminjects/bank"
+
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	appparams "vesta/app/params"
@@ -511,6 +514,7 @@ func New(
 
 		app.AccountKeeper,
 		app.BankKeeper,
+		[]vmmoduletypes.Injector{bankinject.NewInject(app.BankKeeper)},
 	)
 	vmModule := vmmodule.NewAppModule(appCodec, app.VmKeeper, app.AccountKeeper, app.BankKeeper)
 

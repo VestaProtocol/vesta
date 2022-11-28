@@ -9,72 +9,37 @@ import (
 	"github.com/dop251/goja"
 )
 
-func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contractAddress sdk.AccAddress, vm *goja.Runtime, readonly bool) {
-	err := vm.Set("SENDER", creator.String())
+func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contractName string, contractAddress sdk.AccAddress, vm *goja.Runtime, readonly bool) {
+	std := vm.NewObject()
+
+	err := std.Set("SENDER", creator.String())
 	if err != nil {
 		ctx.Logger().Error(err.Error())
 		return
 	}
-	err = vm.Set("CONTRACT", contractAddress.String())
+	err = std.Set("CONTRACT", contractAddress.String())
 	if err != nil {
 		ctx.Logger().Error(err.Error())
 		return
+	}
+
+	err = std.Set("NAME", contractName)
+	if err != nil {
+		ctx.Logger().Error(err.Error())
+		return
+	}
+
+	for _, v := range k.injectors {
+		err := v.Inject(ctx, creator, contractName, contractAddress, std, readonly)
+		if err != nil {
+			ctx.Logger().Error(err.Error())
+			return
+		}
 	}
 
 	if !readonly {
-		err = vm.Set("sendTokens", func(call goja.FunctionCall) goja.Value {
-			reciever, err := sdk.AccAddressFromBech32(call.Argument(0).String())
-			if err != nil {
-				return goja.ValueFalse()
-			}
 
-			coin, err := sdk.ParseCoinNormalized(call.Argument(1).String())
-			if err != nil {
-				return goja.ValueFalse()
-			}
-
-			err = k.bankKeeper.SendCoinsFromAccountToModule(ctx, creator, types.ModuleName, sdk.NewCoins(coin))
-			if err != nil {
-				return goja.ValueFalse()
-			}
-			err = k.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, reciever, sdk.NewCoins(coin))
-			if err != nil {
-				return goja.ValueFalse()
-			}
-			return goja.ValueTrue()
-		})
-		if err != nil {
-			ctx.Logger().Error(err.Error())
-			return
-		}
-
-		err = vm.Set("withdrawTokens", func(call goja.FunctionCall) goja.Value {
-			reciever, err := sdk.AccAddressFromBech32(call.Argument(0).String())
-			if err != nil {
-				return goja.ValueFalse()
-			}
-
-			coin, err := sdk.ParseCoinNormalized(call.Argument(1).String())
-			if err != nil {
-				return goja.ValueFalse()
-			}
-
-			err = k.bankKeeper.SendCoinsFromAccountToModule(ctx, contractAddress, types.ModuleName, sdk.NewCoins(coin))
-			if err != nil {
-				return goja.ValueFalse()
-			}
-			err = k.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, reciever, sdk.NewCoins(coin))
-			if err != nil {
-				return goja.ValueFalse()
-			}
-			return goja.ValueTrue()
-		})
-		if err != nil {
-			ctx.Logger().Error(err.Error())
-			return
-		}
-
-		err = vm.Set("save", func(call goja.FunctionCall) goja.Value {
+		err = std.Set("write", func(call goja.FunctionCall) goja.Value {
 			key := call.Argument(0).String()
 			data := call.Argument(1).String()
 
@@ -100,7 +65,7 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 		}
 	}
 
-	err = vm.Set("read", func(call goja.FunctionCall) goja.Value {
+	err = std.Set("read", func(call goja.FunctionCall) goja.Value {
 		key := call.Argument(0).String()
 
 		data, found := k.GetRomdata(ctx, fmt.Sprintf("%s%s", contractAddress.String(), key))
@@ -127,7 +92,7 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 		return
 	}
 
-	err = vm.Set("require", func(call goja.FunctionCall) goja.Value {
+	err = std.Set("import", func(call goja.FunctionCall) goja.Value {
 		moduleName := call.Argument(0).String()
 
 		program, found := k.GetProgram(ctx, moduleName)
@@ -143,7 +108,7 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 		code := source.Source
 
 		newvm := goja.New()
-		k.applyStandardLib(ctx, creator, contractAddress, newvm, readonly)
+		k.applyStandardLib(ctx, creator, contractName, contractAddress, newvm, readonly)
 
 		_, err := newvm.RunString(code)
 		if err != nil {
@@ -164,10 +129,13 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 		return
 	}
 
-	err = vm.Set("fetch", func(call goja.FunctionCall) goja.Value {
+	err = std.Set("fetch", func(call goja.FunctionCall) goja.Value {
 		moduleName := call.Argument(0).String()
 		entryPoint := call.Argument(1).String()
-		args := call.Arguments[2:]
+		fetchType := call.Argument(2).String()
+		args := call.Arguments[3:]
+
+		ctx.GasMeter().ConsumeGas(types.DefaultGasValues().Import, "fetching contract")
 
 		program, found := k.GetProgram(ctx, moduleName)
 		if !found {
@@ -184,19 +152,19 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 		var res string
 		var err error
 
-		if !readonly {
+		if fetchType == "POST" {
 			res, err = k.executeContract(ctx, program.Name, code, entryPoint, creator, args)
 			if err != nil {
 				return goja.Null()
 			}
-		} else {
+		} else if fetchType == "GET" {
 			res, err = k.queryContract(ctx, program.Name, code, entryPoint, args)
 			if err != nil {
 				return goja.Null()
 			}
+		} else {
+			return goja.Null()
 		}
-
-		ctx.GasMeter().ConsumeGas(types.DefaultGasValues().Import, "fetching contract")
 
 		val, err := goja.New().RunString(res)
 		if err != nil {
@@ -209,4 +177,6 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 		ctx.Logger().Error(err.Error())
 		return
 	}
+
+	vm.Set("std", std)
 }

@@ -3,6 +3,9 @@ package keeper
 import (
 	"testing"
 
+	"vesta/x/vm/keeper"
+	"vesta/x/vm/types"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/store"
@@ -13,8 +16,6 @@ import (
 	"github.com/tendermint/tendermint/libs/log"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	tmdb "github.com/tendermint/tm-db"
-	"vesta/x/vm/keeper"
-	"vesta/x/vm/types"
 )
 
 func VmKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
@@ -43,6 +44,7 @@ func VmKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
 		paramsSubspace,
 		nil,
 		nil,
+		[]types.Injector{},
 	)
 
 	ctx := sdk.NewContext(stateStore, tmproto.Header{}, false, log.NewNopLogger())

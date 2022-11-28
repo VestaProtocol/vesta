@@ -4,3 +4,10 @@ release/
 .idea/
 .vscode/
 .DS_Store
+
+litepaper.aux
+litepaper.bcf
+litepaper.log
+litepaper.out
+litepaper.synctex.gz
+litepaper.toc

@@ -89,7 +89,7 @@ func (k Keeper) buildContract(ctx sdk.Context, name string, sourceCode string, e
 		return vm, err
 	}
 
-	k.applyStandardLib(ctx, creator, address, vm, readonly)
+	k.applyStandardLib(ctx, creator, name, address, vm, readonly)
 
 	_, err = vm.RunString(sourceCode)
 	if err != nil {
