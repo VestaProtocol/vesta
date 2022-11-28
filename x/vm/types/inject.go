@@ -7,5 +7,5 @@ import (
 
 type Injector interface {
 	Name() string
-	Inject(ctx sdk.Context, creator sdk.AccAddress, contractName string, contractAddress sdk.AccAddress, vm *goja.Object, readonly bool) error
+	Inject(ctx sdk.Context, gj *goja.Runtime, creator sdk.AccAddress, contractName string, contractAddress sdk.AccAddress, vm *goja.Object, readonly bool) error
 }

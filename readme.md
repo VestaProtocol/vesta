@@ -6,7 +6,7 @@ go install ./...
 ```
 
 ## Smart Contracts
-For examples of smart contracts built with vesta, see [examples](./testdata/).
+For examples of smart contracts built with vesta, see [examples](./examples/).
 
 ### Injections
 

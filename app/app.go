@@ -514,7 +514,7 @@ func New(
 
 		app.AccountKeeper,
 		app.BankKeeper,
-		[]vmmoduletypes.Injector{bankinject.NewInject(app.BankKeeper)},
+		[]vmmoduletypes.Injector{bankinject.NewInjector(app.BankKeeper)},
 	)
 	vmModule := vmmodule.NewAppModule(appCodec, app.VmKeeper, app.AccountKeeper, app.BankKeeper)
 

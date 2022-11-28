@@ -61,7 +61,7 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 			return
 		}
 
-		err = v.Inject(ctx, creator, contractName, contractAddress, module, readonly)
+		err = v.Inject(ctx, vm, creator, contractName, contractAddress, module, readonly)
 		if err != nil {
 			ctx.Logger().Error(err.Error())
 			return
@@ -69,7 +69,6 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 	}
 
 	if !readonly {
-
 		err = std.Set("write", func(call goja.FunctionCall) goja.Value {
 			key := call.Argument(0).String()
 			data := call.Argument(1).String()
