@@ -178,5 +178,9 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 		return
 	}
 
-	vm.Set("std", std)
+	err = vm.Set("std", std)
+	if err != nil {
+		ctx.Logger().Error(err.Error())
+		return
+	}
 }
