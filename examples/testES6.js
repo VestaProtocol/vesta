@@ -7,6 +7,4 @@ const ff = () => {
 
 
 
-contractFunctions = {
-    ff: ff
-}
+CONTRACT.functions.ff = ff

@@ -4,6 +4,4 @@ function deposit() {
     return LIB.deposit()
 }
 
-contractFunctions = {
-    dep: deposit
-}
+CONTRACT.functions.deposit = deposit

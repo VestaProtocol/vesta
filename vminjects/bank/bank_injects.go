@@ -13,6 +13,10 @@ type Injector struct {
 	keeper interface{}
 }
 
+func (i *Injector) Name() string {
+	return "bank"
+}
+
 func NewInject(keeper interface{}) *Injector {
 	return &Injector{
 		keeper: keeper,

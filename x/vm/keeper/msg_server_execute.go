@@ -39,6 +39,7 @@ func (k msgServer) Execute(goCtx context.Context, msg *types.MsgExecute) (*types
 
 	val, err := k.executeContract(ctx, msg.Contract, code, msg.Function, address, vals)
 	if err != nil {
+		ctx.Logger().Error(err.Error())
 		return nil, err
 	}
 

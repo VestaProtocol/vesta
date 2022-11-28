@@ -1,19 +1,18 @@
 function send() {
-    var sent = sendTokens("vst1nd3lnnxgymkdny572t84ctqj3jlueypshg4unz", "100token")
+    var sent = STD.bank.sendTokens("vst1nd3lnnxgymkdny572t84ctqj3jlueypshg4unz", "100token")
     return sent
 }
 
 function deposit() {
-    var sent = sendTokens(CONTRACT, "100token")
+    var sent = STD.bank.sendTokens(CONTRACT.address, "100token")
     return sent
 }
 
 function withdraw() {
-    var sent = withdrawTokens(SENDER, "100token")
+    var sent = STD.bank.withdrawTokens(CTX.SENDER, "100token")
     return sent
 }
 
-contractFunctions = {
-    send: send,
-    deposit: deposit
-}
+CONTRACT.functions.send = send
+CONTRACT.functions.deposit = deposit
+CONTRACT.functions.withdraw = withdraw

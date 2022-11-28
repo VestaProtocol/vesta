@@ -2,6 +2,4 @@ function hello() {
     return "Hello World!"
 }
 
-contractFunctions = {
-    "hello": hello
-}
+CONTRACT.queries.hello = hello

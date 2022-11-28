@@ -39,19 +39,39 @@ func (k Keeper) executeContract(ctx sdk.Context, name string, sourceCode string,
 		return "", err
 	}
 
-	r := vm.Get("contractFunctions")
-	if r == nil {
-		return "", sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find contractFunctions")
+	ctc := vm.Get("CONTRACT").ToObject(vm)
+	if ctc == nil {
+		e := sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find contract")
+		ctx.Logger().Error(e.Error())
+		return "", e
 	}
 
-	function, ok := goja.AssertFunction(r.ToObject(vm).Get(entry))
+	r := ctc.Get("functions").ToObject(vm)
+	if r == nil {
+		e := sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find functions")
+		ctx.Logger().Error(e.Error())
+		return "", e
+	}
+
+	f := r.Get(entry)
+	if f == nil {
+		e := sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find entry %s", entry)
+		ctx.Logger().Error(e.Error())
+		return "", e
+	}
+
+	function, ok := goja.AssertFunction(f)
 	if !ok {
-		return "", sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot get %s from contractFunctions", entry)
+		e := sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot get %s from contractFunctions", entry)
+		ctx.Logger().Error(e.Error())
+		return "", e
 	}
 
 	res, err := function(goja.Undefined(), args...)
 	if err != nil {
-		return "", err
+		e := sdkerrors.Wrapf(err, "cannot run function")
+		ctx.Logger().Error(e.Error())
+		return "", e
 	}
 
 	return res.String(), nil
@@ -63,12 +83,17 @@ func (k Keeper) queryContract(ctx sdk.Context, name string, sourceCode string, e
 		return "", err
 	}
 
-	r := vm.Get("contractQueries")
-	if r == nil {
-		return "", sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find contractQueries")
+	ctc := vm.Get("CONTRACT").ToObject(vm)
+	if ctc == nil {
+		return "", sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find contract")
 	}
 
-	function, ok := goja.AssertFunction(r.ToObject(vm).Get(entry))
+	r := ctc.Get("queries").ToObject(vm)
+	if r == nil {
+		return "", sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find queries")
+	}
+
+	function, ok := goja.AssertFunction(r.Get(entry))
 	if !ok {
 		return "", sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot get %s from contractQueries", entry)
 	}

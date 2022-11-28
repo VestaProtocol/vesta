@@ -6,31 +6,62 @@ import (
 	"vesta/x/vm/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/dop251/goja"
 )
 
 func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contractName string, contractAddress sdk.AccAddress, vm *goja.Runtime, readonly bool) {
 	std := vm.NewObject()
+	context := vm.NewObject()
 
-	err := std.Set("SENDER", creator.String())
+	contractExports := vm.NewObject()
+	contractFunctions := vm.NewObject()
+	contractQueries := vm.NewObject()
+
+	err := context.Set("SENDER", creator.String())
 	if err != nil {
 		ctx.Logger().Error(err.Error())
 		return
 	}
-	err = std.Set("CONTRACT", contractAddress.String())
+	err = contractExports.Set("address", contractAddress.String())
 	if err != nil {
 		ctx.Logger().Error(err.Error())
 		return
 	}
 
-	err = std.Set("NAME", contractName)
+	err = contractExports.Set("name", contractName)
+	if err != nil {
+		ctx.Logger().Error(err.Error())
+		return
+	}
+
+	err = contractExports.Set("functions", contractFunctions)
+	if err != nil {
+		ctx.Logger().Error(err.Error())
+		return
+	}
+
+	err = contractExports.Set("queries", contractQueries)
+	if err != nil {
+		ctx.Logger().Error(err.Error())
+		return
+	}
+
+	err = vm.Set("CONTRACT", contractExports)
 	if err != nil {
 		ctx.Logger().Error(err.Error())
 		return
 	}
 
 	for _, v := range k.injectors {
-		err := v.Inject(ctx, creator, contractName, contractAddress, std, readonly)
+		module := vm.NewObject()
+		err := std.Set(v.Name(), module)
+		if err != nil {
+			ctx.Logger().Error(err.Error())
+			return
+		}
+
+		err = v.Inject(ctx, creator, contractName, contractAddress, module, readonly)
 		if err != nil {
 			ctx.Logger().Error(err.Error())
 			return
@@ -92,7 +123,7 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 		return
 	}
 
-	err = std.Set("import", func(call goja.FunctionCall) goja.Value {
+	err = std.Set("require", func(call goja.FunctionCall) goja.Value {
 		moduleName := call.Argument(0).String()
 
 		program, found := k.GetProgram(ctx, moduleName)
@@ -115,14 +146,16 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 			return goja.Null()
 		}
 
-		r := newvm.Get("contractFunctions")
-		if r == nil {
+		ctc := vm.Get("CONTRACT").ToObject(vm)
+		if ctc == nil {
+			e := sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find contract")
+			ctx.Logger().Error(e.Error())
 			return goja.Null()
 		}
 
 		ctx.GasMeter().ConsumeGas(types.DefaultGasValues().Import, "importing library")
 
-		return r
+		return ctc
 	})
 	if err != nil {
 		ctx.Logger().Error(err.Error())
@@ -166,19 +199,20 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 			return goja.Null()
 		}
 
-		val, err := goja.New().RunString(res)
-		if err != nil {
-			return goja.Null()
-		}
-
-		return val
+		return vm.ToValue(res)
 	})
 	if err != nil {
 		ctx.Logger().Error(err.Error())
 		return
 	}
 
-	err = vm.Set("std", std)
+	err = vm.Set("STD", std)
+	if err != nil {
+		ctx.Logger().Error(err.Error())
+		return
+	}
+
+	err = vm.Set("CTX", context)
 	if err != nil {
 		ctx.Logger().Error(err.Error())
 		return
