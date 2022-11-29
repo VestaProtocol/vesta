@@ -3,10 +3,7 @@ package vesta.vm;
 
 import "gogoproto/gogo.proto";
 
-option go_package = "vesta/x/vm/types";
+option go_package = "github.com/VestaProtocol/vesta/x/vm/types";
 
 // Params defines the parameters for the module.
-message Params {
-  option (gogoproto.goproto_stringer) = false;
-  
-}
+message Params { option (gogoproto.goproto_stringer) = false; }

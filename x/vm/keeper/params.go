@@ -1,8 +1,8 @@
 package keeper
 
 import (
+	"github.com/VestaProtocol/vesta/x/vm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"vesta/x/vm/types"
 )
 
 // GetParams get all parameters as types.Params

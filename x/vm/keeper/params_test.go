@@ -3,9 +3,9 @@ package keeper_test
 import (
 	"testing"
 
+	testkeeper "github.com/VestaProtocol/vesta/testutil/keeper"
+	"github.com/VestaProtocol/vesta/x/vm/types"
 	"github.com/stretchr/testify/require"
-	testkeeper "vesta/testutil/keeper"
-	"vesta/x/vm/types"
 )
 
 func TestGetParams(t *testing.T) {

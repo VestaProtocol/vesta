@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"vesta/app"
+	"github.com/VestaProtocol/vesta/app"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/crypto/hd"

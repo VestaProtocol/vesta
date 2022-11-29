@@ -104,16 +104,16 @@ import (
 	tmos "github.com/tendermint/tendermint/libs/os"
 	dbm "github.com/tendermint/tm-db"
 
-	vmmodule "vesta/x/vm"
-	vmmodulekeeper "vesta/x/vm/keeper"
-	vmmoduletypes "vesta/x/vm/types"
+	vmmodule "github.com/VestaProtocol/vesta/x/vm"
+	vmmodulekeeper "github.com/VestaProtocol/vesta/x/vm/keeper"
+	vmmoduletypes "github.com/VestaProtocol/vesta/x/vm/types"
 
-	bankinject "vesta/vminjects/bank"
+	bankinject "github.com/VestaProtocol/vesta/vminjects/bank"
 
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
-	appparams "vesta/app/params"
-	"vesta/docs"
+	appparams "github.com/VestaProtocol/vesta/app/params"
+	"github.com/VestaProtocol/vesta/docs"
 )
 
 const (

@@ -8,7 +8,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/dop251/goja"
 
-	"vesta/x/vm/types"
+	"github.com/VestaProtocol/vesta/x/vm/types"
 )
 
 func (k msgServer) Execute(goCtx context.Context, msg *types.MsgExecute) (*types.MsgExecuteResponse, error) {

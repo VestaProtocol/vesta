@@ -3,10 +3,10 @@ package cli
 import (
 	"strconv"
 
+	"github.com/VestaProtocol/vesta/x/vm/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/spf13/cobra"
-	"vesta/x/vm/types"
 )
 
 var _ = strconv.Itoa(0)

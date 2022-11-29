@@ -3,12 +3,12 @@ package keeper_test
 import (
 	"testing"
 
+	keepertest "github.com/VestaProtocol/vesta/testutil/keeper"
+	"github.com/VestaProtocol/vesta/testutil/nullify"
+	"github.com/VestaProtocol/vesta/x/vm/keeper"
+	"github.com/VestaProtocol/vesta/x/vm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-	keepertest "vesta/testutil/keeper"
-	"vesta/testutil/nullify"
-	"vesta/x/vm/keeper"
-	"vesta/x/vm/types"
 )
 
 func createNContracts(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.Contracts {

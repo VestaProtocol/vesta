@@ -1,9 +1,9 @@
 package vm
 
 import (
+	"github.com/VestaProtocol/vesta/x/vm/keeper"
+	"github.com/VestaProtocol/vesta/x/vm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"vesta/x/vm/keeper"
-	"vesta/x/vm/types"
 )
 
 // InitGenesis initializes the module's state from a provided genesis state.

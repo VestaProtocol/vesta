@@ -1,9 +1,9 @@
-import { Client, registry, MissingWalletError } from 'vesta-client-ts'
+import { Client, registry, MissingWalletError } from 'TheMarstonConnell-vesta-client-ts'
 
-import { Contracts } from "vesta-client-ts/vesta.vm/types"
-import { Params } from "vesta-client-ts/vesta.vm/types"
-import { Program } from "vesta-client-ts/vesta.vm/types"
-import { Romdata } from "vesta-client-ts/vesta.vm/types"
+import { Contracts } from "TheMarstonConnell-vesta-client-ts/vesta.vm/types"
+import { Params } from "TheMarstonConnell-vesta-client-ts/vesta.vm/types"
+import { Program } from "TheMarstonConnell-vesta-client-ts/vesta.vm/types"
+import { Romdata } from "TheMarstonConnell-vesta-client-ts/vesta.vm/types"
 
 
 export { Contracts, Params, Program, Romdata };
@@ -362,19 +362,6 @@ export default {
 				}
 			}
 		},
-		async sendMsgStore({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const client=await initClient(rootGetters)
-				const result = await client.VestaVm.tx.sendMsgStore({ value, fee: {amount: fee, gas: "200000"}, memo })
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgStore:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgStore:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
 		async sendMsgInstantiate({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const client=await initClient(rootGetters)
@@ -385,6 +372,19 @@ export default {
 					throw new Error('TxClient:MsgInstantiate:Init Could not initialize signing client. Wallet is required.')
 				}else{
 					throw new Error('TxClient:MsgInstantiate:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgStore({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const client=await initClient(rootGetters)
+				const result = await client.VestaVm.tx.sendMsgStore({ value, fee: {amount: fee, gas: "200000"}, memo })
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgStore:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgStore:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -402,19 +402,6 @@ export default {
 				}
 			}
 		},
-		async MsgStore({ rootGetters }, { value }) {
-			try {
-				const client=initClient(rootGetters)
-				const msg = await client.VestaVm.tx.msgStore({value})
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgStore:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgStore:Create Could not create message: ' + e.message)
-				}
-			}
-		},
 		async MsgInstantiate({ rootGetters }, { value }) {
 			try {
 				const client=initClient(rootGetters)
@@ -425,6 +412,19 @@ export default {
 					throw new Error('TxClient:MsgInstantiate:Init Could not initialize signing client. Wallet is required.')
 				} else{
 					throw new Error('TxClient:MsgInstantiate:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgStore({ rootGetters }, { value }) {
+			try {
+				const client=initClient(rootGetters)
+				const msg = await client.VestaVm.tx.msgStore({value})
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgStore:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgStore:Create Could not create message: ' + e.message)
 				}
 			}
 		},

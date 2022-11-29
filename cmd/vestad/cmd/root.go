@@ -38,8 +38,8 @@ import (
 
 	// this line is used by starport scaffolding # root/moduleImport
 
-	"vesta/app"
-	appparams "vesta/app/params"
+	"github.com/VestaProtocol/vesta/app"
+	appparams "github.com/VestaProtocol/vesta/app/params"
 )
 
 // NewRootCmd creates a new root command for a Cosmos SDK application

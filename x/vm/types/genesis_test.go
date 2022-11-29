@@ -3,8 +3,8 @@ package types_test
 import (
 	"testing"
 
+	"github.com/VestaProtocol/vesta/x/vm/types"
 	"github.com/stretchr/testify/require"
-	"vesta/x/vm/types"
 )
 
 func TestGenesisState_Validate(t *testing.T) {

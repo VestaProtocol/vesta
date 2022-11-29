@@ -10,7 +10,7 @@ import (
 	// "github.com/cosmos/cosmos-sdk/client/flags"
 	// sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"vesta/x/vm/types"
+	"github.com/VestaProtocol/vesta/x/vm/types"
 )
 
 // GetQueryCmd returns the cli query commands for this module

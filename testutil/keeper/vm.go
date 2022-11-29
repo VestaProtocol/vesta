@@ -3,8 +3,8 @@ package keeper
 import (
 	"testing"
 
-	"vesta/x/vm/keeper"
-	"vesta/x/vm/types"
+	"github.com/VestaProtocol/vesta/x/vm/keeper"
+	"github.com/VestaProtocol/vesta/x/vm/types"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"

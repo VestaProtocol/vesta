@@ -4,9 +4,9 @@ import (
 	"context"
 	"testing"
 
-	keepertest "vesta/testutil/keeper"
-	"vesta/x/vm/keeper"
-	"vesta/x/vm/types"
+	keepertest "github.com/VestaProtocol/vesta/testutil/keeper"
+	"github.com/VestaProtocol/vesta/x/vm/keeper"
+	"github.com/VestaProtocol/vesta/x/vm/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

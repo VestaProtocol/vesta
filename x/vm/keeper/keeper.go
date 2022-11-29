@@ -3,7 +3,7 @@ package keeper
 import (
 	"fmt"
 
-	"vesta/x/vm/types"
+	"github.com/VestaProtocol/vesta/x/vm/types"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"

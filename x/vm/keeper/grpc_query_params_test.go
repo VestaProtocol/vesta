@@ -3,10 +3,10 @@ package keeper_test
 import (
 	"testing"
 
+	testkeeper "github.com/VestaProtocol/vesta/testutil/keeper"
+	"github.com/VestaProtocol/vesta/x/vm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-	testkeeper "vesta/testutil/keeper"
-	"vesta/x/vm/types"
 )
 
 func TestParamsQuery(t *testing.T) {

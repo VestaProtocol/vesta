@@ -1,9 +1,9 @@
 package keeper
 
 import (
+	"github.com/VestaProtocol/vesta/x/vm/types"
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"vesta/x/vm/types"
 )
 
 // SetRomdata set a specific romdata in the store from its index

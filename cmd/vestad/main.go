@@ -6,8 +6,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/server"
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 
-	"vesta/app"
-	"vesta/cmd/vestad/cmd"
+	"github.com/VestaProtocol/vesta/app"
+	"github.com/VestaProtocol/vesta/cmd/vestad/cmd"
 )
 
 func main() {
