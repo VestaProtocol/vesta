@@ -3,9 +3,9 @@ package keeper
 import (
 	"encoding/binary"
 
+	"github.com/TheMarstonConnell/vesta/x/vm/types"
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"vesta/x/vm/types"
 )
 
 // GetContractsCount get the total number of contracts

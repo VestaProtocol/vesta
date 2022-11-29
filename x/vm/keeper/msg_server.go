@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	"vesta/x/vm/types"
+	"github.com/TheMarstonConnell/vesta/x/vm/types"
 )
 
 type msgServer struct {

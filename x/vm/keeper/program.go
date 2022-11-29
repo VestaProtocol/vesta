@@ -1,9 +1,9 @@
 package keeper
 
 import (
+	"github.com/TheMarstonConnell/vesta/x/vm/types"
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"vesta/x/vm/types"
 )
 
 // SetProgram set a specific program in the store from its index

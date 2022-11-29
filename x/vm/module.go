@@ -12,9 +12,9 @@ import (
 
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	"vesta/x/vm/client/cli"
-	"vesta/x/vm/keeper"
-	"vesta/x/vm/types"
+	"github.com/TheMarstonConnell/vesta/x/vm/client/cli"
+	"github.com/TheMarstonConnell/vesta/x/vm/keeper"
+	"github.com/TheMarstonConnell/vesta/x/vm/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"

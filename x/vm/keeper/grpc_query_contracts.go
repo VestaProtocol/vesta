@@ -3,13 +3,13 @@ package keeper
 import (
 	"context"
 
+	"github.com/TheMarstonConnell/vesta/x/vm/types"
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"vesta/x/vm/types"
 )
 
 func (k Keeper) ContractsAll(c context.Context, req *types.QueryAllContractsRequest) (*types.QueryAllContractsResponse, error) {

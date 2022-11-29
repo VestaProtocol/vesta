@@ -1,7 +1,7 @@
 syntax = "proto3";
 package vesta.vm;
 
-option go_package = "vesta/x/vm/types";
+option go_package = "github.com/TheMarstonConnell/vesta/x/vm/types";
 
 message Romdata {
   string index = 1;

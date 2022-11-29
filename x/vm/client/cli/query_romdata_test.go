@@ -12,10 +12,10 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"vesta/testutil/network"
-	"vesta/testutil/nullify"
-	"vesta/x/vm/client/cli"
-	"vesta/x/vm/types"
+	"github.com/TheMarstonConnell/vesta/testutil/network"
+	"github.com/TheMarstonConnell/vesta/testutil/nullify"
+	"github.com/TheMarstonConnell/vesta/x/vm/client/cli"
+	"github.com/TheMarstonConnell/vesta/x/vm/types"
 )
 
 // Prevent strconv unused error

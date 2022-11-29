@@ -3,15 +3,15 @@ package vm
 import (
 	"math/rand"
 
+	"github.com/TheMarstonConnell/vesta/testutil/sample"
+	vmsimulation "github.com/TheMarstonConnell/vesta/x/vm/simulation"
+	"github.com/TheMarstonConnell/vesta/x/vm/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	simappparams "github.com/cosmos/cosmos-sdk/simapp/params"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
-	"vesta/testutil/sample"
-	vmsimulation "vesta/x/vm/simulation"
-	"vesta/x/vm/types"
 )
 
 // avoid unused import issue

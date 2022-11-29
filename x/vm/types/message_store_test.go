@@ -3,9 +3,9 @@ package types
 import (
 	"testing"
 
+	"github.com/TheMarstonConnell/vesta/testutil/sample"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
-	"vesta/testutil/sample"
 )
 
 func TestMsgStore_ValidateBasic(t *testing.T) {

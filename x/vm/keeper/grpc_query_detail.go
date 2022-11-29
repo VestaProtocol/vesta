@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"vesta/x/vm/types"
+	"github.com/TheMarstonConnell/vesta/x/vm/types"
 
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/dop251/goja"
