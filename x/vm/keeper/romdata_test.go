@@ -4,12 +4,12 @@ import (
 	"strconv"
 	"testing"
 
+	keepertest "github.com/TheMarstonConnell/vesta/testutil/keeper"
+	"github.com/TheMarstonConnell/vesta/testutil/nullify"
+	"github.com/TheMarstonConnell/vesta/x/vm/keeper"
+	"github.com/TheMarstonConnell/vesta/x/vm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-	keepertest "vesta/testutil/keeper"
-	"vesta/testutil/nullify"
-	"vesta/x/vm/keeper"
-	"vesta/x/vm/types"
 )
 
 // Prevent strconv unused error

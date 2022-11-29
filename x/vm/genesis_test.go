@@ -3,11 +3,11 @@ package vm_test
 import (
 	"testing"
 
+	keepertest "github.com/TheMarstonConnell/vesta/testutil/keeper"
+	"github.com/TheMarstonConnell/vesta/testutil/nullify"
+	"github.com/TheMarstonConnell/vesta/x/vm"
+	"github.com/TheMarstonConnell/vesta/x/vm/types"
 	"github.com/stretchr/testify/require"
-	keepertest "vesta/testutil/keeper"
-	"vesta/testutil/nullify"
-	"vesta/x/vm"
-	"vesta/x/vm/types"
 )
 
 func TestGenesis(t *testing.T) {
