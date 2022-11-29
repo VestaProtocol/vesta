@@ -18,7 +18,7 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 	contractFunctions := vm.NewObject()
 	contractQueries := vm.NewObject()
 
-	err := context.Set("SENDER", creator.String())
+	err := context.Set("sender", creator.String())
 	if err != nil {
 		ctx.Logger().Error(err.Error())
 		return
@@ -42,12 +42,6 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 	}
 
 	err = contractExports.Set("queries", contractQueries)
-	if err != nil {
-		ctx.Logger().Error(err.Error())
-		return
-	}
-
-	err = vm.Set("CONTRACT", contractExports)
 	if err != nil {
 		ctx.Logger().Error(err.Error())
 		return
@@ -212,6 +206,12 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 	}
 
 	err = vm.Set("CTX", context)
+	if err != nil {
+		ctx.Logger().Error(err.Error())
+		return
+	}
+
+	err = vm.Set("CONTRACT", contractExports)
 	if err != nil {
 		ctx.Logger().Error(err.Error())
 		return

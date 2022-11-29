@@ -9,7 +9,7 @@ function deposit() {
 }
 
 function withdraw() {
-    var sent = STD.bank.withdrawTokens(CTX.SENDER, "100token")
+    var sent = STD.bank.withdrawTokens(CTX.sender, "100token")
     return sent
 }
 
