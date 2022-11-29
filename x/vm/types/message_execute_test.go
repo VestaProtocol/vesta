@@ -3,7 +3,7 @@ package types
 import (
 	"testing"
 
-	"github.com/TheMarstonConnell/vesta/testutil/sample"
+	"github.com/VestaProtocol/vesta/testutil/sample"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
 )

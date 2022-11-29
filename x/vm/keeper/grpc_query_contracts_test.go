@@ -10,9 +10,9 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	keepertest "github.com/TheMarstonConnell/vesta/testutil/keeper"
-	"github.com/TheMarstonConnell/vesta/testutil/nullify"
-	"github.com/TheMarstonConnell/vesta/x/vm/types"
+	keepertest "github.com/VestaProtocol/vesta/testutil/keeper"
+	"github.com/VestaProtocol/vesta/testutil/nullify"
+	"github.com/VestaProtocol/vesta/x/vm/types"
 )
 
 func TestContractsQuerySingle(t *testing.T) {

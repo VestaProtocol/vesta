@@ -11,10 +11,10 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/TheMarstonConnell/vesta/testutil/network"
-	"github.com/TheMarstonConnell/vesta/testutil/nullify"
-	"github.com/TheMarstonConnell/vesta/x/vm/client/cli"
-	"github.com/TheMarstonConnell/vesta/x/vm/types"
+	"github.com/VestaProtocol/vesta/testutil/network"
+	"github.com/VestaProtocol/vesta/testutil/nullify"
+	"github.com/VestaProtocol/vesta/x/vm/client/cli"
+	"github.com/VestaProtocol/vesta/x/vm/types"
 )
 
 func networkWithContractsObjects(t *testing.T, n int) (*network.Network, []types.Contracts) {

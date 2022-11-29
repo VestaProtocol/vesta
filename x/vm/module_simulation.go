@@ -3,9 +3,9 @@ package vm
 import (
 	"math/rand"
 
-	"github.com/TheMarstonConnell/vesta/testutil/sample"
-	vmsimulation "github.com/TheMarstonConnell/vesta/x/vm/simulation"
-	"github.com/TheMarstonConnell/vesta/x/vm/types"
+	"github.com/VestaProtocol/vesta/testutil/sample"
+	vmsimulation "github.com/VestaProtocol/vesta/x/vm/simulation"
+	"github.com/VestaProtocol/vesta/x/vm/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	simappparams "github.com/cosmos/cosmos-sdk/simapp/params"
 	sdk "github.com/cosmos/cosmos-sdk/types"

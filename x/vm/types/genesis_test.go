@@ -3,7 +3,7 @@ package types_test
 import (
 	"testing"
 
-	"github.com/TheMarstonConnell/vesta/x/vm/types"
+	"github.com/VestaProtocol/vesta/x/vm/types"
 	"github.com/stretchr/testify/require"
 )
 

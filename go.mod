@@ -1,4 +1,4 @@
-module github.com/TheMarstonConnell/vesta
+module github.com/VestaProtocol/vesta
 
 go 1.19
 

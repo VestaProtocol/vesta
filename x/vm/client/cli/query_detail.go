@@ -3,7 +3,7 @@ package cli
 import (
 	"strconv"
 
-	"github.com/TheMarstonConnell/vesta/x/vm/types"
+	"github.com/VestaProtocol/vesta/x/vm/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/spf13/cobra"

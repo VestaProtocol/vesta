@@ -3,10 +3,10 @@ package vm_test
 import (
 	"testing"
 
-	keepertest "github.com/TheMarstonConnell/vesta/testutil/keeper"
-	"github.com/TheMarstonConnell/vesta/testutil/nullify"
-	"github.com/TheMarstonConnell/vesta/x/vm"
-	"github.com/TheMarstonConnell/vesta/x/vm/types"
+	keepertest "github.com/VestaProtocol/vesta/testutil/keeper"
+	"github.com/VestaProtocol/vesta/testutil/nullify"
+	"github.com/VestaProtocol/vesta/x/vm"
+	"github.com/VestaProtocol/vesta/x/vm/types"
 	"github.com/stretchr/testify/require"
 )
 

@@ -3,7 +3,7 @@ package cmd
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/TheMarstonConnell/vesta/app"
+	"github.com/VestaProtocol/vesta/app"
 )
 
 func initSDKConfig() {

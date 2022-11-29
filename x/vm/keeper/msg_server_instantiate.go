@@ -6,7 +6,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/TheMarstonConnell/vesta/x/vm/types"
+	"github.com/VestaProtocol/vesta/x/vm/types"
 )
 
 func (k msgServer) Instantiate(goCtx context.Context, msg *types.MsgInstantiate) (*types.MsgInstantiateResponse, error) {
