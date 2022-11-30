@@ -1,12 +1,13 @@
 import { Client, registry, MissingWalletError } from 'VestaProtocol-vesta-client-ts'
 
 import { Contracts } from "VestaProtocol-vesta-client-ts/vesta.vm/types"
+import { Cronjobs } from "VestaProtocol-vesta-client-ts/vesta.vm/types"
 import { Params } from "VestaProtocol-vesta-client-ts/vesta.vm/types"
 import { Program } from "VestaProtocol-vesta-client-ts/vesta.vm/types"
 import { Romdata } from "VestaProtocol-vesta-client-ts/vesta.vm/types"
 
 
-export { Contracts, Params, Program, Romdata };
+export { Contracts, Cronjobs, Params, Program, Romdata };
 
 function initClient(vuexGetters) {
 	return new Client(vuexGetters['common/env/getEnv'], vuexGetters['common/wallet/signer'])
@@ -45,9 +46,12 @@ const getDefaultState = () => {
 				Romdata: {},
 				RomdataAll: {},
 				Detail: {},
+				Cronjobs: {},
+				CronjobsAll: {},
 				
 				_Structure: {
 						Contracts: getStructure(Contracts.fromPartial({})),
+						Cronjobs: getStructure(Cronjobs.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),
 						Program: getStructure(Program.fromPartial({})),
 						Romdata: getStructure(Romdata.fromPartial({})),
@@ -126,6 +130,18 @@ export default {
 						(<any> params).query=null
 					}
 			return state.Detail[JSON.stringify(params)] ?? {}
+		},
+				getCronjobs: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.Cronjobs[JSON.stringify(params)] ?? {}
+		},
+				getCronjobsAll: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.CronjobsAll[JSON.stringify(params)] ?? {}
 		},
 				
 		getTypeStructure: (state) => (type) => {
@@ -349,6 +365,54 @@ export default {
 		},
 		
 		
+		
+		
+		 		
+		
+		
+		async QueryCronjobs({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const client = initClient(rootGetters);
+				let value= (await client.VestaVm.query.queryCronjobs( key.contract)).data
+				
+					
+				commit('QUERY', { query: 'Cronjobs', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryCronjobs', payload: { options: { all }, params: {...key},query }})
+				return getters['getCronjobs']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryCronjobs API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryCronjobsAll({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const client = initClient(rootGetters);
+				let value= (await client.VestaVm.query.queryCronjobsAll(query ?? undefined)).data
+				
+					
+				while (all && (<any> value).pagination && (<any> value).pagination.next_key!=null) {
+					let next_values=(await client.VestaVm.query.queryCronjobsAll({...query ?? {}, 'pagination.key':(<any> value).pagination.next_key} as any)).data
+					value = mergeResults(value, next_values);
+				}
+				commit('QUERY', { query: 'CronjobsAll', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryCronjobsAll', payload: { options: { all }, params: {...key},query }})
+				return getters['getCronjobsAll']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryCronjobsAll API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
 		async sendMsgExecute({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const client=await initClient(rootGetters)
@@ -362,19 +426,6 @@ export default {
 				}
 			}
 		},
-		async sendMsgStore({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const client=await initClient(rootGetters)
-				const result = await client.VestaVm.tx.sendMsgStore({ value, fee: {amount: fee, gas: "200000"}, memo })
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgStore:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgStore:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
 		async sendMsgUpgrade({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const client=await initClient(rootGetters)
@@ -385,6 +436,32 @@ export default {
 					throw new Error('TxClient:MsgUpgrade:Init Could not initialize signing client. Wallet is required.')
 				}else{
 					throw new Error('TxClient:MsgUpgrade:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgCron({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const client=await initClient(rootGetters)
+				const result = await client.VestaVm.tx.sendMsgCron({ value, fee: {amount: fee, gas: "200000"}, memo })
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgCron:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgCron:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgStore({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const client=await initClient(rootGetters)
+				const result = await client.VestaVm.tx.sendMsgStore({ value, fee: {amount: fee, gas: "200000"}, memo })
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgStore:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgStore:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -415,19 +492,6 @@ export default {
 				}
 			}
 		},
-		async MsgStore({ rootGetters }, { value }) {
-			try {
-				const client=initClient(rootGetters)
-				const msg = await client.VestaVm.tx.msgStore({value})
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgStore:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgStore:Create Could not create message: ' + e.message)
-				}
-			}
-		},
 		async MsgUpgrade({ rootGetters }, { value }) {
 			try {
 				const client=initClient(rootGetters)
@@ -438,6 +502,32 @@ export default {
 					throw new Error('TxClient:MsgUpgrade:Init Could not initialize signing client. Wallet is required.')
 				} else{
 					throw new Error('TxClient:MsgUpgrade:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgCron({ rootGetters }, { value }) {
+			try {
+				const client=initClient(rootGetters)
+				const msg = await client.VestaVm.tx.msgCron({value})
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgCron:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgCron:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgStore({ rootGetters }, { value }) {
+			try {
+				const client=initClient(rootGetters)
+				const msg = await client.VestaVm.tx.msgStore({value})
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgStore:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgStore:Create Could not create message: ' + e.message)
 				}
 			}
 		},

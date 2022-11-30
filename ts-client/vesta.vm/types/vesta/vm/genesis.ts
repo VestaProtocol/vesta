@@ -2,6 +2,7 @@
 import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { Contracts } from "./contracts";
+import { Cronjobs } from "./cronjobs";
 import { Params } from "./params";
 import { Program } from "./program";
 import { Romdata } from "./romdata";
@@ -14,12 +15,20 @@ export interface GenesisState {
   contractsList: Contracts[];
   contractsCount: number;
   programList: Program[];
-  /** this line is used by starport scaffolding # genesis/proto/state */
   romdataList: Romdata[];
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  cronjobsList: Cronjobs[];
 }
 
 function createBaseGenesisState(): GenesisState {
-  return { params: undefined, contractsList: [], contractsCount: 0, programList: [], romdataList: [] };
+  return {
+    params: undefined,
+    contractsList: [],
+    contractsCount: 0,
+    programList: [],
+    romdataList: [],
+    cronjobsList: [],
+  };
 }
 
 export const GenesisState = {
@@ -38,6 +47,9 @@ export const GenesisState = {
     }
     for (const v of message.romdataList) {
       Romdata.encode(v!, writer.uint32(42).fork()).ldelim();
+    }
+    for (const v of message.cronjobsList) {
+      Cronjobs.encode(v!, writer.uint32(50).fork()).ldelim();
     }
     return writer;
   },
@@ -64,6 +76,9 @@ export const GenesisState = {
         case 5:
           message.romdataList.push(Romdata.decode(reader, reader.uint32()));
           break;
+        case 6:
+          message.cronjobsList.push(Cronjobs.decode(reader, reader.uint32()));
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -81,6 +96,9 @@ export const GenesisState = {
       contractsCount: isSet(object.contractsCount) ? Number(object.contractsCount) : 0,
       programList: Array.isArray(object?.programList) ? object.programList.map((e: any) => Program.fromJSON(e)) : [],
       romdataList: Array.isArray(object?.romdataList) ? object.romdataList.map((e: any) => Romdata.fromJSON(e)) : [],
+      cronjobsList: Array.isArray(object?.cronjobsList)
+        ? object.cronjobsList.map((e: any) => Cronjobs.fromJSON(e))
+        : [],
     };
   },
 
@@ -103,6 +121,11 @@ export const GenesisState = {
     } else {
       obj.romdataList = [];
     }
+    if (message.cronjobsList) {
+      obj.cronjobsList = message.cronjobsList.map((e) => e ? Cronjobs.toJSON(e) : undefined);
+    } else {
+      obj.cronjobsList = [];
+    }
     return obj;
   },
 
@@ -115,6 +138,7 @@ export const GenesisState = {
     message.contractsCount = object.contractsCount ?? 0;
     message.programList = object.programList?.map((e) => Program.fromPartial(e)) || [];
     message.romdataList = object.romdataList?.map((e) => Romdata.fromPartial(e)) || [];
+    message.cronjobsList = object.cronjobsList?.map((e) => Cronjobs.fromPartial(e)) || [];
     return message;
   },
 };

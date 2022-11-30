@@ -6,4 +6,9 @@ import "gogoproto/gogo.proto";
 option go_package = "github.com/VestaProtocol/vesta/x/vm/types";
 
 // Params defines the parameters for the module.
-message Params { option (gogoproto.goproto_stringer) = false; }
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+
+  string cron_denom = 1 [ (gogoproto.moretags) = "yaml:\"cron_denom\"" ];
+  int64 cron_amount = 2 [ (gogoproto.moretags) = "yaml:\"cron_amount\"" ];
+}

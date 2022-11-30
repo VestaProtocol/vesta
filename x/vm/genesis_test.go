@@ -39,6 +39,14 @@ func TestGenesis(t *testing.T) {
 				Index: "1",
 			},
 		},
+		CronjobsList: []types.Cronjobs{
+			{
+				Contract: "0",
+			},
+			{
+				Contract: "1",
+			},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -54,5 +62,7 @@ func TestGenesis(t *testing.T) {
 	require.Equal(t, genesisState.ContractsCount, got.ContractsCount)
 	require.ElementsMatch(t, genesisState.ProgramList, got.ProgramList)
 	require.ElementsMatch(t, genesisState.RomdataList, got.RomdataList)
+	require.ElementsMatch(t, genesisState.CronjobsList, got.CronjobsList)
+	require.ElementsMatch(t, genesisState.CronjobsList, got.CronjobsList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

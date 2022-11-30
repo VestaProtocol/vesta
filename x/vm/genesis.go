@@ -23,6 +23,14 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	for _, elem := range genState.RomdataList {
 		k.SetRomdata(ctx, elem)
 	}
+	// Set all the cronjobs
+	for _, elem := range genState.CronjobsList {
+		k.SetCronjobs(ctx, elem)
+	}
+	// Set all the cronjobs
+	for _, elem := range genState.CronjobsList {
+		k.SetCronjobs(ctx, elem)
+	}
 	// this line is used by starport scaffolding # genesis/module/init
 	k.SetParams(ctx, genState.Params)
 }
@@ -36,6 +44,8 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis.ContractsCount = k.GetContractsCount(ctx)
 	genesis.ProgramList = k.GetAllProgram(ctx)
 	genesis.RomdataList = k.GetAllRomdata(ctx)
+	genesis.CronjobsList = k.GetAllCronjobs(ctx)
+	genesis.CronjobsList = k.GetAllCronjobs(ctx)
 	// this line is used by starport scaffolding # genesis/module/export
 
 	return genesis

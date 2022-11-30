@@ -4,39 +4,45 @@ import _m0 from "protobufjs/minimal";
 
 export const protobufPackage = "vesta.vm";
 
-/** Params defines the parameters for the module. */
-export interface Params {
-  cronDenom: string;
-  cronAmount: number;
+export interface Cronjobs {
+  contract: string;
+  function: string;
+  interval: number;
 }
 
-function createBaseParams(): Params {
-  return { cronDenom: "", cronAmount: 0 };
+function createBaseCronjobs(): Cronjobs {
+  return { contract: "", function: "", interval: 0 };
 }
 
-export const Params = {
-  encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.cronDenom !== "") {
-      writer.uint32(10).string(message.cronDenom);
+export const Cronjobs = {
+  encode(message: Cronjobs, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.contract !== "") {
+      writer.uint32(10).string(message.contract);
     }
-    if (message.cronAmount !== 0) {
-      writer.uint32(16).int64(message.cronAmount);
+    if (message.function !== "") {
+      writer.uint32(18).string(message.function);
+    }
+    if (message.interval !== 0) {
+      writer.uint32(24).int64(message.interval);
     }
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): Params {
+  decode(input: _m0.Reader | Uint8Array, length?: number): Cronjobs {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseParams();
+    const message = createBaseCronjobs();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.cronDenom = reader.string();
+          message.contract = reader.string();
           break;
         case 2:
-          message.cronAmount = longToNumber(reader.int64() as Long);
+          message.function = reader.string();
+          break;
+        case 3:
+          message.interval = longToNumber(reader.int64() as Long);
           break;
         default:
           reader.skipType(tag & 7);
@@ -46,24 +52,27 @@ export const Params = {
     return message;
   },
 
-  fromJSON(object: any): Params {
+  fromJSON(object: any): Cronjobs {
     return {
-      cronDenom: isSet(object.cronDenom) ? String(object.cronDenom) : "",
-      cronAmount: isSet(object.cronAmount) ? Number(object.cronAmount) : 0,
+      contract: isSet(object.contract) ? String(object.contract) : "",
+      function: isSet(object.function) ? String(object.function) : "",
+      interval: isSet(object.interval) ? Number(object.interval) : 0,
     };
   },
 
-  toJSON(message: Params): unknown {
+  toJSON(message: Cronjobs): unknown {
     const obj: any = {};
-    message.cronDenom !== undefined && (obj.cronDenom = message.cronDenom);
-    message.cronAmount !== undefined && (obj.cronAmount = Math.round(message.cronAmount));
+    message.contract !== undefined && (obj.contract = message.contract);
+    message.function !== undefined && (obj.function = message.function);
+    message.interval !== undefined && (obj.interval = Math.round(message.interval));
     return obj;
   },
 
-  fromPartial<I extends Exact<DeepPartial<Params>, I>>(object: I): Params {
-    const message = createBaseParams();
-    message.cronDenom = object.cronDenom ?? "";
-    message.cronAmount = object.cronAmount ?? 0;
+  fromPartial<I extends Exact<DeepPartial<Cronjobs>, I>>(object: I): Cronjobs {
+    const message = createBaseCronjobs();
+    message.contract = object.contract ?? "";
+    message.function = object.function ?? "";
+    message.interval = object.interval ?? 0;
     return message;
   },
 };

@@ -11,6 +11,7 @@ service Msg {
   rpc Execute(MsgExecute) returns (MsgExecuteResponse);
   rpc Instantiate(MsgInstantiate) returns (MsgInstantiateResponse);
     rpc Upgrade(MsgUpgrade) returns (MsgUpgradeResponse);
+  rpc Cron(MsgCron) returns (MsgCronResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -45,6 +46,16 @@ message MsgUpgrade {
 }
 
 message MsgUpgradeResponse {
+}
+
+message MsgCron {
+  string creator = 1;
+  string contract = 2;
+  string function = 3;
+  string interval = 4;
+}
+
+message MsgCronResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

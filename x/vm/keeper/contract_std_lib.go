@@ -94,20 +94,21 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 
 		data, found := k.GetRomdata(ctx, fmt.Sprintf("%s%s", contractAddress.String(), key))
 		if !found {
+			ctx.Logger().Info(fmt.Sprintf("Cannot find %s", key))
 			return goja.Null()
 		}
 
-		size, ok := sdk.NewIntFromString(fmt.Sprintf("%d", len(data.Data)))
+		l := len(data.Data)
+
+		size, ok := sdk.NewIntFromString(fmt.Sprintf("%d", l))
 		if !ok {
+			ctx.Logger().Info(fmt.Sprintf("Cannot parse %d", l))
 			return goja.Null()
 		}
 
 		ctx.GasMeter().ConsumeGas(size.Uint64()*types.DefaultGasValues().Read, "reading data")
 
-		val, err := goja.New().RunString(data.Data)
-		if err != nil {
-			return goja.Null()
-		}
+		val := vm.ToValue(data.Data)
 
 		return val
 	})

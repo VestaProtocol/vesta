@@ -13,6 +13,7 @@ func DefaultGenesis() *GenesisState {
 		ContractsList: []Contracts{},
 		ProgramList:   []Program{},
 		RomdataList:   []Romdata{},
+		CronjobsList:  []Cronjobs{},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}
@@ -53,6 +54,17 @@ func (gs GenesisState) Validate() error {
 		}
 		romdataIndexMap[index] = struct{}{}
 	}
+	// Check for duplicated index in cronjobs
+	cronjobsIndexMap := make(map[string]struct{})
+
+	for _, elem := range gs.CronjobsList {
+		index := string(CronjobsKey(elem.Contract))
+		if _, ok := cronjobsIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for cronjobs")
+		}
+		cronjobsIndexMap[index] = struct{}{}
+	}
+
 	// this line is used by starport scaffolding # genesis/types/validate
 
 	return gs.Params.Validate()

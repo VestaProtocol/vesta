@@ -3,6 +3,7 @@ import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { PageRequest, PageResponse } from "../../cosmos/base/query/v1beta1/pagination";
 import { Contracts } from "./contracts";
+import { Cronjobs } from "./cronjobs";
 import { Params } from "./params";
 import { Program } from "./program";
 import { Romdata } from "./romdata";
@@ -78,6 +79,23 @@ export interface QueryDetailRequest {
 
 export interface QueryDetailResponse {
   response: string;
+}
+
+export interface QueryGetCronjobsRequest {
+  contract: string;
+}
+
+export interface QueryGetCronjobsResponse {
+  cronjobs: Cronjobs | undefined;
+}
+
+export interface QueryAllCronjobsRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllCronjobsResponse {
+  cronjobs: Cronjobs[];
+  pagination: PageResponse | undefined;
 }
 
 function createBaseQueryParamsRequest(): QueryParamsRequest {
@@ -916,6 +934,217 @@ export const QueryDetailResponse = {
   },
 };
 
+function createBaseQueryGetCronjobsRequest(): QueryGetCronjobsRequest {
+  return { contract: "" };
+}
+
+export const QueryGetCronjobsRequest = {
+  encode(message: QueryGetCronjobsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.contract !== "") {
+      writer.uint32(10).string(message.contract);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetCronjobsRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryGetCronjobsRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.contract = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetCronjobsRequest {
+    return { contract: isSet(object.contract) ? String(object.contract) : "" };
+  },
+
+  toJSON(message: QueryGetCronjobsRequest): unknown {
+    const obj: any = {};
+    message.contract !== undefined && (obj.contract = message.contract);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryGetCronjobsRequest>, I>>(object: I): QueryGetCronjobsRequest {
+    const message = createBaseQueryGetCronjobsRequest();
+    message.contract = object.contract ?? "";
+    return message;
+  },
+};
+
+function createBaseQueryGetCronjobsResponse(): QueryGetCronjobsResponse {
+  return { cronjobs: undefined };
+}
+
+export const QueryGetCronjobsResponse = {
+  encode(message: QueryGetCronjobsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.cronjobs !== undefined) {
+      Cronjobs.encode(message.cronjobs, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetCronjobsResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryGetCronjobsResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.cronjobs = Cronjobs.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetCronjobsResponse {
+    return { cronjobs: isSet(object.cronjobs) ? Cronjobs.fromJSON(object.cronjobs) : undefined };
+  },
+
+  toJSON(message: QueryGetCronjobsResponse): unknown {
+    const obj: any = {};
+    message.cronjobs !== undefined && (obj.cronjobs = message.cronjobs ? Cronjobs.toJSON(message.cronjobs) : undefined);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryGetCronjobsResponse>, I>>(object: I): QueryGetCronjobsResponse {
+    const message = createBaseQueryGetCronjobsResponse();
+    message.cronjobs = (object.cronjobs !== undefined && object.cronjobs !== null)
+      ? Cronjobs.fromPartial(object.cronjobs)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseQueryAllCronjobsRequest(): QueryAllCronjobsRequest {
+  return { pagination: undefined };
+}
+
+export const QueryAllCronjobsRequest = {
+  encode(message: QueryAllCronjobsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllCronjobsRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryAllCronjobsRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllCronjobsRequest {
+    return { pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined };
+  },
+
+  toJSON(message: QueryAllCronjobsRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined
+      && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryAllCronjobsRequest>, I>>(object: I): QueryAllCronjobsRequest {
+    const message = createBaseQueryAllCronjobsRequest();
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PageRequest.fromPartial(object.pagination)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseQueryAllCronjobsResponse(): QueryAllCronjobsResponse {
+  return { cronjobs: [], pagination: undefined };
+}
+
+export const QueryAllCronjobsResponse = {
+  encode(message: QueryAllCronjobsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    for (const v of message.cronjobs) {
+      Cronjobs.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllCronjobsResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryAllCronjobsResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.cronjobs.push(Cronjobs.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllCronjobsResponse {
+    return {
+      cronjobs: Array.isArray(object?.cronjobs) ? object.cronjobs.map((e: any) => Cronjobs.fromJSON(e)) : [],
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
+    };
+  },
+
+  toJSON(message: QueryAllCronjobsResponse): unknown {
+    const obj: any = {};
+    if (message.cronjobs) {
+      obj.cronjobs = message.cronjobs.map((e) => e ? Cronjobs.toJSON(e) : undefined);
+    } else {
+      obj.cronjobs = [];
+    }
+    message.pagination !== undefined
+      && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryAllCronjobsResponse>, I>>(object: I): QueryAllCronjobsResponse {
+    const message = createBaseQueryAllCronjobsResponse();
+    message.cronjobs = object.cronjobs?.map((e) => Cronjobs.fromPartial(e)) || [];
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PageResponse.fromPartial(object.pagination)
+      : undefined;
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -934,6 +1163,10 @@ export interface Query {
   RomdataAll(request: QueryAllRomdataRequest): Promise<QueryAllRomdataResponse>;
   /** Queries a list of Detail items. */
   Detail(request: QueryDetailRequest): Promise<QueryDetailResponse>;
+  /** Queries a Cronjobs by index. */
+  Cronjobs(request: QueryGetCronjobsRequest): Promise<QueryGetCronjobsResponse>;
+  /** Queries a list of Cronjobs items. */
+  CronjobsAll(request: QueryAllCronjobsRequest): Promise<QueryAllCronjobsResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -948,6 +1181,8 @@ export class QueryClientImpl implements Query {
     this.Romdata = this.Romdata.bind(this);
     this.RomdataAll = this.RomdataAll.bind(this);
     this.Detail = this.Detail.bind(this);
+    this.Cronjobs = this.Cronjobs.bind(this);
+    this.CronjobsAll = this.CronjobsAll.bind(this);
   }
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
@@ -995,6 +1230,18 @@ export class QueryClientImpl implements Query {
     const data = QueryDetailRequest.encode(request).finish();
     const promise = this.rpc.request("vesta.vm.Query", "Detail", data);
     return promise.then((data) => QueryDetailResponse.decode(new _m0.Reader(data)));
+  }
+
+  Cronjobs(request: QueryGetCronjobsRequest): Promise<QueryGetCronjobsResponse> {
+    const data = QueryGetCronjobsRequest.encode(request).finish();
+    const promise = this.rpc.request("vesta.vm.Query", "Cronjobs", data);
+    return promise.then((data) => QueryGetCronjobsResponse.decode(new _m0.Reader(data)));
+  }
+
+  CronjobsAll(request: QueryAllCronjobsRequest): Promise<QueryAllCronjobsResponse> {
+    const data = QueryAllCronjobsRequest.encode(request).finish();
+    const promise = this.rpc.request("vesta.vm.Query", "CronjobsAll", data);
+    return promise.then((data) => QueryAllCronjobsResponse.decode(new _m0.Reader(data)));
   }
 }
 

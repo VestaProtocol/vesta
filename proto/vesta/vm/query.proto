@@ -8,6 +8,7 @@ import "vesta/vm/params.proto";
 import "vesta/vm/contracts.proto";
 import "vesta/vm/program.proto";
 import "vesta/vm/romdata.proto";
+import "vesta/vm/cronjobs.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/VestaProtocol/vesta/x/vm/types";
@@ -52,6 +53,17 @@ service Query {
   // Queries a list of Detail items.
   rpc Detail(QueryDetailRequest) returns (QueryDetailResponse) {
     option (google.api.http).get = "/vesta/vm/detail/{name}/{query}/{args}";
+  }
+
+  // Queries a Cronjobs by index.
+  rpc Cronjobs(QueryGetCronjobsRequest) returns (QueryGetCronjobsResponse) {
+    option (google.api.http).get =
+        "/VestaProtocol/vesta/vm/cronjobs/{contract}";
+  }
+
+  // Queries a list of Cronjobs items.
+  rpc CronjobsAll(QueryAllCronjobsRequest) returns (QueryAllCronjobsResponse) {
+    option (google.api.http).get = "/VestaProtocol/vesta/vm/cronjobs";
   }
 
   // this line is used by starport scaffolding # 2
@@ -118,5 +130,20 @@ message QueryDetailRequest {
 }
 
 message QueryDetailResponse { string response = 1; }
+
+message QueryGetCronjobsRequest { string contract = 1; }
+
+message QueryGetCronjobsResponse {
+  Cronjobs cronjobs = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryAllCronjobsRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllCronjobsResponse {
+  repeated Cronjobs cronjobs = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
 
 // this line is used by starport scaffolding # 3

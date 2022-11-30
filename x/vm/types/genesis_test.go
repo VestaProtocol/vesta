@@ -46,6 +46,15 @@ func TestGenesisState_Validate(t *testing.T) {
 						Index: "1",
 					},
 				},
+				CronjobsList: []types.Cronjobs{
+					{
+						Contract: "0",
+					},
+					{
+						Contract: "1",
+					},
+				},
+
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
@@ -99,6 +108,34 @@ func TestGenesisState_Validate(t *testing.T) {
 					},
 					{
 						Index: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated cronjobs",
+			genState: &types.GenesisState{
+				CronjobsList: []types.Cronjobs{
+					{
+						Contract: "0",
+					},
+					{
+						Contract: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated cronjobs",
+			genState: &types.GenesisState{
+				CronjobsList: []types.Cronjobs{
+					{
+						Contract: "0",
+					},
+					{
+						Contract: "0",
 					},
 				},
 			},

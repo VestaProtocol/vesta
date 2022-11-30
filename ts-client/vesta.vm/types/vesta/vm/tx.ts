@@ -41,6 +41,16 @@ export interface MsgUpgrade {
 export interface MsgUpgradeResponse {
 }
 
+export interface MsgCron {
+  creator: string;
+  contract: string;
+  function: string;
+  interval: string;
+}
+
+export interface MsgCronResponse {
+}
+
 function createBaseMsgStore(): MsgStore {
   return { creator: "", source: "" };
 }
@@ -481,13 +491,129 @@ export const MsgUpgradeResponse = {
   },
 };
 
+function createBaseMsgCron(): MsgCron {
+  return { creator: "", contract: "", function: "", interval: "" };
+}
+
+export const MsgCron = {
+  encode(message: MsgCron, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.contract !== "") {
+      writer.uint32(18).string(message.contract);
+    }
+    if (message.function !== "") {
+      writer.uint32(26).string(message.function);
+    }
+    if (message.interval !== "") {
+      writer.uint32(34).string(message.interval);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCron {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgCron();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.contract = reader.string();
+          break;
+        case 3:
+          message.function = reader.string();
+          break;
+        case 4:
+          message.interval = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgCron {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      contract: isSet(object.contract) ? String(object.contract) : "",
+      function: isSet(object.function) ? String(object.function) : "",
+      interval: isSet(object.interval) ? String(object.interval) : "",
+    };
+  },
+
+  toJSON(message: MsgCron): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.contract !== undefined && (obj.contract = message.contract);
+    message.function !== undefined && (obj.function = message.function);
+    message.interval !== undefined && (obj.interval = message.interval);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgCron>, I>>(object: I): MsgCron {
+    const message = createBaseMsgCron();
+    message.creator = object.creator ?? "";
+    message.contract = object.contract ?? "";
+    message.function = object.function ?? "";
+    message.interval = object.interval ?? "";
+    return message;
+  },
+};
+
+function createBaseMsgCronResponse(): MsgCronResponse {
+  return {};
+}
+
+export const MsgCronResponse = {
+  encode(_: MsgCronResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCronResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgCronResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgCronResponse {
+    return {};
+  },
+
+  toJSON(_: MsgCronResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgCronResponse>, I>>(_: I): MsgCronResponse {
+    const message = createBaseMsgCronResponse();
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   Store(request: MsgStore): Promise<MsgStoreResponse>;
   Execute(request: MsgExecute): Promise<MsgExecuteResponse>;
   Instantiate(request: MsgInstantiate): Promise<MsgInstantiateResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   Upgrade(request: MsgUpgrade): Promise<MsgUpgradeResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  Cron(request: MsgCron): Promise<MsgCronResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -498,6 +624,7 @@ export class MsgClientImpl implements Msg {
     this.Execute = this.Execute.bind(this);
     this.Instantiate = this.Instantiate.bind(this);
     this.Upgrade = this.Upgrade.bind(this);
+    this.Cron = this.Cron.bind(this);
   }
   Store(request: MsgStore): Promise<MsgStoreResponse> {
     const data = MsgStore.encode(request).finish();
@@ -521,6 +648,12 @@ export class MsgClientImpl implements Msg {
     const data = MsgUpgrade.encode(request).finish();
     const promise = this.rpc.request("vesta.vm.Msg", "Upgrade", data);
     return promise.then((data) => MsgUpgradeResponse.decode(new _m0.Reader(data)));
+  }
+
+  Cron(request: MsgCron): Promise<MsgCronResponse> {
+    const data = MsgCron.encode(request).finish();
+    const promise = this.rpc.request("vesta.vm.Msg", "Cron", data);
+    return promise.then((data) => MsgCronResponse.decode(new _m0.Reader(data)));
   }
 }
 

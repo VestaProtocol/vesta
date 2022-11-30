@@ -98,6 +98,16 @@ export interface VmContracts {
   source?: string;
 }
 
+export interface VmCronjobs {
+  contract?: string;
+  function?: string;
+
+  /** @format int64 */
+  interval?: string;
+}
+
+export type VmMsgCronResponse = object;
+
 export interface VmMsgExecuteResponse {
   console?: string;
 }
@@ -113,7 +123,12 @@ export type VmMsgUpgradeResponse = object;
 /**
  * Params defines the parameters for the module.
  */
-export type VmParams = object;
+export interface VmParams {
+  cron_denom?: string;
+
+  /** @format int64 */
+  cron_amount?: string;
+}
 
 export interface VmProgram {
   name?: string;
@@ -124,6 +139,21 @@ export interface VmProgram {
 
 export interface VmQueryAllContractsResponse {
   Contracts?: VmContracts[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
+export interface VmQueryAllCronjobsResponse {
+  cronjobs?: VmCronjobs[];
 
   /**
    * PageResponse is to be embedded in gRPC response messages where the
@@ -173,6 +203,10 @@ export interface VmQueryDetailResponse {
 
 export interface VmQueryGetContractsResponse {
   Contracts?: VmContracts;
+}
+
+export interface VmQueryGetCronjobsResponse {
+  cronjobs?: VmCronjobs;
 }
 
 export interface VmQueryGetProgramResponse {
@@ -321,6 +355,48 @@ export class HttpClient<SecurityDataType = unknown> {
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryCronjobsAll
+   * @summary Queries a list of Cronjobs items.
+   * @request GET:/VestaProtocol/vesta/vm/cronjobs
+   */
+  queryCronjobsAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<VmQueryAllCronjobsResponse, RpcStatus>({
+      path: `/VestaProtocol/vesta/vm/cronjobs`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryCronjobs
+   * @summary Queries a Cronjobs by index.
+   * @request GET:/VestaProtocol/vesta/vm/cronjobs/{contract}
+   */
+  queryCronjobs = (contract: string, params: RequestParams = {}) =>
+    this.request<VmQueryGetCronjobsResponse, RpcStatus>({
+      path: `/VestaProtocol/vesta/vm/cronjobs/${contract}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
   /**
    * No description
    *

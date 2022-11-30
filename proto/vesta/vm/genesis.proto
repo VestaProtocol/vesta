@@ -6,6 +6,7 @@ import "vesta/vm/params.proto";
 import "vesta/vm/contracts.proto";
 import "vesta/vm/program.proto";
 import "vesta/vm/romdata.proto";
+import "vesta/vm/cronjobs.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/VestaProtocol/vesta/x/vm/types";
@@ -17,5 +18,6 @@ message GenesisState {
   uint64 contractsCount = 3;
   repeated Program programList = 4 [ (gogoproto.nullable) = false ];
   repeated Romdata romdataList = 5 [ (gogoproto.nullable) = false ];
+  repeated Cronjobs cronjobsList = 6 [ (gogoproto.nullable) = false ];
   // this line is used by starport scaffolding # genesis/proto/state
 }
