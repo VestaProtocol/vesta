@@ -1,10 +1,10 @@
 
 function mint() {
-    let minted = STD.bank.mint("20")
+    let minted = STD.bank.mint("10")
     if (!minted) {
         return "failed mint"
     }
-    minted = STD.bank.withdrawTokens(CTX.sender, "20" + STD.bank.token)
+    minted = STD.bank.withdrawTokens(CTX.sender, "10" + STD.bank.token)
     if (!minted) {
         return "failed withdraw"
     }

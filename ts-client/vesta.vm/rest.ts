@@ -108,6 +108,8 @@ export interface VmMsgStoreResponse {
   code?: string;
 }
 
+export type VmMsgUpgradeResponse = object;
+
 /**
  * Params defines the parameters for the module.
  */
@@ -117,9 +119,7 @@ export interface VmProgram {
   name?: string;
   creator?: string;
   address?: string;
-
-  /** @format uint64 */
-  code?: string;
+  code?: string[];
 }
 
 export interface VmQueryAllContractsResponse {

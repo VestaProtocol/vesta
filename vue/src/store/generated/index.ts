@@ -1,8 +1,10 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
+import VestaVm from './vesta.vm'
 
 
 export default { 
+  VestaVm: load(VestaVm, 'vesta.vm'),
   
 }
 

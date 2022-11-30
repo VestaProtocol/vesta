@@ -44954,8 +44954,10 @@ paths:
                     address:
                       type: string
                     code:
-                      type: string
-                      format: uint64
+                      type: array
+                      items:
+                        type: string
+                        format: uint64
               pagination:
                 type: object
                 properties:
@@ -45081,8 +45083,10 @@ paths:
                   address:
                     type: string
                   code:
-                    type: string
-                    format: uint64
+                    type: array
+                    items:
+                      type: string
+                      format: uint64
         default:
           description: An unexpected error response.
           schema:
@@ -74847,6 +74851,8 @@ definitions:
     properties:
       code:
         type: string
+  vesta.vm.MsgUpgradeResponse:
+    type: object
   vesta.vm.Params:
     type: object
     description: Params defines the parameters for the module.
@@ -74860,8 +74866,10 @@ definitions:
       address:
         type: string
       code:
-        type: string
-        format: uint64
+        type: array
+        items:
+          type: string
+          format: uint64
   vesta.vm.QueryAllContractsResponse:
     type: object
     properties:
@@ -74916,8 +74924,10 @@ definitions:
             address:
               type: string
             code:
-              type: string
-              format: uint64
+              type: array
+              items:
+                type: string
+                format: uint64
       pagination:
         type: object
         properties:
@@ -75011,8 +75021,10 @@ definitions:
           address:
             type: string
           code:
-            type: string
-            format: uint64
+            type: array
+            items:
+              type: string
+              format: uint64
   vesta.vm.QueryGetRomdataResponse:
     type: object
     properties:

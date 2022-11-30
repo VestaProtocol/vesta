@@ -32,6 +32,15 @@ export interface MsgInstantiate {
 export interface MsgInstantiateResponse {
 }
 
+export interface MsgUpgrade {
+  creator: string;
+  contract: string;
+  code: string;
+}
+
+export interface MsgUpgradeResponse {
+}
+
 function createBaseMsgStore(): MsgStore {
   return { creator: "", source: "" };
 }
@@ -366,12 +375,119 @@ export const MsgInstantiateResponse = {
   },
 };
 
+function createBaseMsgUpgrade(): MsgUpgrade {
+  return { creator: "", contract: "", code: "" };
+}
+
+export const MsgUpgrade = {
+  encode(message: MsgUpgrade, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.contract !== "") {
+      writer.uint32(18).string(message.contract);
+    }
+    if (message.code !== "") {
+      writer.uint32(26).string(message.code);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpgrade {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgUpgrade();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.contract = reader.string();
+          break;
+        case 3:
+          message.code = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgUpgrade {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      contract: isSet(object.contract) ? String(object.contract) : "",
+      code: isSet(object.code) ? String(object.code) : "",
+    };
+  },
+
+  toJSON(message: MsgUpgrade): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.contract !== undefined && (obj.contract = message.contract);
+    message.code !== undefined && (obj.code = message.code);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgUpgrade>, I>>(object: I): MsgUpgrade {
+    const message = createBaseMsgUpgrade();
+    message.creator = object.creator ?? "";
+    message.contract = object.contract ?? "";
+    message.code = object.code ?? "";
+    return message;
+  },
+};
+
+function createBaseMsgUpgradeResponse(): MsgUpgradeResponse {
+  return {};
+}
+
+export const MsgUpgradeResponse = {
+  encode(_: MsgUpgradeResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpgradeResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgUpgradeResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgUpgradeResponse {
+    return {};
+  },
+
+  toJSON(_: MsgUpgradeResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgUpgradeResponse>, I>>(_: I): MsgUpgradeResponse {
+    const message = createBaseMsgUpgradeResponse();
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   Store(request: MsgStore): Promise<MsgStoreResponse>;
   Execute(request: MsgExecute): Promise<MsgExecuteResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   Instantiate(request: MsgInstantiate): Promise<MsgInstantiateResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  Upgrade(request: MsgUpgrade): Promise<MsgUpgradeResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -381,6 +497,7 @@ export class MsgClientImpl implements Msg {
     this.Store = this.Store.bind(this);
     this.Execute = this.Execute.bind(this);
     this.Instantiate = this.Instantiate.bind(this);
+    this.Upgrade = this.Upgrade.bind(this);
   }
   Store(request: MsgStore): Promise<MsgStoreResponse> {
     const data = MsgStore.encode(request).finish();
@@ -398,6 +515,12 @@ export class MsgClientImpl implements Msg {
     const data = MsgInstantiate.encode(request).finish();
     const promise = this.rpc.request("vesta.vm.Msg", "Instantiate", data);
     return promise.then((data) => MsgInstantiateResponse.decode(new _m0.Reader(data)));
+  }
+
+  Upgrade(request: MsgUpgrade): Promise<MsgUpgradeResponse> {
+    const data = MsgUpgrade.encode(request).finish();
+    const promise = this.rpc.request("vesta.vm.Msg", "Upgrade", data);
+    return promise.then((data) => MsgUpgradeResponse.decode(new _m0.Reader(data)));
   }
 }
 

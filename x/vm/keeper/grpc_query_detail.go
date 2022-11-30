@@ -26,7 +26,7 @@ func (k Keeper) Detail(goCtx context.Context, req *types.QueryDetailRequest) (*t
 		return nil, sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find contract '%s'", req.Name)
 	}
 
-	source, ok := k.GetContracts(ctx, program.Code)
+	source, ok := k.GetContracts(ctx, GetContractVersion(program, "-1"))
 	if !ok {
 		return nil, sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find contract source")
 	}

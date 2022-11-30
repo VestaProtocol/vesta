@@ -7,5 +7,5 @@ message Program {
   string name = 1;
   string creator = 2;
   string address = 3;
-  uint64 code = 4;
+  repeated uint64 code = 4;
 }

@@ -4,12 +4,12 @@ function send() {
 }
 
 function deposit() {
-    var sent = STD.bank.sendTokens(CONTRACT.address, "100token")
+    var sent = STD.bank.sendTokens(CONTRACT.address, "200token")
     return sent
 }
 
 function withdraw() {
-    var sent = STD.bank.withdrawTokens(CTX.sender, "100token")
+    var sent = STD.bank.withdrawTokens(CTX.sender, "200token")
     return sent
 }
 

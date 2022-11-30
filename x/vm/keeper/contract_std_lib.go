@@ -118,13 +118,19 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 
 	err = std.Set("require", func(call goja.FunctionCall) goja.Value {
 		moduleName := call.Argument(0).String()
+		versionValue := call.Argument(1).String()
+
+		ctx.GasMeter().ConsumeGas(types.DefaultGasValues().Import, "importing library")
 
 		program, found := k.GetProgram(ctx, moduleName)
 		if !found {
 			return goja.Null()
 		}
 
-		source, ok := k.GetContracts(ctx, program.Code)
+		v := GetContractVersion(program, versionValue)
+		ctx.Logger().Debug(fmt.Sprintf("Requested version: %d", v))
+
+		source, ok := k.GetContracts(ctx, v)
 		if !ok {
 			return goja.Null()
 		}
@@ -139,14 +145,16 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 			return goja.Null()
 		}
 
-		ctc := vm.Get("CONTRACT").ToObject(vm)
+		ctx.Logger().Info("completed creation of temp vm")
+
+		ctc := newvm.Get("CONTRACT").ToObject(newvm)
 		if ctc == nil {
 			e := sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find contract")
 			ctx.Logger().Error(e.Error())
 			return goja.Null()
 		}
 
-		ctx.GasMeter().ConsumeGas(types.DefaultGasValues().Import, "importing library")
+		ctx.Logger().Info("returning object")
 
 		return ctc
 	})
@@ -168,7 +176,7 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 			return goja.Null()
 		}
 
-		source, ok := k.GetContracts(ctx, program.Code)
+		source, ok := k.GetContracts(ctx, GetContractVersion(program, "-1"))
 		if !ok {
 			return goja.Null()
 		}

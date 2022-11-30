@@ -10,7 +10,8 @@ service Msg {
   rpc Store(MsgStore) returns (MsgStoreResponse);
   rpc Execute(MsgExecute) returns (MsgExecuteResponse);
   rpc Instantiate(MsgInstantiate) returns (MsgInstantiateResponse);
-  // this line is used by starport scaffolding # proto/tx/rpc
+    rpc Upgrade(MsgUpgrade) returns (MsgUpgradeResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
 }
 
 message MsgStore {
@@ -36,5 +37,14 @@ message MsgInstantiate {
 }
 
 message MsgInstantiateResponse {}
+
+message MsgUpgrade {
+  string creator = 1;
+  string contract = 2;
+  string code = 3;
+}
+
+message MsgUpgradeResponse {
+}
 
 // this line is used by starport scaffolding # proto/tx/message

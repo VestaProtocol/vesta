@@ -19,7 +19,7 @@ func (k msgServer) Execute(goCtx context.Context, msg *types.MsgExecute) (*types
 		return nil, sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find contract '%s'", msg.Contract)
 	}
 
-	source, ok := k.GetContracts(ctx, program.Code)
+	source, ok := k.GetContracts(ctx, GetContractVersion(program, "-1"))
 	if !ok {
 		return nil, sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find contract source")
 	}
