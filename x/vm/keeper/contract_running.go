@@ -1,12 +1,28 @@
 package keeper
 
 import (
+	"github.com/VestaProtocol/vesta/x/vm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/dop251/goja"
 	"github.com/tendermint/tendermint/crypto"
 )
+
+func GetContractVersion(program types.Program, version string) uint64 {
+	l := len(program.Code) - 1
+
+	v, ok := sdk.NewIntFromString(version)
+	if !ok {
+		return program.Code[l]
+	}
+
+	if v.Int64() < 0 {
+		return program.Code[l]
+	}
+
+	return program.Code[v.Int64()]
+}
 
 func NewContractAddress(name string) sdk.AccAddress {
 	return sdk.AccAddress(crypto.AddressHash([]byte(name)))
