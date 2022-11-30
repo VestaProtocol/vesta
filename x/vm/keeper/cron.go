@@ -52,7 +52,9 @@ func (k Keeper) Cron(ctx sdk.Context) {
 			continue
 		}
 
-		k.executeContract(ctx, job.Contract, source.Source, job.Function, nil, []goja.Value{})
-
+		_, err = k.executeContract(ctx, job.Contract, source.Source, job.Function, nil, []goja.Value{})
+		if err != nil {
+			continue
+		}
 	}
 }
