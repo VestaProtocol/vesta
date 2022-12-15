@@ -50,9 +50,9 @@ service Query {
     option (google.api.http).get = "/vesta/vm/romdata";
   }
 
-  // Queries a list of Detail items.
-  rpc Detail(QueryDetailRequest) returns (QueryDetailResponse) {
-    option (google.api.http).get = "/vesta/vm/detail/{name}/{query}/{args}";
+  // Queries a list of Query items.
+  rpc Query(QueryQueryRequest) returns (QueryQueryResponse) {
+    option (google.api.http).get = "/vesta/vm/query/{name}/{query}/{args}";
   }
 
   // Queries a Cronjobs by index.
@@ -123,13 +123,13 @@ message QueryAllRomdataResponse {
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-message QueryDetailRequest {
+message QueryQueryRequest {
   string name = 1;
   string query = 2;
   string args = 3;
 }
 
-message QueryDetailResponse { string response = 1; }
+message QueryQueryResponse { string response = 1; }
 
 message QueryGetCronjobsRequest { string contract = 1; }
 

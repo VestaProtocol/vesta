@@ -11,9 +11,9 @@ import (
 
 var _ = strconv.Itoa(0)
 
-func CmdDetail() *cobra.Command {
+func CmdVmQuery() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "detail [name] [query] [args]",
+		Use:   "query [name] [query] [args]",
 		Short: "Query data from a smart contract.",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
@@ -28,13 +28,13 @@ func CmdDetail() *cobra.Command {
 
 			queryClient := types.NewQueryClient(clientCtx)
 
-			params := &types.QueryDetailRequest{
+			params := &types.QueryQueryRequest{
 				Name:  reqName,
 				Query: reqQuery,
 				Args:  reqArgs,
 			}
 
-			res, err := queryClient.Detail(cmd.Context(), params)
+			res, err := queryClient.Query(cmd.Context(), params)
 			if err != nil {
 				return err
 			}

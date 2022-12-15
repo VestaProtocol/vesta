@@ -31,7 +31,7 @@ func GetQueryCmd(queryRoute string) *cobra.Command {
 	cmd.AddCommand(CmdShowProgram())
 	cmd.AddCommand(CmdListRomdata())
 	cmd.AddCommand(CmdShowRomdata())
-	cmd.AddCommand(CmdDetail())
+	cmd.AddCommand(CmdVmQuery())
 
 	cmd.AddCommand(CmdListCronjobs())
 	cmd.AddCommand(CmdShowCronjobs())

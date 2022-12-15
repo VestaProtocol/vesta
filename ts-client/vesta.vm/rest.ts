@@ -197,10 +197,6 @@ export interface VmQueryAllRomdataResponse {
   pagination?: V1Beta1PageResponse;
 }
 
-export interface VmQueryDetailResponse {
-  response?: string;
-}
-
 export interface VmQueryGetContractsResponse {
   Contracts?: VmContracts;
 }
@@ -223,6 +219,10 @@ export interface VmQueryGetRomdataResponse {
 export interface VmQueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: VmParams;
+}
+
+export interface VmQueryQueryResponse {
+  response?: string;
 }
 
 export interface VmRomdata {
@@ -443,22 +443,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * No description
    *
    * @tags Query
-   * @name QueryDetail
-   * @summary Queries a list of Detail items.
-   * @request GET:/vesta/vm/detail/{name}/{query}/{args}
-   */
-  queryDetail = (name: string, query: string, args: string, params: RequestParams = {}) =>
-    this.request<VmQueryDetailResponse, RpcStatus>({
-      path: `/vesta/vm/detail/${name}/${query}/${args}`,
-      method: "GET",
-      format: "json",
-      ...params,
-    });
-
-  /**
-   * No description
-   *
-   * @tags Query
    * @name QueryParams
    * @summary Parameters queries the parameters of the module.
    * @request GET:/vesta/vm/params
@@ -508,6 +492,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryProgram = (name: string, params: RequestParams = {}) =>
     this.request<VmQueryGetProgramResponse, RpcStatus>({
       path: `/vesta/vm/program/${name}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryQuery
+   * @summary Queries a list of Query items.
+   * @request GET:/vesta/vm/query/{name}/{query}/{args}
+   */
+  queryQuery = (name: string, query: string, args: string, params: RequestParams = {}) =>
+    this.request<VmQueryQueryResponse, RpcStatus>({
+      path: `/vesta/vm/query/${name}/${query}/${args}`,
       method: "GET",
       format: "json",
       ...params,

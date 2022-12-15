@@ -14,7 +14,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (k Keeper) Detail(goCtx context.Context, req *types.QueryDetailRequest) (*types.QueryDetailResponse, error) {
+func (k Keeper) Query(goCtx context.Context, req *types.QueryQueryRequest) (*types.QueryQueryResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
@@ -44,5 +44,5 @@ func (k Keeper) Detail(goCtx context.Context, req *types.QueryDetailRequest) (*t
 		return nil, err
 	}
 
-	return &types.QueryDetailResponse{Response: val}, nil
+	return &types.QueryQueryResponse{Response: val}, nil
 }

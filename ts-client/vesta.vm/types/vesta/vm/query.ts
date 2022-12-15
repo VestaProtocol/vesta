@@ -71,13 +71,13 @@ export interface QueryAllRomdataResponse {
   pagination: PageResponse | undefined;
 }
 
-export interface QueryDetailRequest {
+export interface QueryQueryRequest {
   name: string;
   query: string;
   args: string;
 }
 
-export interface QueryDetailResponse {
+export interface QueryQueryResponse {
   response: string;
 }
 
@@ -820,12 +820,12 @@ export const QueryAllRomdataResponse = {
   },
 };
 
-function createBaseQueryDetailRequest(): QueryDetailRequest {
+function createBaseQueryQueryRequest(): QueryQueryRequest {
   return { name: "", query: "", args: "" };
 }
 
-export const QueryDetailRequest = {
-  encode(message: QueryDetailRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+export const QueryQueryRequest = {
+  encode(message: QueryQueryRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -838,10 +838,10 @@ export const QueryDetailRequest = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDetailRequest {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQueryRequest {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseQueryDetailRequest();
+    const message = createBaseQueryQueryRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -862,7 +862,7 @@ export const QueryDetailRequest = {
     return message;
   },
 
-  fromJSON(object: any): QueryDetailRequest {
+  fromJSON(object: any): QueryQueryRequest {
     return {
       name: isSet(object.name) ? String(object.name) : "",
       query: isSet(object.query) ? String(object.query) : "",
@@ -870,7 +870,7 @@ export const QueryDetailRequest = {
     };
   },
 
-  toJSON(message: QueryDetailRequest): unknown {
+  toJSON(message: QueryQueryRequest): unknown {
     const obj: any = {};
     message.name !== undefined && (obj.name = message.name);
     message.query !== undefined && (obj.query = message.query);
@@ -878,8 +878,8 @@ export const QueryDetailRequest = {
     return obj;
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryDetailRequest>, I>>(object: I): QueryDetailRequest {
-    const message = createBaseQueryDetailRequest();
+  fromPartial<I extends Exact<DeepPartial<QueryQueryRequest>, I>>(object: I): QueryQueryRequest {
+    const message = createBaseQueryQueryRequest();
     message.name = object.name ?? "";
     message.query = object.query ?? "";
     message.args = object.args ?? "";
@@ -887,22 +887,22 @@ export const QueryDetailRequest = {
   },
 };
 
-function createBaseQueryDetailResponse(): QueryDetailResponse {
+function createBaseQueryQueryResponse(): QueryQueryResponse {
   return { response: "" };
 }
 
-export const QueryDetailResponse = {
-  encode(message: QueryDetailResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+export const QueryQueryResponse = {
+  encode(message: QueryQueryResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.response !== "") {
       writer.uint32(10).string(message.response);
     }
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDetailResponse {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQueryResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseQueryDetailResponse();
+    const message = createBaseQueryQueryResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -917,18 +917,18 @@ export const QueryDetailResponse = {
     return message;
   },
 
-  fromJSON(object: any): QueryDetailResponse {
+  fromJSON(object: any): QueryQueryResponse {
     return { response: isSet(object.response) ? String(object.response) : "" };
   },
 
-  toJSON(message: QueryDetailResponse): unknown {
+  toJSON(message: QueryQueryResponse): unknown {
     const obj: any = {};
     message.response !== undefined && (obj.response = message.response);
     return obj;
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryDetailResponse>, I>>(object: I): QueryDetailResponse {
-    const message = createBaseQueryDetailResponse();
+  fromPartial<I extends Exact<DeepPartial<QueryQueryResponse>, I>>(object: I): QueryQueryResponse {
+    const message = createBaseQueryQueryResponse();
     message.response = object.response ?? "";
     return message;
   },
@@ -1161,8 +1161,8 @@ export interface Query {
   Romdata(request: QueryGetRomdataRequest): Promise<QueryGetRomdataResponse>;
   /** Queries a list of Romdata items. */
   RomdataAll(request: QueryAllRomdataRequest): Promise<QueryAllRomdataResponse>;
-  /** Queries a list of Detail items. */
-  Detail(request: QueryDetailRequest): Promise<QueryDetailResponse>;
+  /** Queries a list of Query items. */
+  Query(request: QueryQueryRequest): Promise<QueryQueryResponse>;
   /** Queries a Cronjobs by index. */
   Cronjobs(request: QueryGetCronjobsRequest): Promise<QueryGetCronjobsResponse>;
   /** Queries a list of Cronjobs items. */
@@ -1180,7 +1180,7 @@ export class QueryClientImpl implements Query {
     this.ProgramAll = this.ProgramAll.bind(this);
     this.Romdata = this.Romdata.bind(this);
     this.RomdataAll = this.RomdataAll.bind(this);
-    this.Detail = this.Detail.bind(this);
+    this.Query = this.Query.bind(this);
     this.Cronjobs = this.Cronjobs.bind(this);
     this.CronjobsAll = this.CronjobsAll.bind(this);
   }
@@ -1226,10 +1226,10 @@ export class QueryClientImpl implements Query {
     return promise.then((data) => QueryAllRomdataResponse.decode(new _m0.Reader(data)));
   }
 
-  Detail(request: QueryDetailRequest): Promise<QueryDetailResponse> {
-    const data = QueryDetailRequest.encode(request).finish();
-    const promise = this.rpc.request("vesta.vm.Query", "Detail", data);
-    return promise.then((data) => QueryDetailResponse.decode(new _m0.Reader(data)));
+  Query(request: QueryQueryRequest): Promise<QueryQueryResponse> {
+    const data = QueryQueryRequest.encode(request).finish();
+    const promise = this.rpc.request("vesta.vm.Query", "Query", data);
+    return promise.then((data) => QueryQueryResponse.decode(new _m0.Reader(data)));
   }
 
   Cronjobs(request: QueryGetCronjobsRequest): Promise<QueryGetCronjobsResponse> {

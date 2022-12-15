@@ -37,5 +37,5 @@ vestad tx vm execute {name} {function} {args} --from {key}
 ```
 Query function
 ```sh
-vestad q vm detail {name} {function} {args}
+vestad q vm query {name} {function} {args}
 ```

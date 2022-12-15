@@ -45,7 +45,7 @@ const getDefaultState = () => {
 				ProgramAll: {},
 				Romdata: {},
 				RomdataAll: {},
-				Detail: {},
+				Query: {},
 				Cronjobs: {},
 				CronjobsAll: {},
 				
@@ -125,11 +125,11 @@ export default {
 					}
 			return state.RomdataAll[JSON.stringify(params)] ?? {}
 		},
-				getDetail: (state) => (params = { params: {}}) => {
+				getQuery: (state) => (params = { params: {}}) => {
 					if (!(<any> params).query) {
 						(<any> params).query=null
 					}
-			return state.Detail[JSON.stringify(params)] ?? {}
+			return state.Query[JSON.stringify(params)] ?? {}
 		},
 				getCronjobs: (state) => (params = { params: {}}) => {
 					if (!(<any> params).query) {
@@ -348,18 +348,18 @@ export default {
 		 		
 		
 		
-		async QueryDetail({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+		async QueryQuery({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
 			try {
 				const key = params ?? {};
 				const client = initClient(rootGetters);
-				let value= (await client.VestaVm.query.queryDetail( key.name,  key.query,  key.args)).data
+				let value= (await client.VestaVm.query.queryQuery( key.name,  key.query,  key.args)).data
 				
 					
-				commit('QUERY', { query: 'Detail', key: { params: {...key}, query}, value })
-				if (subscribe) commit('SUBSCRIBE', { action: 'QueryDetail', payload: { options: { all }, params: {...key},query }})
-				return getters['getDetail']( { params: {...key}, query}) ?? {}
+				commit('QUERY', { query: 'Query', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryQuery', payload: { options: { all }, params: {...key},query }})
+				return getters['getQuery']( { params: {...key}, query}) ?? {}
 			} catch (e) {
-				throw new Error('QueryClient:QueryDetail API Node Unavailable. Could not perform query: ' + e.message)
+				throw new Error('QueryClient:QueryQuery API Node Unavailable. Could not perform query: ' + e.message)
 				
 			}
 		},
@@ -413,6 +413,19 @@ export default {
 		},
 		
 		
+		async sendMsgInstantiate({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const client=await initClient(rootGetters)
+				const result = await client.VestaVm.tx.sendMsgInstantiate({ value, fee: {amount: fee, gas: "200000"}, memo })
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgInstantiate:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgInstantiate:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
 		async sendMsgCron({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const client=await initClient(rootGetters)
@@ -465,20 +478,20 @@ export default {
 				}
 			}
 		},
-		async sendMsgInstantiate({ rootGetters }, { value, fee = [], memo = '' }) {
+		
+		async MsgInstantiate({ rootGetters }, { value }) {
 			try {
-				const client=await initClient(rootGetters)
-				const result = await client.VestaVm.tx.sendMsgInstantiate({ value, fee: {amount: fee, gas: "200000"}, memo })
-				return result
+				const client=initClient(rootGetters)
+				const msg = await client.VestaVm.tx.msgInstantiate({value})
+				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
 					throw new Error('TxClient:MsgInstantiate:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgInstantiate:Send Could not broadcast Tx: '+ e.message)
+				} else{
+					throw new Error('TxClient:MsgInstantiate:Create Could not create message: ' + e.message)
 				}
 			}
 		},
-		
 		async MsgCron({ rootGetters }, { value }) {
 			try {
 				const client=initClient(rootGetters)
@@ -528,19 +541,6 @@ export default {
 					throw new Error('TxClient:MsgUpgrade:Init Could not initialize signing client. Wallet is required.')
 				} else{
 					throw new Error('TxClient:MsgUpgrade:Create Could not create message: ' + e.message)
-				}
-			}
-		},
-		async MsgInstantiate({ rootGetters }, { value }) {
-			try {
-				const client=initClient(rootGetters)
-				const msg = await client.VestaVm.tx.msgInstantiate({value})
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgInstantiate:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgInstantiate:Create Could not create message: ' + e.message)
 				}
 			}
 		},
