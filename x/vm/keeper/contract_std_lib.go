@@ -47,6 +47,18 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 		return
 	}
 
+	err = std.Set("POST", vm.ToValue("POST"))
+	if err != nil {
+		ctx.Logger().Error(err.Error())
+		return
+	}
+
+	err = std.Set("GET", vm.ToValue("GET"))
+	if err != nil {
+		ctx.Logger().Error(err.Error())
+		return
+	}
+
 	for _, v := range k.injectors {
 		module := vm.NewObject()
 		err := std.Set(v.Name(), module)
