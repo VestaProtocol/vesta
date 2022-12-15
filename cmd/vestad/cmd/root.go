@@ -121,6 +121,7 @@ func initRootCmd(
 		tmcli.NewCompletionCmd(rootCmd, true),
 		debug.Cmd(),
 		config.Cmd(),
+		AddConsumerSectionCmd(app.DefaultNodeHome),
 		// this line is used by starport scaffolding # root/commands
 	)
 

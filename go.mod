@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/cosmos/cosmos-sdk v0.46.7
 	github.com/cosmos/ibc-go/v5 v5.1.0
+	github.com/cosmos/ibc-go/v3 v3.4.0
 	github.com/dop251/goja v0.0.0-20211022113120-dc8c55024d06
 	github.com/gogo/protobuf v1.3.3
 	github.com/golang/protobuf v1.5.2
@@ -64,6 +65,7 @@ require (
 	github.com/cosmos/go-bip39 v1.0.0 // indirect
 	github.com/cosmos/gorocksdb v1.2.0 // indirect
 	github.com/cosmos/iavl v0.19.4 // indirect
+	github.com/cosmos/interchain-security v0.2.1 // indirect
 	github.com/cosmos/ledger-cosmos-go v0.12.1 // indirect
 	github.com/creachadair/taskgroup v0.3.2 // indirect
 	github.com/danieljoos/wincred v1.1.2 // indirect
@@ -210,6 +212,7 @@ require (
 replace (
 	github.com/confio/ics23/go => github.com/cosmos/cosmos-sdk/ics23/go v0.8.0
 	//github.com/dop251/goja => ../../goja
+	github.com/cosmos/ibc-go/v3 => github.com/informalsystems/ibc-go/v3 v3.4.0
 
 	github.com/dop251/goja => github.com/VestaProtocol/goja v0.0.0-alpha.0
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1

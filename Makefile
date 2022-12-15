@@ -195,3 +195,32 @@ proto-check-breaking:
 	go-mod-cache draw-deps clean build format \
 	test test-all test-build test-cover test-unit test-race \
 	test-sim-import-export \
+
+init: kill-dev install
+	@echo "Initializing both blockchains..."
+	./network/init.sh
+	./network/start.sh
+	@echo "Initializing relayer..."
+	./network/hermes/restore-keys.sh
+	./network/hermes/create-conn.sh
+
+init-golang-rly: kill-dev install
+	@echo "Initializing both blockchains..."
+	./network/init.sh
+	./network/start.sh
+	@echo "Initializing relayer..."
+	./network/relayer/interchain-acc-config/rly.sh
+
+start:
+	@echo "Starting up test network"
+	./network/start.sh
+
+start-rly:
+	./network/hermes/start.sh
+
+
+kill-dev:
+	@echo "Killing vestd and removing previous data"
+	-@rm -rf ./data
+	-@killall canined 2>/dev/null
+	-@killall vestad 2>/dev/null
