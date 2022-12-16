@@ -186,16 +186,13 @@ func (k Keeper) createDec(num string, ctx sdk.Context, vm *goja.Runtime) goja.Va
 }
 
 func (k Keeper) initFloats(ctx sdk.Context, vm *goja.Runtime, std *goja.Object) {
-
 	err := std.Set("NewDec", func(call goja.FunctionCall) goja.Value {
 		num := call.Argument(0).String()
 
 		return k.createDec(num, ctx, vm)
-
 	})
 	if err != nil {
 		ctx.Logger().Error(err.Error())
 		return
 	}
-
 }
