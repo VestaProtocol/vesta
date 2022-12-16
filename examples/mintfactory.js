@@ -7,7 +7,7 @@ CONTRACT.functions.mint = function () {
 }
 
 CONTRACT.functions.fund = function (runs) {
-    var sent = STD.bank.sendTokens(CONTRACT.address, (500000 * Number(runs)) + "token")
+    var sent = STD.bank.sendTokens(CONTRACT.address, (500000 * parseInt(runs)) + "token")
     return sent
 }
 
