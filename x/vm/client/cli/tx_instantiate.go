@@ -14,13 +14,13 @@ var _ = strconv.Itoa(0)
 
 func CmdInstantiate() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "instantiate [name] [code]",
+		Use:   "instantiate [name] [code] [args]",
 		Short: "Instantiate a new contract instance.",
-		Args:  cobra.ExactArgs(2),
+		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argName := args[0]
 			argCode := args[1]
-
+			argArgs := args[2]
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
@@ -30,6 +30,7 @@ func CmdInstantiate() *cobra.Command {
 				clientCtx.GetFromAddress().String(),
 				argName,
 				argCode,
+				argArgs,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

@@ -35,6 +35,7 @@ message MsgInstantiate {
   string creator = 1;
   string name = 2;
   string code = 3;
+  string args = 4;
 }
 
 message MsgInstantiateResponse {}

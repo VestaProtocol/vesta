@@ -49,8 +49,45 @@ func (k Keeper) getContractAddress(ctx sdk.Context, contractName string) (sdk.Ac
 	return acc.GetAddress(), nil
 }
 
+func (k Keeper) initContract(ctx sdk.Context, name string, sourceCode string, creator sdk.AccAddress, args []goja.Value) (string, error) {
+	vm, err := k.buildContract(ctx, name, sourceCode, creator, false)
+	if err != nil {
+		return "", err
+	}
+
+	ctc := vm.Get("CONTRACT").ToObject(vm)
+	if ctc == nil {
+		e := sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find contract")
+		ctx.Logger().Error(e.Error())
+		return "", e
+	}
+
+	f := ctc.Get("init")
+	if f == nil {
+		e := sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot find entry %s", "init")
+		ctx.Logger().Error(e.Error())
+		return "", e
+	}
+
+	function, ok := goja.AssertFunction(f)
+	if !ok {
+		e := sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "cannot get %s from CONTRACT", "init")
+		ctx.Logger().Error(e.Error())
+		return "", e
+	}
+
+	res, err := function(goja.Undefined(), args...)
+	if err != nil {
+		e := sdkerrors.Wrapf(err, "cannot run function")
+		ctx.Logger().Error(e.Error())
+		return "", e
+	}
+
+	return res.String(), nil
+}
+
 func (k Keeper) executeContract(ctx sdk.Context, name string, sourceCode string, entry string, creator sdk.AccAddress, args []goja.Value) (string, error) {
-	vm, err := k.buildContract(ctx, name, sourceCode, entry, creator, false)
+	vm, err := k.buildContract(ctx, name, sourceCode, creator, false)
 	if err != nil {
 		return "", err
 	}
@@ -94,7 +131,7 @@ func (k Keeper) executeContract(ctx sdk.Context, name string, sourceCode string,
 }
 
 func (k Keeper) queryContract(ctx sdk.Context, name string, sourceCode string, entry string, args []goja.Value) (string, error) {
-	vm, err := k.buildContract(ctx, name, sourceCode, entry, nil, true)
+	vm, err := k.buildContract(ctx, name, sourceCode, nil, true)
 	if err != nil {
 		return "", err
 	}
@@ -122,7 +159,7 @@ func (k Keeper) queryContract(ctx sdk.Context, name string, sourceCode string, e
 	return res.String(), nil
 }
 
-func (k Keeper) buildContract(ctx sdk.Context, name string, sourceCode string, entry string, creator sdk.AccAddress, readonly bool) (*goja.Runtime, error) {
+func (k Keeper) buildContract(ctx sdk.Context, name string, sourceCode string, creator sdk.AccAddress, readonly bool) (*goja.Runtime, error) {
 	vm := goja.New()
 	ctx.GasMeter().ConsumeGas(types.DefaultGasValues().Init, "starting virtual machine")
 

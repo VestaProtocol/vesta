@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/VestaProtocol/vesta/x/vm/types"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/dop251/goja"
@@ -20,7 +19,17 @@ func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contra
 	contractFunctions := vm.NewObject()
 	contractQueries := vm.NewObject()
 
-	err := context.Set("sender", creator.String())
+	err := std.Set("panic", func(call goja.FunctionCall) goja.Value {
+		message := call.Argument(0).String()
+		vm.Interrupt(message)
+		return goja.Undefined()
+	})
+	if err != nil {
+		ctx.Logger().Error(err.Error())
+		return
+	}
+
+	err = context.Set("sender", creator.String())
 	if err != nil {
 		ctx.Logger().Error(err.Error())
 		return

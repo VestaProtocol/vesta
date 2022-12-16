@@ -27,6 +27,7 @@ export interface MsgInstantiate {
   creator: string;
   name: string;
   code: string;
+  args: string;
 }
 
 export interface MsgInstantiateResponse {
@@ -280,7 +281,7 @@ export const MsgExecuteResponse = {
 };
 
 function createBaseMsgInstantiate(): MsgInstantiate {
-  return { creator: "", name: "", code: "" };
+  return { creator: "", name: "", code: "", args: "" };
 }
 
 export const MsgInstantiate = {
@@ -293,6 +294,9 @@ export const MsgInstantiate = {
     }
     if (message.code !== "") {
       writer.uint32(26).string(message.code);
+    }
+    if (message.args !== "") {
+      writer.uint32(34).string(message.args);
     }
     return writer;
   },
@@ -313,6 +317,9 @@ export const MsgInstantiate = {
         case 3:
           message.code = reader.string();
           break;
+        case 4:
+          message.args = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -326,6 +333,7 @@ export const MsgInstantiate = {
       creator: isSet(object.creator) ? String(object.creator) : "",
       name: isSet(object.name) ? String(object.name) : "",
       code: isSet(object.code) ? String(object.code) : "",
+      args: isSet(object.args) ? String(object.args) : "",
     };
   },
 
@@ -334,6 +342,7 @@ export const MsgInstantiate = {
     message.creator !== undefined && (obj.creator = message.creator);
     message.name !== undefined && (obj.name = message.name);
     message.code !== undefined && (obj.code = message.code);
+    message.args !== undefined && (obj.args = message.args);
     return obj;
   },
 
@@ -342,6 +351,7 @@ export const MsgInstantiate = {
     message.creator = object.creator ?? "";
     message.name = object.name ?? "";
     message.code = object.code ?? "";
+    message.args = object.args ?? "";
     return message;
   },
 };

@@ -8,28 +8,16 @@ import { IgniteClient } from "../client"
 import { MissingWalletError } from "../helpers"
 import { Api } from "./rest";
 import { MsgCron } from "./types/vesta/vm/tx";
-import { MsgStore } from "./types/vesta/vm/tx";
-import { MsgUpgrade } from "./types/vesta/vm/tx";
 import { MsgInstantiate } from "./types/vesta/vm/tx";
 import { MsgExecute } from "./types/vesta/vm/tx";
+import { MsgUpgrade } from "./types/vesta/vm/tx";
+import { MsgStore } from "./types/vesta/vm/tx";
 
 
-export { MsgCron, MsgStore, MsgUpgrade, MsgInstantiate, MsgExecute };
+export { MsgCron, MsgInstantiate, MsgExecute, MsgUpgrade, MsgStore };
 
 type sendMsgCronParams = {
   value: MsgCron,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgStoreParams = {
-  value: MsgStore,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgUpgradeParams = {
-  value: MsgUpgrade,
   fee?: StdFee,
   memo?: string
 };
@@ -46,17 +34,21 @@ type sendMsgExecuteParams = {
   memo?: string
 };
 
+type sendMsgUpgradeParams = {
+  value: MsgUpgrade,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgStoreParams = {
+  value: MsgStore,
+  fee?: StdFee,
+  memo?: string
+};
+
 
 type msgCronParams = {
   value: MsgCron,
-};
-
-type msgStoreParams = {
-  value: MsgStore,
-};
-
-type msgUpgradeParams = {
-  value: MsgUpgrade,
 };
 
 type msgInstantiateParams = {
@@ -65,6 +57,14 @@ type msgInstantiateParams = {
 
 type msgExecuteParams = {
   value: MsgExecute,
+};
+
+type msgUpgradeParams = {
+  value: MsgUpgrade,
+};
+
+type msgStoreParams = {
+  value: MsgStore,
 };
 
 
@@ -99,34 +99,6 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		async sendMsgStore({ value, fee, memo }: sendMsgStoreParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgStore: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgStore({ value: MsgStore.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgStore: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgUpgrade({ value, fee, memo }: sendMsgUpgradeParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgUpgrade: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgUpgrade({ value: MsgUpgrade.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgUpgrade: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
 		async sendMsgInstantiate({ value, fee, memo }: sendMsgInstantiateParams): Promise<DeliverTxResponse> {
 			if (!signer) {
 					throw new Error('TxClient:sendMsgInstantiate: Unable to sign Tx. Signer is not present.')
@@ -155,28 +127,40 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
+		async sendMsgUpgrade({ value, fee, memo }: sendMsgUpgradeParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgUpgrade: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgUpgrade({ value: MsgUpgrade.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgUpgrade: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgStore({ value, fee, memo }: sendMsgStoreParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgStore: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgStore({ value: MsgStore.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgStore: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
 		
 		msgCron({ value }: msgCronParams): EncodeObject {
 			try {
 				return { typeUrl: "/vesta.vm.MsgCron", value: MsgCron.fromPartial( value ) }  
 			} catch (e: any) {
 				throw new Error('TxClient:MsgCron: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgStore({ value }: msgStoreParams): EncodeObject {
-			try {
-				return { typeUrl: "/vesta.vm.MsgStore", value: MsgStore.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgStore: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgUpgrade({ value }: msgUpgradeParams): EncodeObject {
-			try {
-				return { typeUrl: "/vesta.vm.MsgUpgrade", value: MsgUpgrade.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgUpgrade: Could not create message: ' + e.message)
 			}
 		},
 		
@@ -193,6 +177,22 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 				return { typeUrl: "/vesta.vm.MsgExecute", value: MsgExecute.fromPartial( value ) }  
 			} catch (e: any) {
 				throw new Error('TxClient:MsgExecute: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgUpgrade({ value }: msgUpgradeParams): EncodeObject {
+			try {
+				return { typeUrl: "/vesta.vm.MsgUpgrade", value: MsgUpgrade.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgUpgrade: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgStore({ value }: msgStoreParams): EncodeObject {
+			try {
+				return { typeUrl: "/vesta.vm.MsgStore", value: MsgStore.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgStore: Could not create message: ' + e.message)
 			}
 		},
 		

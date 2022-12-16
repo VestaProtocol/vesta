@@ -9,11 +9,12 @@ const TypeMsgInstantiate = "instantiate"
 
 var _ sdk.Msg = &MsgInstantiate{}
 
-func NewMsgInstantiate(creator string, name string, code string) *MsgInstantiate {
+func NewMsgInstantiate(creator string, name string, code string, args string) *MsgInstantiate {
 	return &MsgInstantiate{
 		Creator: creator,
 		Name:    name,
 		Code:    code,
+		Args:    args,
 	}
 }
 
