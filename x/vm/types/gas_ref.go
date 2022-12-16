@@ -1,6 +1,7 @@
 package types
 
 type GasValues struct {
+	Init   uint64
 	Import uint64
 	Write  uint64
 	Read   uint64
@@ -8,8 +9,9 @@ type GasValues struct {
 
 func DefaultGasValues() GasValues {
 	return GasValues{
-		Import: 20,
-		Write:  2,
-		Read:   1,
+		Init:   5000,
+		Import: 2000,
+		Write:  2000,
+		Read:   1000,
 	}
 }

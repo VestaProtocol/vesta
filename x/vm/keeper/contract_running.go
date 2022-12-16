@@ -124,6 +124,7 @@ func (k Keeper) queryContract(ctx sdk.Context, name string, sourceCode string, e
 
 func (k Keeper) buildContract(ctx sdk.Context, name string, sourceCode string, entry string, creator sdk.AccAddress, readonly bool) (*goja.Runtime, error) {
 	vm := goja.New()
+	ctx.GasMeter().ConsumeGas(types.DefaultGasValues().Init, "starting virtual machine")
 
 	address, err := k.getContractAddress(ctx, name)
 	if err != nil {
