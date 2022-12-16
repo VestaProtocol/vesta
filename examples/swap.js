@@ -37,36 +37,41 @@ function Swap(poolId, tokenIn, amountIn) {
 
     let pool = JSON.parse(p)
 
-    let k = Number(pool.amountA) * Number(pool.amountB)
+    let a = STD.NewDec(pool.amountA)
+    let b = STD.NewDec(pool.amountB)
+
+    let k = a.mul(b)
 
     if (tokenIn == pool.denomA) {
 
-        let m = Math.floor(k / (Number(pool.amountA) + Number(amountIn)))
+        let i = STD.NewDec(amountIn)
+        let m = k.div(a.add(i)).floor()
 
-        let refund = Number(pool.amountB) - m
+        let refund = b.sub(m)
 
-        let pulled = STD.bank.withdrawTokens(CTX.sender, refund + pool.denomB)
+        let pulled = STD.bank.withdrawTokens(CTX.sender, refund.toInt() + pool.denomB)
         if (!pulled) {
             return false
         }
 
-        pool.amountA = Number(pool.amountA) + Number(amountIn)
-        pool.amountB = m
+        pool.amountA = a.add(i).toString()
+        pool.amountB = m.toString()
     }
 
     if (tokenIn == pool.denomB) {
 
-        let m = Math.floor(k / (Number(pool.amountB) + Number(amountIn)))
+        let i = STD.NewDec(amountIn)
+        let m = k.div(b.add(i)).floor()
 
-        let refund = Number(pool.amountA) - m
+        let refund = a.sub(m)
 
-        let pulled = STD.bank.withdrawTokens(CTX.sender, refund + pool.denomA)
+        let pulled = STD.bank.withdrawTokens(CTX.sender, refund.toInt() + pool.denomA)
         if (!pulled) {
             return false
         }
 
-        pool.amountB = Number(pool.amountB) + Number(amountIn)
-        pool.amountA = m
+        pool.amountB = b.add(i).toString()
+        pool.amountA = m.toString()
     }
 
     STD.write(poolId, JSON.stringify(pool))

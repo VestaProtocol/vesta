@@ -12,6 +12,8 @@ import (
 
 func (k Keeper) applyStandardLib(ctx sdk.Context, creator sdk.AccAddress, contractName string, contractAddress sdk.AccAddress, vm *goja.Runtime, readonly bool) {
 	std := vm.NewObject()
+	k.initFloats(ctx, vm, std)
+
 	context := vm.NewObject()
 
 	contractExports := vm.NewObject()
