@@ -3,6 +3,15 @@ function save(address, id) {
     STD.write(id, address)
 }
 
+CONTRACT.functions.transfer = function(id, toAddress) {
+    let address = STD.read(id)
+    if (address != CTX.sender) {
+        STD.panic("you don't own this token")
+    }
+
+    save(toAddress, id)
+}
+
 CONTRACT.functions.mint = function() {
     let count = STD.read("counter")
     if (count) {
