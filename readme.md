@@ -27,7 +27,7 @@ vestad tx vm store {path_to_contract_file} --from {key}
 
 vestad q vm list-contracts #note the code number of your contract
 
-vestad tx vm instantiate {name} {code_num} --from {key}
+vestad tx vm instantiate {name} {code_num} {args} --from {key}
 ```
 
 ### Interacting
