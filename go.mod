@@ -3,7 +3,7 @@ module github.com/VestaProtocol/vesta
 go 1.19
 
 require (
-	github.com/VestaProtocol/roma v0.0.0
+	github.com/VestaProtocol/roma v0.0.0-alpha.1
 	github.com/cosmos/cosmos-sdk v0.46.7
 	github.com/cosmos/ibc-go/v5 v5.1.0
 	github.com/dop251/goja v0.0.0-20211022113120-dc8c55024d06
@@ -212,7 +212,6 @@ replace (
 	//github.com/VestaProtocol/roma => ../roma
 	github.com/confio/ics23/go => github.com/cosmos/cosmos-sdk/ics23/go v0.8.0
 	//github.com/dop251/goja => ../../goja
-
 	github.com/dop251/goja => github.com/VestaProtocol/goja v0.0.0-alpha.0
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 )
