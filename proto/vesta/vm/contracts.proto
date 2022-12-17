@@ -1,9 +1,0 @@
-syntax = "proto3";
-package vesta.vm;
-
-option go_package = "github.com/VestaProtocol/vesta/x/vm/types";
-
-message Contracts {
-  uint64 id = 1;
-  string source = 2;
-}
