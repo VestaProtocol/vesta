@@ -17,3 +17,6 @@ litepaper.run.xml
 litepaper.tex.bbl
 litepaper.tex.blg
 out
+
+/vue/
+/ts-client/
