@@ -39,3 +39,7 @@ Query function
 ```sh
 vestad q vm query {name} {function} {args}
 ```
+
+
+***
+Powered by [Jackal Labs](https://www.jackallabs.io/)
