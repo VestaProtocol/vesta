@@ -42,3 +42,6 @@ vestad q vm query {name} {function} {args}
 
 ### Docs
 See [The Docs](./assets/docs/docs.md)
+
+***
+Powered by [Jackal Labs](https://www.jackallabs.io/)
