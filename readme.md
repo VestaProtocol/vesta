@@ -39,3 +39,6 @@ Query function
 ```sh
 vestad q vm query {name} {function} {args}
 ```
+
+### Docs
+See [The Docs](./assets/docs/docs.md)
