@@ -34,14 +34,14 @@ vestad gentx $ALIAS 200000000uvst \
 
 vestad collect-gentxs --home=$VST_HOME
 
-sed -i.bak -e "s/stake/uvst/" $VST_HOME/config/genesis.json
-sed -i.bak -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.0025uvst\"/" $VST_HOME/config/app.toml
+sed -i.bak -e 's/stake/uvst/' $VST_HOME/config/genesis.json
+sed -i.bak -e 's/^minimum-gas-prices =""/minimum-gas-prices = \"0.0025uvst\"/' $VST_HOME/config/app.toml
 sed -i.bak -e 's/enable = false/enable=true/' $VST_HOME/config/app.toml
+sed -i.bak -e 's/enable=false/enable=true/' $VST_HOME/config/app.toml
 sed -i.bak -e 's/enabled-unsafe-cors = false/enabled-unsafe-cors = true/' $VST_HOME/config/app.toml
 sed -i.bak -e 's/cors_allowed_origins = \[\]/cors_allowed_origins = \["*"\]/' $VST_HOME/config/config.toml
-sed -i.bak -e 's/laddr = "tcp://0.0.0.0:26657"/laddr = "tcp://0.0.0.0:36657"/' $VST_HOME/config/config.toml
-sed -i.bak -e 's/laddr = "tcp://0.0.0.0:26656"/laddr = "tcp://0.0.0.0:36656"/' $VST_HOME/config/config.toml
+sed -i.bak -e 's/laddr = "tcp:\/\/127.0.0.1:26657"/laddr = "tcp:\/\/0.0.0.0:26657"/' $VST_HOME/config/config.toml
+sed -i.bak -e 's/laddr = "tcp:\/\/127.0.0.1:26656"/laddr = "tcp:\/\/0.0.0.0:26656"/' $VST_HOME/config/config.toml
+sed -i.bak -e 's/chain-id = ""/chain-id = "pompeii-1"/' $VST_HOME/config/client.toml
 
-sed -i.bak -e 's/chain-id = ""/chain-id = "pompeii-1"/' $VST_HOME/.vesta/config/client.toml
-
-vestad start --home=$VST_HOME --log_level info --api.address="tcp://0.0.0.0:1318" --rpc.laddr="tcp://0.0.0.0:36657"
+vestad start --home=$VST_HOME --log_level info
