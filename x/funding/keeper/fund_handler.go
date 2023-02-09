@@ -3,16 +3,17 @@ package keeper
 import (
 	"fmt"
 
+	sdkErrors "cosmossdk.io/errors"
 	"github.com/VestaProtocol/vesta/x/funding/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	cosmosErrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 func (k Keeper) HandleTokens(ctx sdk.Context) {
 	ctx.Logger().Error("Handling tokens!")
 	senderAddr := k.accountKeeper.GetModuleAddress(types.ModuleName)
 	if senderAddr == nil {
-		panic(sdkerrors.Wrapf(sdkerrors.ErrUnknownAddress, "module account %s does not exist", types.ModuleName))
+		panic(sdkErrors.Wrapf(cosmosErrors.ErrUnknownAddress, "module account %s does not exist", types.ModuleName))
 	}
 
 	balances := k.bankKeeper.GetAllBalances(ctx, senderAddr)

@@ -5,9 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 
+	sdkErrors "cosmossdk.io/errors"
+
 	"github.com/VestaProtocol/vesta/x/funding/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	cosmosErrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 func (k msgServer) Mint(goCtx context.Context, msg *types.MsgMint) (*types.MsgMintResponse, error) {
@@ -48,5 +50,5 @@ func (k msgServer) Mint(goCtx context.Context, msg *types.MsgMint) (*types.MsgMi
 		}
 	}
 
-	return nil, sdkerrors.Wrapf(sdkerrors.ErrInvalidCoins, fmt.Sprintf("could not parse %s", msg.Token))
+	return nil, sdkErrors.Wrapf(cosmosErrors.ErrInvalidCoins, fmt.Sprintf("could not parse %s", msg.Token))
 }
