@@ -1,0 +1,14 @@
+syntax = "proto3";
+package vestaprotocol.vesta.funding;
+
+import "gogoproto/gogo.proto";
+import "vesta/funding/params.proto";
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "github.com/VestaProtocol/vesta/x/funding/types";
+
+// GenesisState defines the funding module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+  // this line is used by starport scaffolding # genesis/proto/state
+}
