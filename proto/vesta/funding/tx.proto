@@ -1,0 +1,22 @@
+syntax = "proto3";
+package vestaprotocol.vesta.funding;
+
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "github.com/VestaProtocol/vesta/x/funding/types";
+
+// Msg defines the Msg service.
+service Msg {
+      rpc Mint(MsgMint) returns (MsgMintResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgMint {
+  string creator = 1;
+  string token = 2;
+}
+
+message MsgMintResponse {
+}
+
+// this line is used by starport scaffolding # proto/tx/message
