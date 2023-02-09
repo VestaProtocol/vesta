@@ -1,12 +1,20 @@
 # Vesta Network ⚶
 ![banner](./assets/banner.png)
-**Vesta** is a smart contract platform built with the Cosmos-SDK. Vesta allows developers to deploy and execute smart contracts written in Javascript on the blockchain. The contracts are stored in plain text and interpreted on runtime allowing for code auditability and composability. Unlike other smart contract platforms, vesta allows developers to assign names to smart contract instances and import functions from other contracts by name rather than address. View the [litepaper here](./assets/paper/litepaper.pdf).
+**Vesta** is a smart contract platform built with the Cosmos-SDK. Vesta allows developers to deploy and execute smart 
+contracts written in Javascript on the blockchain. The contracts are stored in plain text and interpreted on runtime 
+allowing for code auditability and composability. Unlike other smart contract platforms, vesta allows developers to 
+assign names to smart contract instances and import functions from other contracts by name rather than address. View 
+the [litepaper here](./assets/paper/litepaper.pdf).
 ## Install
 ```
-go install ./...
+make install
 ```
 
 ## Smart Contracts
+### Quickstart
+[Smart Contract Quickstart](./assets/docs/contracts/contracts.md) docs. 
+
+### Examples
 For examples of smart contracts built with vesta, see [examples](./examples/).
 
 ### Injections
@@ -40,8 +48,11 @@ Query function
 vestad q vm query {name} {function} {args}
 ```
 
-### Docs
-See [The Docs](./assets/docs/docs.md)
+## Docs
+See [The Docs](./assets/docs/docs.md).
+
+## Tokenomics
+See [Tokenomics Paper](./assets/docs/econ.md).
 
 ***
 Powered by [Jackal Labs](https://www.jackallabs.io/)
