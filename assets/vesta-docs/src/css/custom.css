@@ -28,3 +28,24 @@
   --ifm-color-primary-lightest: #ffdec2;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+
+@font-face {
+  font-family: "Aber";   /*Can be any text*/
+  src: local("Aber"),
+  url("../../static/font/Aber-Mono-Regular.woff") format("woff");
+}
+@font-face {
+  font-family: "AberBold";   /*Can be any text*/
+  src: local("AberBold"),
+  url("../../static/font/Aber-Mono-Bold.woff") format("woff");
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Aber, monospace;
+}
+
+.navbar {
+  font-family: AberBold, monospace;
+  font-size: large;
+}
