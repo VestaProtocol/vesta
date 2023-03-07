@@ -76,6 +76,11 @@ const config = {
             label: 'GitHub',
             position: 'right',
           },
+          {
+            href: 'https://twitter.com/vestaprotocol',
+            label: 'Twitter',
+            position: 'right',
+          }
         ],
       },
       footer: {
@@ -97,6 +102,10 @@ const config = {
               {
                 label: 'GitHub',
                 href: 'https://github.com/VestaProtocol/vesta/',
+              },
+              {
+                label: 'Twitter',
+                href: 'https://twitter.com/vestaprotocol',
               },
             ],
           },

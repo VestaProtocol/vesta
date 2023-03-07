@@ -4,7 +4,7 @@ sidebar_position: 2
 # Installing Vestad
 
 ## Pre-Requisites
-See [Set-up](../1_install.md).
+See [Set-up](./1-install.md).
 
 ### Firewall Configuration
 Configure UFW to only accept traffic on ports we use.
