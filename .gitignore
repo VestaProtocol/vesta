@@ -22,3 +22,5 @@ out
 /ts-client/
 /assets/vesta-docs/.docusaurus/
 /assets/vesta-docs/.yarn/
+/assets/vesta-docs/build/
+/assets/vesta-docs/build

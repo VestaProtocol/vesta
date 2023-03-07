@@ -18,7 +18,7 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'vesta', // Usually your GitHub org/user name.
+  organizationName: 'VestaProtocol', // Usually your GitHub org/user name.
   projectName: 'vesta', // Usually your repo name.
 
   onBrokenLinks: 'throw',
