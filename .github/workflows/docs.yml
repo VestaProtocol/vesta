@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: redkubes/docusaurus-deploy-action@v1
+      - uses: redkubes/docusaurus-deploy-action@v1.2
         with:
           source-folder: assets/vesta-docs
           git-user: TheMarstonConnell
