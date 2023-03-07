@@ -1,5 +1,5 @@
 
-function mint() {
+CONTRACT.functions.mint = function() {
     let minted = STD.bank.mint("1000000")
     if (!minted) {
         return "failed mint"
@@ -10,10 +10,7 @@ function mint() {
     }
 }
 
-function balance(address) {
+CONTRACT.queries.balance = function(address) {
     return STD.bank.balance(address, STD.bank.token)
 }
 
-CONTRACT.functions.mint = mint
-
-CONTRACT.queries.balance = balance
