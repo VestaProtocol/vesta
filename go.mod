@@ -214,10 +214,12 @@ require (
 )
 
 replace (
-	//github.com/VestaProtocol/roma => ../roma
+	github.com/VestaProtocol/roma => github.com/VestaProtocol/roma v0.0.1-0.20230309041114-1bebb8d9db41
+
 	github.com/confio/ics23/go => github.com/cosmos/cosmos-sdk/ics23/go v0.8.0
+	github.com/dop251/goja => github.com/VestaProtocol/goja v0.0.0-alpha.0.0.20230309040548-980832a55a89
 	//github.com/dop251/goja => ../../goja
-	github.com/dop251/goja => github.com/VestaProtocol/goja v0.0.0-alpha.0
+
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 
 	// use Informal System's fork of Tendermint Core

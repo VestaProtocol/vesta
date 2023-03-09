@@ -96,7 +96,7 @@ CONTRACT.queries.show = function(orderId) {
 }
 ```
 ## Interacting With The Contract
-Now that you've built an atomic swap, you want to be able to interact with it. To do this you'll need two accounts with different tokens on each of them. (See [Testing AtomSwap Script](https://github.com/VestaProtocol/vesta/blob/master/scripts/testing_atomswap.sh)).
+Now that you've built an atomic swap, you want to be able to interact with it. To do this you'll need two accounts with different tokens on each of them. (See [Testing AtomSwap Script](https://github.com/VestaProtocol/vesta/blob/master/scripts/test_atomswap.sh)).
 ### Creating Swap
 ```shell
 vestad tx vm store ./examples/orderbook.js --from {account}
