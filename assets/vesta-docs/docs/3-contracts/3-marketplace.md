@@ -5,6 +5,13 @@ sidebar_position: 3
 In this overview, we will be building both a better NFT contract as well as a marketplace to facilitate the listing and 
 sale of these NFTs. The best part about this marketplace is that it will work for any NFT deployed within a specification
 of contracts, but we'll get to that later.
+
+:::note
+
+Please do not use any of these contracts in a production environment, they are meant only as education tools and are 
+for sure riddled with security vulnerabilities and exploits. You have been warned.
+
+:::
 ## The NFT Standard
 For this example, we will be using [this NFT contract](https://github.com/VestaProtocol/vesta/blob/master/examples/nft.js).
 ### Data Structures
@@ -101,6 +108,9 @@ CONTRACT.functions.add_approval = function(id, approval) {
 Now that we have an NFT with an approval list, we can build a marketplace dedicated to the buying and selling of these 
 NFTs. Because every NFT created with this contract will have a `transfer` and an `add_approval` function, we can make
 the marketplace generic and work with any NFT contract.
+
+For this example, we will be using [this Marketplace contract](https://github.com/VestaProtocol/vesta/blob/master/examples/nft_marketplace.js).
+
 ### Listings
 Analyzing what is needed to hold the information about a listing, we can see that we create an ID from the other data 
 fields and some hashing. Focusing more on the data itself, we have a `creator` to hold who is selling the NFT, a 
