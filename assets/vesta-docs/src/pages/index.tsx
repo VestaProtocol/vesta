@@ -34,7 +34,7 @@ export default function Home(): JSX.Element {
       description="Javascript-based Smart Contracts in the Cosmos!">
       <HomepageHeader />
       <main>
-        <HomepageFeatures />
+
       </main>
     </Layout>
   );
