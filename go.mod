@@ -54,7 +54,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/chzyer/logex v1.2.1 // indirect
 	github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e // indirect
-	github.com/cloudflare/circl v1.3.1 // indirect
+	github.com/cloudflare/circl v1.3.3 // indirect
 	github.com/cockroachdb/apd/v2 v2.0.2 // indirect
 	github.com/coinbase/rosetta-sdk-go v0.7.9 // indirect
 	github.com/cometbft/cometbft-db v0.7.0 // indirect
